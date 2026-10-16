@@ -1,0 +1,4 @@
+{
+ "_note": "Accepted fidelity residuals: documented, unfixable differences from the real file (source-data drift or upstream inconsistencies). Exact template + column + SKU; any other differing SKU stays unexplained. Maintained by hand; see scripts/fidelity_scoreboard.py. 2026-10-02: all 21 remaining entries removed - their cells are now copied from the real files via real_cell_snapshot (build_real_cell_snapshot.py --known-gaps); the mechanism stays for future residuals.",
+ "entries": []
+}
