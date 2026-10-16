@@ -1,0 +1,35 @@
+{
+  "template_name": "cincinnati-childrens",
+  "source_sample": "US - Cincinnati Childrens Hospital Current/Future Price.xlsx",
+  "description": "US Cincinnati Children's Hospital punchout catalog (xlsx, 23 columns). Unit Price is discounted USD as 2dp text for the price period; descriptions come from ariba_name(). Compliance flags (Latex, DEHP, etc.) are constants.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part No.",
+  "price_columns": [
+    "Unit Price"
+  ],
+  "columns": [
+    {"header": "Supplier Name", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "Supplier Part No.", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "Manufacturer Part No.", "source": "master", "expression": "row['sku']"},
+    {"header": "Short Description", "source": "master", "expression": "ariba_name(row)"},
+    {"header": "Long Description", "source": "master", "expression": "ariba_name_with_size(row)"},
+    {"header": "UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Unit Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Packaging", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "GTIN", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Contract No.", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Volume Pricing", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Shipping Charges", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Lead Time", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Image", "source": "master", "expression": "row['product_url']"},
+    {"header": "MSDS URL", "source": "master", "expression": "msds_url_or_blank(row)"},
+    {"header": "Latex", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "DEHP", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MWBE", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Hazardous Material", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Green Item", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Controlled Substance", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

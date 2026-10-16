@@ -1,0 +1,32 @@
+{
+  "template_name": "de-bmecat-bayer",
+  "source_sample": "DE - Bayer Current Price.xlsx / Future Price.xlsx",
+  "description": "DE Bayer BMEcat-style flat catalog (xlsx, sheet Sheet1, 21 columns) in EUR, PRICE_AMOUNT1 as 2dp text for the price period. E-CLASS, keyword and BAYER CATEGORY values come from master lookups (cst_eclass_category_keyword.csv, cst_sales_category.csv). Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sheet_name": "Sheet1",
+  "sku_column": "SUPPLIER_AID",
+  "price_columns": ["PRICE_AMOUNT1"],
+  "columns": [
+    {"header": "SUPPLIER_AID", "source": "master", "expression": "row['sku']"},
+    {"header": "DESCRIPTION_SHORT", "source": "master", "expression": "clean_pfizer_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u')"},
+    {"header": "DESCRIPTION_LONG", "source": "master", "expression": "row['long_description'] + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' (' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u') + ')'"},
+    {"header": "MANUFACTURER_NAME", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "MANUFACTURER_AID", "source": "master", "expression": "row['sku']"},
+    {"header": "PRICE_QUANTITY", "source": "constant", "expression": "'1'"},
+    {"header": "ORDER_UNIT", "source": "constant", "expression": "'0'"},
+    {"header": "NO_CU_PER_OU", "source": "master", "expression": "row['size']"},
+    {"header": "CONTENT_UNIT", "source": "master", "expression": "row['size_unit']"},
+    {"header": "LOWER_BOUND1", "source": "constant", "expression": "'1'"},
+    {"header": "PRICE_AMOUNT1", "source": "master", "expression": "price_for_rounded(row, 'list_price_eur', customer, discount)"},
+    {"header": "CURRENCY", "source": "constant", "expression": "'EUR'"},
+    {"header": "DELIVERY_TIME", "source": "constant", "expression": "'2'"},
+    {"header": "ECLASS-5.1", "source": "master", "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'eclass_62')"},
+    {"header": "CAS_NUMMER", "source": "constant", "expression": "''"},
+    {"header": "CATEGORY1", "source": "master", "expression": "row['product_classification']"},
+    {"header": "CATEGORY2", "source": "master", "expression": "lookup(row['sku'], 'cst_sales_category.csv', 'sales_category') or None"},
+    {"header": "DATASHEET", "source": "master", "expression": "'https://www.cellsignal.de/products/' + sku_leading_digits(row['sku']) + '?country=DE'"},
+    {"header": "KEYWORD", "source": "constant", "expression": "''"},
+    {"header": "TAX", "source": "constant", "expression": "'0.19'"},
+    {"header": "BAYER CATEGORY", "source": "constant", "expression": "'32120000'"}
+  ]
+}

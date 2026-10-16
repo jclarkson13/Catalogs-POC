@@ -1,0 +1,121 @@
+{
+  "template_name": "dana-farber",
+  "source_sample": "US - Dana Farber Cancer Institute (Main) Current/Future Price.xlsx",
+  "description": "US Dana-Farber (Main) catalog (xlsx, sheet Sheet1, 21 columns), full CST master. Every populated cell is text; List Price and DFCI Price carry a literal '$' prefix (price_prefix). Descriptions use clean_pfizer_description.",
+  "file_type": "xlsx",
+  "sheet_name": "Sheet1",
+  "sku_column": "Supplier Part Number",
+  "price_prefix": "$",
+  "price_columns": [
+    "List Price",
+    "DFCI Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Name",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Supplier Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description'])"
+    },
+    {
+      "header": "Short Description",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description'])"
+    },
+    {
+      "header": "Long Description",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u')"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Manufacturer Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Min Order Quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Packaging String",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QOE",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "UNSPC Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "'$' + price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "DFCI Price",
+      "source": "master",
+      "expression": "'$' + price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Keywords",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Latex Free",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Document",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Image",
+      "source": "master",
+      "expression": "'=HYPERLINK(\"https://www.cellsignal.com/products/' + sku_leading_digits(row['sku']) + '\", \"https://www.cellsignal.com/products/' + sku_leading_digits(row['sku']) + '\")'"
+    },
+    {
+      "header": "Effective Date",
+      "source": "customer",
+      "expression": "customer['price_valid_from'][8:10] + '.' + customer['price_valid_from'][5:7] + '.' + customer['price_valid_from'][0:4]"
+    }
+  ]
+}

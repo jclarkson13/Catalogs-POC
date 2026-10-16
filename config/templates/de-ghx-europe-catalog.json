@@ -1,0 +1,945 @@
+{
+  "template_name": "de-ghx-europe-catalog",
+  "source_sample": "DE - GHX Europe Catalog (1).xlsx",
+  "description": "DE GHX Europe catalog (xlsx, 181 columns, most always blank) at 0%: ListPrice is EUR list as 2dp text, PurchasePrice blank. SearchKeywords comes from a copied real-file snapshot (ghx_europe_search_keywords_snapshot.csv) with a target-alternate-names fallback. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "ItemCode",
+  "price_columns": [
+    "ListPrice"
+  ],
+  "columns": [
+    {
+      "header": "ItemCode",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "row['long_description'][:100]"
+    },
+    {
+      "header": "LongDescription",
+      "source": "master",
+      "expression": "row['long_description'] + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') else '')"
+    },
+    {
+      "header": "UOMCode",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "UOMDescription",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "QOM",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "ManufacturerQOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ListPrice",
+      "source": "master",
+      "expression": "strip_trailing_zeros(price_for_rounded(row, 'list_price_eur', customer, discount))"
+    },
+    {
+      "header": "PurchasePrice",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ContractNumber",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CustomerReference",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ContractCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band2Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band2Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band3Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band3Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band4Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band4Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band5Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Band5Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceStartDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceExpiryDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "VATCode",
+      "source": "constant",
+      "expression": "'D0'"
+    },
+    {
+      "header": "VATRate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ExpenseCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "OrderMultiple",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Brand",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ManufacturerName",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology Europe'"
+    },
+    {
+      "header": "ManufacturerItemCode",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "CustomerCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EANCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GTINCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "HIBC",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NJR",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "COSHH",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CHIP",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Electromedical",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Latex",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EnvironmentallyFriendly",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EthicallySourced",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ImplantableDevice",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Model",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Size",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LeadTime",
+      "source": "constant",
+      "expression": "'3'"
+    },
+    {
+      "header": "DirectSupplierDelivery",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "BlueDiamond",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AWSL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CommitmentDiscount",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ThumbnailImageURL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "ImageURL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "SearchKeywords",
+      "source": "constant",
+      "expression": "(lambda v: v if v != '<absent>' else lookup(row['sku'], 'cst_target_alternate_names.csv', 'target_alternate_names', ''))(lookup(row['sku'], 'ghx_europe_search_keywords_snapshot.csv', 'search_keywords', '<absent>'))"
+    },
+    {
+      "header": "DistributionFlag1",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "DistributionFlag2",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "DistributionFlag3",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "DistributionFlag4",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "DistributionFlag5",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "ExcludeFromPunchout",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "AttributeName1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeValue1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeName2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeValue2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeName3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeValue3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeName4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeValue4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeName5",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "AttributeValue5",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ReplacedByItemCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ReplacedByQOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ReplacedByUOMCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ReplacedByEffectiveDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Obsolete",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "HasAlerts",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "ExcludeFromUpdate",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "RequestReason",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PendingDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LastChangedBy",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LastChangedDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LastApprovedBy",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LastApprovedDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UpdatedDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CreatedDate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SharedCatalogueItem",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "SharedContractItem",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "Deleted",
+      "source": "constant",
+      "expression": "'False'"
+    },
+    {
+      "header": "AlertDescriptions",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClassv4Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClassv4Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClassS1V2Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClassS1V2Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClassS2Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClassS2Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClassS3Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClassS3Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2012Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2012Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2014Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2014Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2017Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2017Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2022Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2022Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2023Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NHS-eClass2023Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2024Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "NHS-eClass2024Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSCv9-1201Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNSPSCv9-1201Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSCv20-0601Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSCv20-0601Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNSPSCv21-0901Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNSPSCv21-0901Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSCv22-0601Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSCv22-0601Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNSPSCv26-0801Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNSPSCv26-0801Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eCl@ss7-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "eCl@ss7-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eCl@ss8-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eCl@ss8-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "eCl@ss9-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "eCl@ss9-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eCl@ss10-0-1Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eCl@ss10-0-1Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "eCl@ss11-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "eCl@ss11-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS12-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS12-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "ECLASS13-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "ECLASS13-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS14-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS14-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "ECLASS15-0Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "ECLASS15-0Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ATC2015Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "ATC2015Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ATC2020Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ATC2020Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Maximum Order Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Functional Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Sub Brand",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Brand Owner Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Brand Owner GLN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Manufacturer GLN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Additional GTINs",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Additional HIBCs",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PZN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Net Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Net Weight UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Gross Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Gross Weight UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Width",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Width UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Height",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Height UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Depth",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Depth UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Expiry Date Required",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lot Number Required",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Serial Number Required",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Manufacturer Declared Reusability",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MRI Compatibility Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Trade Channel",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Prescription Type",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Controlled Substance",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "May Require Prescription",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Non Food Ingredient Of Concern",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Radioactive",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Medical Device Class",
+      "source": "constant",
+      "expression": "'Class 1'"
+    },
+    {
+      "header": "Product Group",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GS1 GPC Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GS1 Unit Descriptor",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Reorderable",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Orderable",
+      "source": "constant",
+      "expression": "'True'"
+    },
+    {
+      "header": "Service",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Base Unit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Consumer Unit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Despatch Unit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Invoice Unit",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

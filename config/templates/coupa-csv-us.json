@@ -1,0 +1,329 @@
+{
+  "template_name": "coupa-csv-us",
+  "source_sample": "US - Coupa Current/Future Price.csv",
+  "description": "US Coupa item-load CSV (63 columns, semicolon-delimited, LF line endings, no BOM). Only about 12 columns carry data; Price (Tier 1-20) columns stay blank, so no price is written. Text uses clean_gladstone/clean_pfizer_description.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {"lineterminator": "\n"},
+  "sku_column": "Supplier Part Number*",
+  "price_columns": [
+    "Price (Tier 1)"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Part Number*",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Supplier Aux Part Num",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Name*",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u')"
+    },
+    {
+      "header": "Description*",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Currency Code*",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "UOM Code*",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "active*",
+      "source": "constant",
+      "expression": "'Yes'"
+    },
+    {
+      "header": "Item Classification Name",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "UNSPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Contract Number",
+      "source": "constant",
+      "expression": "'0000001429LOC1-CSN'"
+    },
+    {
+      "header": "Contract Term",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Savings %",
+      "source": "customer",
+      "expression": "str(int(discount)) + '%'"
+    },
+    {
+      "header": "Price (Tier 1)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 4)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 5)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 6)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 7)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 8)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 9)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 10)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 11)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 12)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 13)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 14)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 15)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 16)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 17)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 18)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 19)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price (Tier 20)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image Url",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Link 0 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 0 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 1 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 1 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 2 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 2 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 3 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 3 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 4 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 4 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 5 Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link 5 URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 0 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 1 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 2 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 3 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 4 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image 5 Url",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Use Pack Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Pack Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Pack Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Pack Weight UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Net Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Net Weight UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Receive Catch Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TJU Item Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "System Source*",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

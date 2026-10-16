@@ -1,0 +1,171 @@
+{
+  "template_name": "de-boehringer-pharma",
+  "source_sample": "DE - Boehringer Pharma Germany Current/Future Price.xlsx",
+  "description": "DE Boehringer Pharma Germany punchout catalog (xlsx, 30 columns, 'FIELDNAMES:' first header); like de-boehringer-austria without the intrastat columns. Unit Price is EUR discounted, rounded half-up as text; Market Price uses the raw EUR list string. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "columns": [
+    {
+      "header": "FIELDNAMES: Supplier ID",
+      "source": "constant",
+      "expression": "'AN01522798508'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "boehringer_cif_item_description(row)"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "constant",
+      "expression": "'32169090'"
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'3'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url'].replace('cellsignal.com', 'cellsignal.de').replace('.html', '') + '?country=DE'"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "master",
+      "expression": "row['product_url'].replace('cellsignal.com', 'cellsignal.de').replace('.html', '') + '?country=DE'"
+    },
+    {
+      "header": "Market Price",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price', '') or price_for_rounded_half_up(row, 'list_price_eur', customer, 0)"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "boehringer_cif_short_name(row)[:50]"
+    },
+    {
+      "header": "AuxiliaryImages",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceConfiguration",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "RelatedItems",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QuantityInterval",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "MinimumQuantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Attachments",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Supplier Part Auxiliary ID",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "Effective Date",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Expiration Date",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Territory Available",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "bi_plant",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "bi_service_flag",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "bi_item_matnr",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url'] or 'https://media.cellsignal.com/product/image/no_image_available_placeholder.jpeg'"
+    },
+    {
+      "header": "Thumbnail",
+      "source": "master",
+      "expression": "row['image_url'] or 'https://media.cellsignal.com/product/image/no_image_available_placeholder.jpeg'"
+    }
+  ]
+}

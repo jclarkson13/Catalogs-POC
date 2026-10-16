@@ -1,0 +1,307 @@
+{
+  "template_name": "coupa-marketplace",
+  "source_sample": "DE/UK/US - Coupa Marketplace Current/Future Price.xlsx - same 59-column header layout across all three regions, differing in CURRENCY/price basis and in per-row SKU population/text-cleaning conventions - see description.",
+  "description": "Coupa Marketplace BMEcat-style catalog (xlsx, 59 columns) shared by US, DE and UK customers at 0%. Price source depends on region: USD list, raw EUR (eu_list_price) or raw GBP (uk_clp) strings. DESCRIPTION_SHORT/LONG come from long_description via clean_coupa_description (UK short form has its own rule). DE/UK customers exclude their region's SKU list.",
+  "file_type": "xlsx",
+  "sku_column": "SUPPLIER_AID",
+  "price_columns": [
+    "PRICE_AMOUNT1"
+  ],
+  "columns": [
+    {
+      "header": "SUPPLIER_AID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "DESCRIPTION_SHORT",
+      "source": "master",
+      "expression": "clean_coupa_description_short_uk(row['long_description']) if customer.get('description_region', 'us') == 'uk' else clean_coupa_description(row['long_description'], customer.get('description_region', 'us'))[:35]"
+    },
+    {
+      "header": "DESCRIPTION_LONG",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'], customer.get('description_region', 'us'))"
+    },
+    {
+      "header": "MANUFACTURER_NAME",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "MANUFACTURER_AID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "COUNTRY",
+      "source": "constant",
+      "expression": "'US'"
+    },
+    {
+      "header": "PRICE_QUANTITY",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "ORDER_UNIT",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "LOWER_BOUND1",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "PRICE_AMOUNT1",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp') if customer.get('price_currency_field') == 'gbp' else lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price') if customer.get('price_currency_field') == 'eur' else '') if discount == 0 else '') or price_for_rounded(row, 'list_price_' + customer.get('price_currency_field', 'usd'), customer, discount)"
+    },
+    {
+      "header": "LOWER_BOUND2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PRICE_AMOUNT2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CURRENCY",
+      "source": "customer",
+      "expression": "customer.get('price_currency', 'USD')"
+    },
+    {
+      "header": "QUANTITY_MIN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QUANTITY_INTERVAL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DELIVERY_TIME",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "ECLASS-5.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-5.1.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-6.0",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-6.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-6.2",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'eclass_62')"
+    },
+    {
+      "header": "ECLASS-7.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-8.0",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'eclass_81')"
+    },
+    {
+      "header": "ECLASS-9.0",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-9.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ECLASS-10.1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-6.0801",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-7.0901",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-8.0401",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-11.0501",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-16.0901",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC-20.0601",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "CATEGORY1",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'web_category')"
+    },
+    {
+      "header": "CATEGORY2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CATEGORY3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CATEGORY4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_INFO",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "DATASHEET",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_sds_url_de.csv', customer['sds_lookup_column'], msds_url_or_blank(row)) if customer.get('sds_lookup_column') else (msds_url_or_blank(row))"
+    },
+    {
+      "header": "KEYWORD",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'targetname').replace('\u03b1', 'alpha').replace('\u03b5', 'epsilon').replace('\u00ae', '00AE')) if customer.get('description_region') in ('de', 'uk') else lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'targetname')"
+    },
+    {
+      "header": "TAX",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "BUYER_AID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ERP_GROUP_BUYER",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SPECIAL_TREATMENT_CLASS_TYPE1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SPECIAL_TREATMENT_CLASS1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SPECIAL_TREATMENT_CLASS_TYPE2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SPECIAL_TREATMENT_CLASS2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "INTRASTAT_CODE",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'hts_code_intrastat')"
+    },
+    {
+      "header": "INTRASTAT_ORIGIN_COUNTRY",
+      "source": "constant",
+      "expression": "'US'"
+    },
+    {
+      "header": "INTRASTAT_NET_WEIGHT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "INTRASTAT_GROSS_WEIGHT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "INTRASTAT_WEIGHT_UNIT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "INTRASTAT_TRANSACTION_TYPE",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "INTRASTAT_MEANS_OF_TRANSPORT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "BRAND",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    }
+  ]
+}

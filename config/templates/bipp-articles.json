@@ -1,0 +1,312 @@
+{
+  "template_name": "bipp-articles",
+  "source_sample": "NEB/BIPP_Articles.xlsx",
+  "description": "Bioke/BIPP product-attribute file (xlsx, 58 columns, sheet Blad1 plus empty Blad2/Blad3) covering CST and NEB rows, no prices. Compliance/logistics fields (EURAL, UN, CLP, intrastat); NEB pack counts via neb_pack_quantity() and units via bipp_buom_map.csv.",
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "file_type": "xlsx",
+  "sheet_name": "Blad1",
+  "extra_sheets": ["Blad2", "Blad3"],
+  "sku_column": "CatalogueNumber",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units') + (' ( ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ' )' if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') if row['manufacturer'].startswith('Cell Signaling') else neb_unit_size(row).strip())"
+    },
+    {
+      "header": "Unit",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units') + (' ( ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ' )' if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '')) if row['manufacturer'].startswith('Cell Signaling') else neb_unit_size(row).strip()"
+    },
+    {
+      "header": "UnitISOCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CatalogueNumber",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Available",
+      "source": "constant",
+      "expression": "'TRUE'"
+    },
+    {
+      "header": "UnspscCode",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "ProvideLicense",
+      "source": "constant",
+      "expression": "'FALSE'"
+    },
+    {
+      "header": "WasteDisposalEuralCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EuralCodeDescription",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "UNCodeForTransport",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "RiskPhrases",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SafetyPhrases",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DangerousGoodsClass",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FamilyName",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MainGroupName",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ManufacturerName",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "ExternalDocument",
+      "source": "master",
+      "expression": "('=HYPERLINK(\"' + row['product_url'].removesuffix('.html').lower() + '\", \"' + row['product_url'].removesuffix('.html').lower() + '\")') if row['product_url'] else ''"
+    },
+    {
+      "header": "PhotoURL",
+      "source": "master",
+      "expression": "('=HYPERLINK(\"' + row['image_url'] + '\", \"' + row['image_url'] + '\")') if row['image_url'] else ''"
+    },
+    {
+      "header": "CasNumber",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw', row['cas_number'])"
+    },
+    {
+      "header": "MSDSWebpage",
+      "source": "master",
+      "expression": "('=HYPERLINK(\"' + row['msds_url'] + '\", \"' + row['msds_url'] + '\")') if row['msds_url'] and 'resources-safety-data-sheets' not in row['msds_url'] else ''"
+    },
+    {
+      "header": "CLPPictogram",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CLPClassificationCategory",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CLPDangerWord",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CLPHazardStatements",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CLPMFactor",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CLPPrecautionaryStatements",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DryIceCost",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EANNumber",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EINECS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "VAT%",
+      "source": "constant",
+      "expression": "'21'"
+    },
+    {
+      "header": "SupplierClassification",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PackingGroup",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DeliveryTime",
+      "source": "master",
+      "expression": "'1' if row['manufacturer'].startswith('Cell Signaling') else '2'"
+    },
+    {
+      "header": "TransportRegulation",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LimitedQuantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LimitedQuantityUnit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "WeightEmptyRecipient",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SubstanceName",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Concentration",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ReachRegistrationNumber",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Purity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ManufacturerNumber",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "SupplierStockCondition",
+      "source": "master",
+      "expression": "row['storage_temperature']"
+    },
+    {
+      "header": "IntrastatCodeTariffCode",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'intrastat_no').replace('.', '') or lookup(row['sku'], 'neb_intrastat_code.csv', 'intrastat_code')"
+    },
+    {
+      "header": "NetWeigthPerOrderUnit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DangerClass",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TransportCategory",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SheCode",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Buom",
+      "source": "master",
+      "expression": "lookup(row['size_unit'], 'bipp_buom_map.csv', 'buom', row['size_unit'] if row['manufacturer'].startswith('Cell Signaling') else neb_unit_size(row).strip())"
+    },
+    {
+      "header": "PurchaseUnit",
+      "source": "master",
+      "expression": "row['size'] if row['manufacturer'].startswith('Cell Signaling') else neb_pack_quantity(row['size'])"
+    },
+    {
+      "header": "StockUnit",
+      "source": "master",
+      "expression": "row['size'] if row['manufacturer'].startswith('Cell Signaling') else neb_pack_quantity(row['size'])"
+    },
+    {
+      "header": "StockSIUnit",
+      "source": "constant",
+      "expression": "'PCK'"
+    },
+    {
+      "header": "PurchaseStockSIUnit",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "DescriptionNL",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "DescriptionFR",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "DescriptionDE",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "DescriptionES",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "DescriptionPT",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    }
+  ]
+}

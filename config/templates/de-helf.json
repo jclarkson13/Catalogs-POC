@@ -1,0 +1,242 @@
+{
+  "template_name": "de-helf",
+  "source_sample": "DE - HELF Current/Future Price.xlsx",
+  "description": "DE HELF BMEcat-style catalog (xlsx, 46 columns) in EUR. PRICE_AMOUNT1 is discounted list as 2dp text (Future customer at 0%). Descriptions use clean_pfizer_description; keywords from target alternate names. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "SUPPLIER_AID",
+  "price_columns": [
+    "PRICE_AMOUNT1"
+  ],
+  "columns": [
+    {
+      "header": "SUPPLIER_AID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "DESCRIPTION_SHORT",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']).replace('<lt/>', '<').replace('<gt/>', '>')[:35]"
+    },
+    {
+      "header": "DESCRIPTION_LONG",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']).replace('<lt/>', '<').replace('<gt/>', '>') + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit']) + ')'"
+    },
+    {
+      "header": "MANUFACTURER_NAME",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology'"
+    },
+    {
+      "header": "MANUFACTURER_AID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "PRICE_QUANTITY",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "ORDER_UNIT",
+      "source": "constant",
+      "expression": "'PCE'"
+    },
+    {
+      "header": "NO_CU_PER_OU",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CONTENT_UNIT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "LOWER_BOUND1",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "PRICE_AMOUNT1",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "LOWER_BOUND2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PRICE_AMOUNT2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CURRENCY",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "QUANTITY_MIN",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "QUANTITY_INTERVAL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DELIVERY_TIME",
+      "source": "constant",
+      "expression": "'3'"
+    },
+    {
+      "header": "ECLASS-5.1",
+      "source": "master",
+      "expression": "unspsc_for_product_type(row)"
+    },
+    {
+      "header": "CATEGORY1",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "CATEGORY2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CATEGORY3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CATEGORY4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_INFO",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DATASHEET",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DETAIL_PICTURE",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "KEYWORD",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_target_alternate_names.csv', 'target_alternate_names').replace('<lt/>', '<').replace('<gt/>', '>')"
+    },
+    {
+      "header": "TAX",
+      "source": "constant",
+      "expression": "'0,19'"
+    },
+    {
+      "header": "CAS_NUMMER",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "KENNZEICHEN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "BUYER_AID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ERP_GROUP_BUYER",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REFERENCE_SPAREPART",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REFERENCE_SIMILAR",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REFERENCE_FOLLOW",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REFERENCE_MANDATORY",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REFERENCE_ACCESSORIES",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EXTCONFIGFORM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EXTCONFIGSERVICE",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SUP_NAME",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "template_name": "bioresco-univ-maryland",
+  "source_sample": "US - Bioresco Univ of Maryland Current/Future Price.xlsx",
+  "description": "US Bioresco (University of Maryland) distributor file (xlsx, 5 columns): catalog number, description, unit size, List Price and discounted Bioresco Price as 2dp text USD for the price period. Description uses ariba_name()/clean_ariba_text().",
+  "file_type": "xlsx",
+  "sku_column": "Catalog Number",
+  "price_columns": [
+    "List Price",
+    "Bioresco Price"
+  ],
+  "columns": [
+    {
+      "header": "Catalog Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "clean_ariba_text(ariba_name(row), False, False) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    },
+    {
+      "header": "Unit Size",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "Bioresco Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    }
+  ]
+}

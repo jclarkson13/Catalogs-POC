@@ -1,0 +1,34 @@
+{
+  "template_name": "de-charite-eclass",
+  "source_sample": "DE - Charite Current/Future Price.xlsx",
+  "description": "DE Charité E-CLASS catalog (xlsx, 22 German-headed columns). Preis is discounted EUR as 2dp text; E-CLASS and keywords come from master lookups. Surcharge flags (Trockeneis/Blaueis etc.) are the constant 'Nein'. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Artikelnummer des Lieferanten",
+  "price_columns": [
+    "Preis"
+  ],
+  "columns": [
+    {"header": "Artikelnummer des Lieferanten", "source": "master", "expression": "row['sku']"},
+    {"header": "Warengruppe E-CLASS (unterste Ebene) ", "source": "master", "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'eclass_62', row['unspsc'])"},
+    {"header": "GTIN / EAN", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Warengruppenbezeichnung des Lieferanten", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Artikelbezeichnung", "source": "master", "expression": "ariba_name(row)[:99].rstrip()"},
+    {"header": "Artikelbeschreibung", "source": "master", "expression": "lookup(row['sku'], 'cst_product_keywords.csv', 'product_keywords', '').replace(';', ', ')", "allow_blank_description": true},
+    {"header": "Freifeld", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Endverbleibs-erklärung", "source": "constant", "expression": "'Nein'"},
+    {"header": "Trockeneis-zuschlag", "source": "constant", "expression": "'Nein'"},
+    {"header": "Blaueis-zuschlag", "source": "constant", "expression": "'Nein'"},
+    {"header": "sonstige Nebenkosten", "source": "constant", "expression": "'Nein'"},
+    {"header": "Hersteller", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "Lieferant", "source": "constant", "expression": "'Cell Signaling Technology Europe'"},
+    {"header": "Mehrwertsteuer", "source": "constant", "expression": "'19'"},
+    {"header": "Mindestbestellmenge", "source": "constant", "expression": "'1'"},
+    {"header": "Bestellmengeneinheit ISOCode", "source": "constant", "expression": "'PCE'"},
+    {"header": "Bestellmengeneinheit Beschreibung", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Basisbestellmenge", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Basisbestellmengen-einheit", "source": "constant", "expression": "'1'"},
+    {"header": "Preis", "source": "master", "expression": "price_for_rounded(row, 'list_price_eur', customer, discount)"},
+    {"header": "Währung", "source": "constant", "expression": "'EUR'"},
+    {"header": "Preisgültigkeit", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

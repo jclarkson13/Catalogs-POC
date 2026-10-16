@@ -1,0 +1,123 @@
+{
+  "template_name": "distributor-synonyms",
+  "source_sample": "US - Gene X - Press / Genetica Y Tecnologia Spa / Labequim SA DE CV / Migliore / Quimica Valaner S.A. de C.V / Sellex Inc / Suministros Clinicos Isla SAS / Tanirel S.A / Uniscience Do Brasil (Current/Future Price) - identical layout, different discount per institution",
+  "description": "Distributor catalog (xlsx, 22 columns, adhoc-full shape) shared by about nine Latin American and other distributors, each with a Future sibling. ListPrice and discounted Price are 2dp text USD; descriptions use clean_coupa_description and Synonyms come from antibody attributes.",
+  "file_type": "xlsx",
+  "sku_column": "SupplierPartID",
+  "price_columns": [
+    "ListPrice",
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "ManufacturerName",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "ManufacturerPartID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "SupplierPartID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "ShortDescription",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'], 'us')"
+    },
+    {
+      "header": "LongDescription",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'], 'us')"
+    },
+    {
+      "header": "Synonyms",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ListPrice",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom']"
+    },
+    {
+      "header": "Size",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "SizeUnit",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Image1",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "StartDate",
+      "source": "customer",
+      "expression": "date_mdyyyy(customer['price_valid_from'])"
+    },
+    {
+      "header": "EndDate",
+      "source": "customer",
+      "expression": "date_mdyyyy(customer['price_valid_until'])"
+    },
+    {
+      "header": "ProductClassification",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "MSDSURL",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    },
+    {
+      "header": "Assays",
+      "source": "master",
+      "expression": "'' if lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'applications', '?') == '' else (row['assays'] or ' ')", "_note": "Real file leaves Assays truly empty (not ' ') for the 3 SKUs whose Get_Applications_Current_Rev is blank but applications is not (12369P2, 14654S, 7017S); verified full population, Gene X Press Current + Sellex Future, 2026-10-01"
+    },
+    {
+      "header": "ShippingConditions",
+      "source": "master",
+      "expression": "row['shipping_conditions']"
+    },
+    {
+      "header": "StorageTemperature",
+      "source": "master",
+      "expression": "row['storage_temperature']"
+    }
+  ]
+}

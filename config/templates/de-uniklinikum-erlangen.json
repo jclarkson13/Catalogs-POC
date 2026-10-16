@@ -1,0 +1,23 @@
+{
+  "template_name": "de-uniklinikum-erlangen",
+  "source_sample": "DE - Uniklinikum Erlangen Current/Future Price.csv",
+  "description": "DE Uniklinikum Erlangen price-contract CSV (semicolon-delimited, LF, 11 columns). BasePrice is EUR list and ContractPrice is list less the discount, both '%.2f'. PriceModifier is a constant 20 even where the Future file is at 0%, replicating the real file. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "sku_column": "SupplierPartNum",
+  "price_columns": ["BasePrice", "ContractPrice"],
+  "csv_format": {"lineterminator": "\n"},
+  "columns": [
+    { "header": "EffectiveDate", "expression": "customer['price_valid_from'] + ' 00:00:00.000'" },
+    { "header": "ExpireDate", "expression": "customer['price_valid_until'] + ' 00:00:00.000'" },
+    { "header": "SupplierPartNum", "expression": "row['sku']" },
+    { "header": "Sales Unit", "expression": "'EA'" },
+    { "header": "NOU", "expression": "1" },
+    { "header": "PricingType", "expression": "'DiscountPercentFromList'" },
+    { "header": "Qty", "expression": "1" },
+    { "header": "BasePrice", "expression": "'%.2f' % price_for(row, 'list_price_eur', customer)" },
+    { "header": "PriceModifier", "expression": "20" },
+    { "header": "ContractPrice", "expression": "'%.2f' % (price_for(row, 'list_price_eur', customer) * (1 - discount / 100))" },
+    { "header": "CurrencyCode", "expression": "'EUR'" }
+  ]
+}

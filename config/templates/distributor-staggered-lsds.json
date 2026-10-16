@@ -1,0 +1,309 @@
+{
+  "template_name": "distributor-staggered-lsds",
+  "source_sample": "US - LSDS Current Price.xlsx / US - LSDS Future Price.xlsx",
+  "description": "US LSDS catalog (xlsx, 74 columns): Gladstone-style staggered-price base plus about 43 antibody/chemical attribute columns from cst_lsds_antibody_fields.csv. Price is 2dp text USD for the price period; text uses clean_coupa_description.",
+  "file_type": "xlsx",
+  "master_source": "products.csv",
+  "sku_column": "SupplierPartID",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "ManufacturerName",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "ManufacturerPartID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "SupplierPartID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "ShortDescription",
+      "expression": "clean_coupa_description(row['long_description'], 'us').replace('µ', 'u')[:35]"
+    },
+    {
+      "header": "LongDescription",
+      "expression": "clean_coupa_description(row['long_description'] + ' ' + row['size'] + ' ' + row['size_unit'], 'us').replace('µ', 'u')"
+    },
+    {
+      "header": "Synonyms",
+      "expression": "''"
+    },
+    {
+      "header": "Price",
+      "expression": "strip_trailing_zeros(price_for_rounded(row, 'list_price_usd', customer, discount))"
+    },
+    {
+      "header": "ListPrice",
+      "expression": "''"
+    },
+    {
+      "header": "Currency",
+      "expression": "'USD'"
+    },
+    {
+      "header": "PriceBase",
+      "expression": "'1'"
+    },
+    {
+      "header": "MinimumQuantity",
+      "expression": "''"
+    },
+    {
+      "header": "QuantityInterval",
+      "expression": "''"
+    },
+    {
+      "header": "StaggeredPrice",
+      "expression": "''"
+    },
+    {
+      "header": "UOM",
+      "expression": "row['uom']"
+    },
+    {
+      "header": "ContentUnit",
+      "expression": "''"
+    },
+    {
+      "header": "NumberContentUnit",
+      "expression": "''"
+    },
+    {
+      "header": "Size",
+      "expression": "row['size']"
+    },
+    {
+      "header": "SizeUnit",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "ContentUnitPrice",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "LeadTime",
+      "expression": "'1'"
+    },
+    {
+      "header": "Image1",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Image2",
+      "expression": "''"
+    },
+    {
+      "header": "Attachment1",
+      "expression": "''"
+    },
+    {
+      "header": "Attachment2",
+      "expression": "''"
+    },
+    {
+      "header": "URL",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "StartDate",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "EndDate",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "ArticleHint",
+      "expression": "''"
+    },
+    {
+      "header": "Remarks",
+      "expression": "''"
+    },
+    {
+      "header": "SalesRep",
+      "expression": "''"
+    },
+    {
+      "header": "FormName",
+      "expression": "''"
+    },
+    {
+      "header": "Antibody",
+      "expression": "''"
+    },
+    {
+      "header": "Antibody Type",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'antibody_type', '')"
+    },
+    {
+      "header": "Antigen",
+      "expression": "''"
+    },
+    {
+      "header": "Applications",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'applications', '')"
+    },
+    {
+      "header": "Clone",
+      "expression": "''"
+    },
+    {
+      "header": "Concentration",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'concentration', '')"
+    },
+    {
+      "header": "Conjugate Type",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'conjugate_type', '')"
+    },
+    {
+      "header": "Cross Reactivity",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'reactivity', '')"
+    },
+    {
+      "header": "Discipline",
+      "expression": "''"
+    },
+    {
+      "header": "Format",
+      "expression": "''"
+    },
+    {
+      "header": "Gene",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'gene', '')"
+    },
+    {
+      "header": "Host",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'host', '')"
+    },
+    {
+      "header": "Immunogen",
+      "expression": "''"
+    },
+    {
+      "header": "Isotype",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'isotype', '')"
+    },
+    {
+      "header": "Product Classification",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Secondary Antibody",
+      "expression": "''"
+    },
+    {
+      "header": "Species Nonreactivity",
+      "expression": "''"
+    },
+    {
+      "header": "Species Reactivity",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'reactivity', '')"
+    },
+    {
+      "header": "Storage",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'storage', '')"
+    },
+    {
+      "header": "EMBL Accession Number",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Name",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number Details",
+      "expression": "''"
+    },
+    {
+      "header": "Purity",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'purity', '')"
+    },
+    {
+      "header": "Packaging",
+      "expression": "''"
+    },
+    {
+      "header": "Density",
+      "expression": "''"
+    },
+    {
+      "header": "Boiling Point",
+      "expression": "''"
+    },
+    {
+      "header": "Melting Point",
+      "expression": "''"
+    },
+    {
+      "header": "Molecular Formula",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'molecular_formula', '')"
+    },
+    {
+      "header": "Formula",
+      "expression": "''"
+    },
+    {
+      "header": "Formula Weight",
+      "expression": "''"
+    },
+    {
+      "header": "MSDS URL",
+      "expression": "msds_url_or_blank(row)"
+    },
+    {
+      "header": "Assays",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'applications', '')"
+    },
+    {
+      "header": "MDL Number",
+      "expression": "''"
+    },
+    {
+      "header": "Particle Size",
+      "expression": "''"
+    },
+    {
+      "header": "Molecular Weight Range",
+      "expression": "''"
+    },
+    {
+      "header": "Preferred shipper",
+      "expression": "'FEDEX'"
+    },
+    {
+      "header": "Shipped from location",
+      "expression": "'MA'"
+    },
+    {
+      "header": "Is shipping free",
+      "expression": "'NO'"
+    },
+    {
+      "header": "Usage last 12 months",
+      "expression": "''"
+    },
+    {
+      "header": "Drop Ship",
+      "expression": "''"
+    },
+    {
+      "header": "SMILES",
+      "expression": "''"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "template_name": "distributor-discount",
+  "source_sample": "US - Bio Products Inc Current/Future Price.xlsx",
+  "description": "US Bio Products Inc distributor catalog (xlsx, 22 columns). ListPrice always shows the current USD list price, even in the Future file (replicated real quirk); Price is the discounted list for the customer's price period. Both are 2dp text.",
+  "file_type": "xlsx",
+  "sku_column": "SupplierPartID",
+  "price_columns": [
+    "ListPrice",
+    "Price"
+  ],
+  "columns": [
+    {"header": "ManufacturerName", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "ManufacturerPartID", "source": "master", "expression": "row['sku']"},
+    {"header": "SupplierPartID", "source": "master", "expression": "row['sku']"},
+    {"header": "ShortDescription", "source": "master", "expression": "clean_pfizer_description(row['long_description'])"},
+    {"header": "LongDescription", "source": "master", "expression": "clean_pfizer_description(row['long_description'])"},
+    {"header": "Synonyms", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "ListPrice", "source": "master", "expression": "price_text(row['list_price_usd'])"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "Currency", "source": "master", "expression": "row['currency']"},
+    {"header": "UOM", "source": "master", "expression": "row['uom']"},
+    {"header": "Size", "source": "master", "expression": "row['size']"},
+    {"header": "SizeUnit", "source": "master", "expression": "row['size_unit']"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Image1", "source": "master", "expression": "row['image_url']"},
+    {"header": "URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "StartDate", "source": "customer", "expression": "date_mdyyyy(customer['price_valid_from'])"},
+    {"header": "EndDate", "source": "customer", "expression": "date_mdyyyy(customer['price_valid_until'])"},
+    {"header": "ProductClassification", "source": "master", "expression": "row['product_classification']"},
+    {"header": "MSDSURL", "source": "master", "expression": "msds_url_or_blank(row)"},
+    {"header": "Assays", "source": "master", "expression": "row['assays'] or ' '"},
+    {"header": "ShippingConditions", "source": "master", "expression": "row['shipping_conditions']"},
+    {"header": "StorageTemperature", "source": "master", "expression": "row['storage_temperature']"}
+  ]
+}

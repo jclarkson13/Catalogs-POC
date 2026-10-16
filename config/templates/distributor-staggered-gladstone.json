@@ -1,0 +1,137 @@
+{
+  "template_name": "distributor-staggered-gladstone",
+  "source_sample": "US - Gladstone Institute Current Price.xlsx / US - Gladstone Institute Future Price.xlsx",
+  "description": "US Gladstone Institute catalog (xlsx, 31 columns, staggered-price layout) at 0%. Price and ListPrice are 2dp text USD for the price period; descriptions use clean_gladstone_description. Differs from distributor-staggered-lsds in column set and rendering.",
+  "file_type": "xlsx",
+  "sku_column": "SupplierPartID",
+  "price_columns": [
+    "Price",
+    "ListPrice"
+  ],
+  "columns": [
+    {
+      "header": "ManufacturerName",
+      "expression": "row['manufacturer'][:-1] if row['manufacturer'].endswith('.') else row['manufacturer']"
+    },
+    {
+      "header": "ManufacturerPartID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "SupplierPartID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "ShortDescription",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "LongDescription",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Synonyms",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Price",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "ListPrice",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "Currency",
+      "expression": "'USD'"
+    },
+    {
+      "header": "PriceBase",
+      "expression": "''"
+    },
+    {
+      "header": "MinimumQuantity",
+      "expression": "''"
+    },
+    {
+      "header": "QuantityInterval",
+      "expression": "''"
+    },
+    {
+      "header": "StaggeredPrice",
+      "expression": "''"
+    },
+    {
+      "header": "UOM",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "ContentUnit",
+      "expression": "''"
+    },
+    {
+      "header": "NumberContentUnit",
+      "expression": "''"
+    },
+    {
+      "header": "Size",
+      "expression": "''"
+    },
+    {
+      "header": "SizeUnit",
+      "expression": "''"
+    },
+    {
+      "header": "ContentUnitPrice",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "LeadTime",
+      "expression": "'1'"
+    },
+    {
+      "header": "Image1",
+      "expression": "''"
+    },
+    {
+      "header": "Image2",
+      "expression": "''"
+    },
+    {
+      "header": "Attachment1",
+      "expression": "''"
+    },
+    {
+      "header": "Attachment2",
+      "expression": "''"
+    },
+    {
+      "header": "URL",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "StartDate",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "EndDate",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "ArticleHint",
+      "expression": "''"
+    },
+    {
+      "header": "Remarks",
+      "expression": "''"
+    },
+    {
+      "header": "FormName",
+      "expression": "''"
+    }
+  ]
+}

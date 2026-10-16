@@ -1,0 +1,78 @@
+{
+  "template_name": "dsm-cif",
+  "source_sample": "NEB/DSM.xlsx, sheet 'DSM 2023 Corrected'",
+  "description": "NEB-brand CIF_I_V3.0 catalog for DSM (file_type cif, delivered as xlsx), sourced only from products_neb.csv. Unit Price is discounted and Market Price is list, as 2dp text; CIF metadata header comes from cif_metadata.",
+  "file_type": "cif",
+  "master_source": "products_neb.csv",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CHARSET",
+      "UTF-8"
+    ],
+    [
+      "LOADMODE",
+      "F"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC"
+    ],
+    [
+      "CURRENCY",
+      "EUR"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "NetworkID"
+    ],
+    [
+      "ITEMCOUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%d-%m-%Y"
+    ],
+    [
+      "UNUOM",
+      "True"
+    ],
+    [
+      "COMMENTS:\t",
+      ""
+    ]
+  ],
+  "columns": [
+    {"header": "Supplier ID", "source": "constant", "expression": "'AN01013913097'"},
+    {"header": "Supplier Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Item Description", "source": "master", "expression": "cst_name_with_suffix(row, None, 'delete')"},
+    {"header": "SPSC Code", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Unit Price", "source": "master", "expression": "price_for_rounded_number(row, 'list_price_usd', customer, discount)"},
+    {"header": "Unit of Measure", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Lead Time", "source": "constant", "expression": "'2'"},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "Supplier URL", "source": "master", "expression": "(lambda u: '=HYPERLINK(\"' + u + '\", \"' + u + '\")' if u else '')(row['product_url'].lower())"},
+    {"header": "Manufacturer URL", "source": "constant", "expression": "''"},
+    {"header": "Market Price", "source": "master", "expression": "strip_trailing_zeros(price_text(row['list_price_usd']))"},
+    {"header": "Short Name", "source": "master", "expression": "cst_name_with_suffix(row, None, 'delete')[:40].rstrip()"},
+    {"header": "Image", "source": "constant", "expression": "''"},
+    {"header": "Thumbnail", "source": "constant", "expression": "''"},
+    {"header": "Language", "source": "constant", "expression": "'en_US'"},
+    {"header": "Currency", "source": "constant", "expression": "'EUR'"},
+    {"header": "Expiration Date", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Effective Date", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Territory Available", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Supplier Part Auxiliary ID", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "cus_CASNumber", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}
