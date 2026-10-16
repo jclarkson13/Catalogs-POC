@@ -1,0 +1,13 @@
+{
+  "customer_id": "F0001010",
+  "display_name": "US - Johns Hopkins University Core Store Current Price",
+  "sales_region": "US",
+  "step_classification_id": "F0001010",
+  "template_ref": "jhu-core-store",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 18,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

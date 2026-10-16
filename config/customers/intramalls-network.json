@@ -1,0 +1,35 @@
+{
+  "customer_id": "intramalls-network",
+  "display_name": "US - Intramalls NIH Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "One file, 4 US government programs as separate price columns, each with its own discount (also stated in the column headers, e.g. 'NIH ... 15% DISCOUNT').",
+  "template_ref": "intramalls-network",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "institutions": {
+    "nih": {
+      "header": "INTRAMALLS NIH EXTENDED PRICE 15% DISCOUNT",
+      "discount_percentage": 15,
+      "step_classification_id": "C0001681"
+    },
+    "fda": {
+      "header": "INTRAMALLS FDA EXTENDED PRICE 10% DISCOUNT",
+      "discount_percentage": 10,
+      "step_classification_id": "C0005104"
+    },
+    "avalon": {
+      "header": "Intramalls Avalon Extended 0% ",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "usda": {
+      "header": "Intramalls USDA Extended 10%",
+      "discount_percentage": 10,
+      "step_classification_id": null
+    }
+  },
+  "overrides": {}
+}

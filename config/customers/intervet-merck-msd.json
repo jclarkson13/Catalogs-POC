@@ -1,0 +1,14 @@
+{
+  "customer_id": "intervet-merck-msd",
+  "display_name": "Intervet_Merck_MSD_Ariba_Catalog",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 0%: Unit Price equals Market Price.",
+  "template_ref": "intervet-merck-msd-cif",
+  "file_type": "cif",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

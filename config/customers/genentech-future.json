@@ -1,0 +1,14 @@
+{
+  "customer_id": "genentech-future",
+  "display_name": "US - Genentech Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001028",
+  "_note": "STEP ID C0001028. Flat 13% discount, applied to the Future list price.",
+  "template_ref": "genentech",
+  "file_type": "csv",
+  "price_period": "future",
+  "discount_percentage": 13,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

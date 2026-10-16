@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0001327",
+  "display_name": "US - Joslin Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001327",
+  "template_ref": "joslin",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 10,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

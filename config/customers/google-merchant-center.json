@@ -1,0 +1,13 @@
+{
+  "customer_id": "google-merchant-center",
+  "display_name": "US - Google Merchant Center Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "template_ref": "google-merchant-center",
+  "file_type": "csv",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

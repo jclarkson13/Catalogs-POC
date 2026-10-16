@@ -1,0 +1,25 @@
+{
+  "customer_id": "labviva-ucop-network",
+  "display_name": "US - LabViva UCOP Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "LabViva's UC-system file: 2 institutions as price columns. UCSD's 16% matches the standalone ucsd customer - keep them in sync.",
+  "template_ref": "labviva-ucop-network",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "institutions": {
+    "uc_merced": {
+      "header": "UC Merced",
+      "discount_percentage": 16,
+      "step_classification_id": "C0004249"
+    },
+    "ucsd": {
+      "header": "UCSD",
+      "discount_percentage": 16,
+      "step_classification_id": "C0003655"
+    }
+  },
+  "overrides": {}
+}

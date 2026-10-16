@@ -1,0 +1,55 @@
+{
+  "customer_id": "labviva-network",
+  "display_name": "US - LabViva Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "One file, 8 US institutions as separate price columns, each with its own discount (same pattern as sciquest-network).",
+  "template_ref": "labviva-network",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "institutions": {
+    "labshares": {
+      "header": "LabShares",
+      "discount_percentage": 0,
+      "step_classification_id": "C0009828"
+    },
+    "regeneron": {
+      "header": "Regeneron Price",
+      "discount_percentage": 0,
+      "step_classification_id": "C0010354"
+    },
+    "uga": {
+      "header": "UGA Price",
+      "discount_percentage": 0,
+      "step_classification_id": "C0002670"
+    },
+    "takeda": {
+      "header": "Takeda Price",
+      "discount_percentage": 10,
+      "step_classification_id": "C0001580"
+    },
+    "jhu_main_campus": {
+      "header": "JHU Main Campus Price",
+      "discount_percentage": 5,
+      "step_classification_id": "C0001312"
+    },
+    "rutgers": {
+      "header": "Rutgers Price",
+      "discount_percentage": 10,
+      "step_classification_id": "C0003558"
+    },
+    "moderna": {
+      "header": "Moderna Price",
+      "discount_percentage": 0,
+      "step_classification_id": "C0078119"
+    },
+    "pfizer": {
+      "header": "Pfizer Price",
+      "discount_percentage": 15,
+      "step_classification_id": "C0001976"
+    }
+  },
+  "overrides": {}
+}

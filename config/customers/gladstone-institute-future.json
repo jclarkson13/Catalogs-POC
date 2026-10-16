@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0001086",
+  "display_name": "US - Gladstone Institute Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001086",
+  "template_ref": "distributor-staggered-gladstone",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

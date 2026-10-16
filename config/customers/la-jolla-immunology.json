@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0001372",
+  "display_name": "US - La Jolla Institute for Immunology Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001372",
+  "template_ref": "la-jolla-immunology",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

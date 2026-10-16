@@ -1,0 +1,14 @@
+{
+  "customer_id": "genentech",
+  "display_name": "US - Genentech Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001028",
+  "_note": "STEP ID C0001028. Flat 13% discount.",
+  "template_ref": "genentech",
+  "file_type": "csv",
+  "price_period": "current",
+  "discount_percentage": 13,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}
