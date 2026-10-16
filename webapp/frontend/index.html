@@ -1,0 +1,2006 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Workshop</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --panel: #ffffff;
+    --border: #e2e0da;
+    --text: #2b2a27;
+    --muted: #6b6a64;
+    --accent: #8b5e3c;
+    --accent-dark: #6e4a2f;
+    --ok: #2f7a4f;
+    --err: #b3452e;
+    --err-bg: #fbeae6;
+    --ok-bg: #ecf5ee;
+    --warn: #8a5a00;
+    --warn-bg: #fdf3e0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+  header h1 { font-size: 18px; margin: 0; }
+  nav { display: flex; gap: 4px; }
+  nav button {
+    border: none;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  nav button.active { background: var(--accent); color: white; }
+  main { padding: 24px; max-width: 1200px; margin: 0 auto; }
+  .layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start; }
+  #view-master.layout { grid-template-columns: 1fr 320px; }
+  .pagination { display: flex; align-items: center; margin-top: 12px; }
+  #bulk-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  #bulk-actions .meta { margin: 0; }
+  table.kv td, table.kv th { vertical-align: top; }
+  .master-links { display: flex; gap: 14px; margin-top: 12px; }
+  .master-links a { color: var(--accent); font-size: 13px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .customer-row {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 4px;
+  }
+  .customer-row:hover { background: #f0efe9; }
+  .customer-row.selected { background: var(--accent); color: white; }
+  .customer-row .slug { font-size: 12px; opacity: 0.7; }
+  h2 { font-size: 16px; margin: 0 0 4px; }
+  h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 20px 0 8px; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
+  input[type=text], input[type=number], input[type=date], textarea {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  textarea { min-height: 70px; font-family: ui-monospace, monospace; font-size: 12px; }
+  .cat-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .cat-row input[type=text] { flex: 1; }
+  .cat-row input[type=number] { width: 90px; }
+  button.action {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    margin-top: 8px;
+  }
+  button.action:hover { background: var(--accent-dark); }
+  button.action.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  button.action:disabled { opacity: 0.5; cursor: default; }
+  .result-box { margin-top: 12px; padding: 10px 12px; border-radius: 8px; font-size: 13px; }
+  .result-box.ok { background: var(--ok-bg); color: var(--ok); }
+  .result-box.err { background: var(--err-bg); color: var(--err); }
+  .result-box.warn { background: var(--warn-bg); color: var(--warn); }
+  .result-box.neutral { background: var(--panel); border: 1px solid var(--border); color: var(--text); }
+  .table-scroll { overflow-x: auto; margin-top: 8px; }
+  .table-scroll table { margin-top: 0; white-space: nowrap; }
+  .result-box ul { margin: 6px 0 0; padding-left: 18px; }
+  .validation-group { margin-top: 10px; }
+  .validation-group:first-child { margin-top: 6px; }
+  .validation-group-title { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .validation-group-title .count {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .validation-group ul { margin: 4px 0 0; padding-left: 18px; }
+  .validation-group ul li { margin-bottom: 2px; }
+  .validation-group ul.truncated li:nth-child(n+6) { display: none; }
+  .validation-group ul.truncated.expanded li { display: list-item; }
+  .toggle-more {
+    background: none;
+    border: none;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 0 0;
+    font-family: inherit;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 500; }
+  #master-table tbody tr { cursor: pointer; }
+  #master-table tbody tr:hover { background: #f0efe9; }
+  #master-table tbody tr.flagged { background: var(--err-bg); }
+  #master-table tbody tr.flagged:hover { background: #f6d9d0; }
+  .flags-cell { color: var(--err); font-size: 12px; }
+  a.download { color: var(--accent); text-decoration: none; }
+  a.download:hover { text-decoration: underline; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .badge.success { background: var(--ok-bg); color: var(--ok); }
+  .badge.failed { background: var(--err-bg); color: var(--err); }
+  .badge.stale { background: var(--warn-bg); color: var(--warn); }
+  .badge.never { background: rgba(0, 0, 0, 0.06); color: var(--muted); }
+  .customer-row .status-line { margin-top: 4px; }
+  .customer-row.selected .badge.success { background: rgba(255, 255, 255, 0.25); color: white; }
+  .customer-row.selected .badge.failed,
+  .customer-row.selected .badge.stale,
+  .customer-row.selected .badge.never { background: rgba(255, 255, 255, 0.25); color: white; }
+  .filters { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+  .filters select, .filters input { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+  .empty { color: var(--muted); font-size: 13px; padding: 20px 0; }
+  .period-pill {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .customer-row.selected .period-pill { background: rgba(255, 255, 255, 0.25); color: white; }
+  #customer-list-scroll { max-height: 70vh; overflow-y: auto; }
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+  .chip-row .chip-label { font-size: 12px; color: var(--muted); margin-right: 2px; min-width: 48px; }
+  .chip {
+    border: 1px solid var(--border, #d0d4da); background: transparent; color: inherit;
+    border-radius: 14px; padding: 3px 10px; font-size: 12px; cursor: pointer; line-height: 1.4;
+  }
+  .chip .count { color: var(--muted); margin-left: 4px; font-size: 11px; }
+  .chip.on { background: var(--accent, #2563eb); border-color: var(--accent, #2563eb); color: white; }
+  .chip.on .count { color: rgba(255, 255, 255, 0.8); }
+  .chip:disabled { opacity: 0.4; cursor: default; }
+  .clear-filters { font-size: 12px; margin-left: 6px; background: none; border: none; color: var(--accent, #2563eb); cursor: pointer; text-decoration: underline; padding: 0; }
+  .region-pill { background: rgba(37, 99, 235, 0.10); color: #1d4ed8; }
+  .neb-pill { background: rgba(16, 185, 129, 0.14); color: #047857; }
+  .customer-row.selected .region-pill, .customer-row.selected .neb-pill { background: rgba(255, 255, 255, 0.25); color: white; }
+  .sibling-link { font-size: 13px; }
+  .readonly-cols { font-size: 12px; color: var(--muted); }
+  .badge.blocking { background: var(--err-bg); color: var(--err); }
+  .badge.warning { background: var(--warn-bg); color: var(--warn); }
+  #checks-table td.scope { color: var(--muted); font-size: 12px; }
+  .customer-row .status-line .badge + .badge { margin-left: 4px; }
+  #view-fidelity.layout { grid-template-columns: 1fr 380px; }
+  #fidelity-table th.sortable { cursor: pointer; user-select: none; }
+  #fidelity-table th.sortable:hover { color: var(--text); }
+  #fidelity-table th.sorted::after { content: ' \25BE'; }
+  #fidelity-table th.sorted.asc::after { content: ' \25B4'; }
+  #fidelity-table tbody tr { cursor: pointer; }
+  #fidelity-table tbody tr:hover { background: #f0efe9; }
+  #fidelity-table tbody tr.selected { background: #efe6dd; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .col-list { font-size: 12px; color: var(--muted); }
+  .fidelity-cols td { vertical-align: top; }
+  .fidelity-cols tr.clean-col td { color: var(--muted); }
+  .fidelity-cols .col-label { max-width: 320px; white-space: normal; }
+  .fidelity-cols .col-label .label-text { white-space: pre-line; }
+  .fidelity-stats .stat { white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; margin-right: 8px; font-size: 13px; color: var(--muted); }
+  #fidelity-detail td { vertical-align: top; }
+  #fidelity-detail td:first-child { white-space: nowrap; }
+  .fidelity-cols details summary { cursor: pointer; font-size: 12px; color: var(--accent); }
+  .examples { margin-top: 6px; font-size: 12px; }
+  .examples td { padding: 3px 6px; font-family: ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; }
+  .examples th { padding: 3px 6px; font-size: 11px; }
+  .fidelity-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  a.link { color: var(--accent); cursor: pointer; }
+  #job-panel { margin-bottom: 16px; }
+  #job-panel .job-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  #job-panel .job-head strong { font-size: 14px; }
+  #job-panel .job-head .spacer { flex: 1; }
+  #job-panel .job-head button.action { margin: 0; }
+  .progress { height: 10px; background: rgba(0, 0, 0, 0.07); border-radius: 5px; overflow: hidden; margin: 10px 0 6px; }
+  .progress-bar { height: 100%; background: var(--accent); border-radius: 5px; transition: width 0.4s ease; }
+  .progress.indeterminate .progress-bar { width: 30% !important; animation: indeterminate 1.4s ease-in-out infinite; }
+  @keyframes indeterminate { from { margin-left: -30%; } to { margin-left: 100%; } }
+  .job-stats { font-size: 13px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  .job-output { font-family: ui-monospace, monospace; font-size: 11px; white-space: pre-wrap; max-height: 240px; overflow-y: auto; margin: 6px 0 0; }
+  .fidelity-heading { display: flex; align-items: center; gap: 10px; }
+  .fidelity-heading button.action { margin: 0; padding: 3px 10px; font-size: 12px; text-transform: none; letter-spacing: 0; }
+  .fresh-fidelity { border: 1px solid var(--accent); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Catalog Workshop</h1>
+  <nav>
+    <button id="tab-customers" class="active">Customers</button>
+    <button id="tab-master">Master Data</button>
+    <button id="tab-checks">Validations</button>
+    <button id="tab-fidelity">Fidelity</button>
+    <button id="tab-audit">Audit Log</button>
+  </nav>
+</header>
+
+<main>
+  <!-- Background job progress (regenerate all / fidelity scoreboard). Shown on
+       every tab; jobs run on the server, so closing the tab doesn't stop them. -->
+  <!-- Shown when generator/backend code changed after the server started
+       (GET /server/status); generating is refused until a restart. -->
+  <div class="panel" id="stale-code-banner" hidden style="border-left:4px solid #c0392b;"></div>
+  <div class="panel" id="job-panel" style="display:none;"></div>
+
+  <div id="view-customers">
+    <div class="panel" id="bulk-actions">
+      <button class="action secondary job-start" id="btn-regenerate-all" style="margin:0;">Regenerate All Customers</button>
+      <button class="action job-start" id="btn-refresh-all" style="margin:0;">Refresh Everything</button>
+      <span class="meta">Runs every customer through the same checks as an individual Generate — useful after a master-data change to refresh anything stale. Runs on the server in the background (~15 min); you can close this tab. "Refresh Everything" also re-scores fidelity against real files afterward (~30 min total).</span>
+    </div>
+    <div class="filters" style="margin-top:16px;">
+      <input type="text" id="customer-search" placeholder="Filter by name, slug, region, or template…" style="flex:1; min-width:240px;">
+      <select id="customer-fidelity-filter" title="Filter by fidelity vs. the real file">
+        <option value="">Any fidelity</option>
+        <option value="match">Matches real file</option>
+        <option value="known_gaps_only">Known gaps only</option>
+        <option value="wrong">Has wrong columns</option>
+        <option value="diffs">Any diffs</option>
+        <option value="no_real_file">No real file</option>
+        <option value="unscored">Not in report</option>
+      </select>
+      <span class="meta" id="customer-count" style="margin:0;"></span>
+    </div>
+    <div id="customer-chip-filters">
+      <div class="chip-row" id="chips-period"><span class="chip-label">Period</span></div>
+      <div class="chip-row" id="chips-region"><span class="chip-label">Region</span></div>
+      <div class="chip-row" id="chips-neb"><span class="chip-label">Source</span><button type="button" class="clear-filters" id="clear-customer-filters">Clear filters</button></div>
+    </div>
+    <div class="layout">
+      <div class="panel">
+        <div id="customer-list-scroll"><div id="customer-list"></div></div>
+      </div>
+      <div class="panel" id="customer-detail"><p class="empty">Select a customer.</p></div>
+    </div>
+  </div>
+
+  <div id="view-master" class="layout" style="display:none;">
+    <div class="panel">
+      <div class="filters">
+        <input type="text" id="master-search" placeholder="Search SKU, manufacturer, description, CAS #…" style="flex:1; min-width:240px;">
+        <button class="action secondary" id="master-search-btn" style="margin:0;">Search</button>
+        <label style="display:flex; align-items:center; gap:5px; font-size:13px; color:var(--muted);">
+          <input type="checkbox" id="master-flagged-only"> Flagged only
+        </label>
+        <a class="action secondary" id="master-export-link" style="margin:0; text-decoration:none; display:inline-block;" href="/master/export" target="_blank" rel="noopener">Export CSV</a>
+      </div>
+      <table id="master-table">
+        <thead><tr><th>SKU</th><th>Manufacturer</th><th>Description</th><th>List Price</th><th>UOM</th><th>UNSPSC</th><th>CAS #</th><th>Flags</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="pagination">
+        <button class="action secondary" id="master-prev">&larr; Prev</button>
+        <span id="master-page-info" class="meta" style="margin:0 10px;"></span>
+        <button class="action secondary" id="master-next">Next &rarr;</button>
+      </div>
+    </div>
+    <div class="panel" id="master-detail"><p class="empty">Click a product for details.</p></div>
+  </div>
+
+  <div id="view-checks" class="panel" style="display:none;">
+    <p class="meta">Every check the generator runs across all customer catalogs, whether or not it's currently firing for any of them. Blocking checks stop a write; warnings are informational only.</p>
+    <table id="checks-table">
+      <thead><tr><th>Severity</th><th>Check</th><th>What it validates</th><th>Applies to</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="view-fidelity" class="layout" style="display:none;">
+    <div class="panel">
+      <p class="meta" style="margin-bottom:8px;">How closely each template's generated catalogs match the customers' real source files. Read from the last full scoreboard run (<code>reports/fidelity/latest.json</code>).</p>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+        <button class="action secondary job-start" id="btn-run-scoreboard" style="margin:0;">Run fidelity scoreboard</button>
+        <span class="meta" style="margin:0;">Re-scores every customer against its real file on the server (~15 min, heavy) and refreshes this page when done.</span>
+      </div>
+      <div class="meta" id="fidelity-freshness"></div>
+      <div class="fidelity-stats" id="fidelity-stats"></div>
+      <div class="filters">
+        <select id="fidelity-bucket">
+          <option value="">All buckets</option>
+          <option value="needs_work">needs_work</option>
+          <option value="clean">clean</option>
+        </select>
+        <input type="text" id="fidelity-search" placeholder="Filter by template, customer, or column…" style="flex:1; min-width:200px;">
+        <span class="meta" id="fidelity-count" style="margin:0;"></span>
+      </div>
+      <table id="fidelity-table">
+        <thead><tr>
+          <th class="sortable" data-sort="name">Template</th>
+          <th class="sortable" data-sort="bucket">Bucket</th>
+          <th class="sortable num" data-sort="customers">Customers</th>
+          <th class="sortable num" data-sort="wrong">Wrong columns</th>
+          <th class="sortable" data-sort="structural">Structural</th>
+          <th class="sortable num" data-sort="cells">Unexplained cells</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="panel" id="fidelity-detail"><p class="empty">Click a template to see its customers.</p></div>
+  </div>
+
+  <div id="view-audit" class="panel" style="display:none;">
+    <div class="filters">
+      <select id="audit-customer"><option value="">All customers</option></select>
+      <select id="audit-outcome">
+        <option value="">All outcomes</option>
+        <option value="success">success</option>
+        <option value="failed">failed</option>
+      </select>
+      <select id="audit-source">
+        <option value="">Business + engineering</option>
+        <option value="business">Business changes</option>
+        <option value="engineering">Engineering runs</option>
+      </select>
+      <input type="date" id="audit-from" title="From date">
+      <input type="date" id="audit-to" title="To date">
+      <button class="action secondary" id="audit-filter-btn" style="margin:0;">Filter</button>
+    </div>
+    <table id="audit-table">
+      <thead><tr><th>Timestamp</th><th>Who</th><th>Customer</th><th>Action</th><th>Outcome</th><th>Detail</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const state = {
+  customers: [], selected: null, selectedConfig: null,
+  masterOffset: 0, masterLimit: 50, masterTotal: 0,
+};
+
+async function api(path, opts) {
+  const res = await fetch(path, opts);
+  const isJson = res.headers.get('content-type')?.includes('application/json');
+  const body = isJson ? await res.json() : null;
+  if (!res.ok) {
+    const err = new Error('Request failed');
+    err.status = res.status;
+    err.body = body;
+    throw err;
+  }
+  return body;
+}
+
+// ---- Tabs ----
+document.getElementById('tab-customers').onclick = () => showTab('customers');
+document.getElementById('tab-master').onclick = () => showTab('master');
+document.getElementById('tab-checks').onclick = () => showTab('checks');
+document.getElementById('tab-fidelity').onclick = () => showTab('fidelity');
+document.getElementById('tab-audit').onclick = () => showTab('audit');
+
+function showTab(name) {
+  document.getElementById('tab-customers').classList.toggle('active', name === 'customers');
+  document.getElementById('tab-master').classList.toggle('active', name === 'master');
+  document.getElementById('tab-checks').classList.toggle('active', name === 'checks');
+  document.getElementById('tab-fidelity').classList.toggle('active', name === 'fidelity');
+  document.getElementById('tab-audit').classList.toggle('active', name === 'audit');
+  document.getElementById('view-customers').style.display = name === 'customers' ? 'block' : 'none';
+  document.getElementById('view-master').style.display = name === 'master' ? 'grid' : 'none';
+  document.getElementById('view-checks').style.display = name === 'checks' ? 'block' : 'none';
+  document.getElementById('view-fidelity').style.display = name === 'fidelity' ? 'grid' : 'none';
+  document.getElementById('view-audit').style.display = name === 'audit' ? 'block' : 'none';
+  if (name === 'master') loadMaster();
+  if (name === 'checks') loadChecks();
+  if (name === 'fidelity') loadFidelityTab();
+  if (name === 'audit') loadAudit();
+}
+
+// ---- Fidelity scoreboard ----
+// View of the last full scoreboard run (reports/fidelity/latest.json).
+// The summary is fetched once and re-fetched when the Fidelity tab opens or
+// a full scoreboard job finishes; the backend re-reads the file only when it
+// changes on disk. Scoreboard runs themselves are background jobs (below).
+const FIDELITY_STATUS_LABELS = {
+  match: 'match', known_gaps_only: 'known gaps only', diffs: 'diffs',
+  no_real_file: 'no real file', error: 'error',
+};
+const fidelityState = { summary: null, missing: null, sort: { key: 'rank', asc: true }, selectedTemplate: null };
+
+async function loadFidelitySummary() {
+  try {
+    fidelityState.summary = await api('/fidelity');
+    fidelityState.missing = null;
+  } catch (e) {
+    fidelityState.summary = null;
+    fidelityState.missing = e.status === 404
+      ? (e.body?.detail || 'No fidelity report found.')
+      : 'Could not load the fidelity report.';
+  }
+  return fidelityState.summary;
+}
+
+function fidelityFor(slug) {
+  return fidelityState.summary?.customers?.[slug] || null;
+}
+
+function plural(n, word) { return `${n} ${word}${n === 1 ? '' : 's'}`; }
+
+// Badge describes the customer's catalog vs. its real source file, as of the
+// last scoreboard run (not live: config/template edits since then aren't
+// reflected until the scoreboard is re-run).
+function fidelityBadge(f) {
+  if (!fidelityState.summary) return '';
+  if (!f) return '<span class="badge never" title="Customer not in the latest fidelity report">Not scored</span>';
+  const title = `Fidelity vs. real file (report ${fidelityState.summary.generated_at})`;
+  switch (f.status) {
+    case 'match': return `<span class="badge success" title="${escapeHtml(title)}">Matches real file</span>`;
+    case 'known_gaps_only': return `<span class="badge success" title="${escapeHtml(title)}">Known gaps only</span>`;
+    case 'no_real_file': return `<span class="badge never" title="${escapeHtml(title)}">No real file</span>`;
+    case 'error': return `<span class="badge failed" title="${escapeHtml(title)}">Scoreboard error</span>`;
+    default:
+      return f.wrong_column_count
+        ? `<span class="badge failed" title="${escapeHtml(title)}">${plural(f.wrong_column_count, 'wrong column')}</span>`
+        : `<span class="badge stale" title="${escapeHtml(title)}">Structural diffs</span>`;
+  }
+}
+
+function fidelityStatusBadge(status) {
+  const cls = { match: 'success', known_gaps_only: 'success', diffs: 'failed', error: 'failed', no_real_file: 'never' }[status] || 'never';
+  return `<span class="badge ${cls}">${escapeHtml(FIDELITY_STATUS_LABELS[status] || status)}</span>`;
+}
+
+function bucketBadge(bucket) {
+  return `<span class="badge ${bucket === 'clean' ? 'success' : 'stale'}">${escapeHtml(bucket)}</span>`;
+}
+
+function formatReportTime(iso) {
+  if (!iso) return 'unknown time';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  const mins = Math.round((Date.now() - d.getTime()) / 60000);
+  const ago = mins < 1 ? 'just now'
+    : mins < 60 ? `${plural(mins, 'minute')} ago`
+    : mins < 60 * 48 ? `${plural(Math.round(mins / 60), 'hour')} ago`
+    : `${plural(Math.round(mins / 1440), 'day')} ago`;
+  return `${d.toLocaleString()} (${ago})`;
+}
+
+function fidelityMissingHtml() {
+  return `<div class="result-box warn">${escapeHtml(fidelityState.missing || 'No fidelity report found.')}</div>`;
+}
+
+async function loadFidelityTab() {
+  document.querySelector('#fidelity-table tbody').innerHTML = '<tr><td colspan="6" class="empty">Loading…</td></tr>';
+  await loadFidelitySummary();
+  const s = fidelityState.summary;
+  if (!s) {
+    document.getElementById('fidelity-freshness').innerHTML = '';
+    document.getElementById('fidelity-stats').innerHTML = fidelityMissingHtml();
+    document.querySelector('#fidelity-table tbody').innerHTML = '';
+    document.getElementById('fidelity-count').textContent = '';
+    return;
+  }
+  document.getElementById('fidelity-freshness').innerHTML =
+    `Report generated <strong>${escapeHtml(formatReportTime(s.generated_at))}</strong>` +
+    (s.requested_by ? ` by ${escapeHtml(s.requested_by)}` : '') +
+    (s.targets ? ` &middot; targets: ${escapeHtml(s.targets)}` : '');
+  const b = s.bucket_counts || {};
+  const statusBits = Object.entries(s.status_counts || {})
+    .sort((x, y) => y[1] - x[1])
+    .map(([k, v]) => `<span class="stat">${fidelityStatusBadge(k)} ${v}</span>`).join('');
+  document.getElementById('fidelity-stats').innerHTML =
+    `<span class="stat">Templates:</span>` +
+    `<span class="stat">${bucketBadge('needs_work')} ${b.needs_work || 0}</span>` +
+    `<span class="stat">${bucketBadge('clean')} ${b.clean || 0}</span>` +
+    `<span class="stat" style="margin-left:8px;">Customers:</span>${statusBits}`;
+  renderFidelityTable();
+  if (fidelityState.selectedTemplate) renderFidelityTemplateDetail(fidelityState.selectedTemplate);
+}
+
+const FIDELITY_SORTS = {
+  name: t => t.name,
+  bucket: t => (t.bucket === 'clean' ? 1 : 0),
+  customers: t => t.customers.length,
+  wrong: t => t.wrong_columns.length,
+  structural: t => t.structural.length,
+  cells: t => t.unexplained_cells || 0,
+};
+
+function filteredFidelityTemplates() {
+  const s = fidelityState.summary;
+  const bucket = document.getElementById('fidelity-bucket').value;
+  const q = document.getElementById('fidelity-search').value.trim().toLowerCase();
+  let rows = s.templates.filter(t => !bucket || t.bucket === bucket);
+  if (q) {
+    rows = rows.filter(t =>
+      t.name.toLowerCase().includes(q) ||
+      t.customers.some(c => c.toLowerCase().includes(q)) ||
+      t.wrong_columns.some(c => c.toLowerCase().includes(q)));
+  }
+  // Server order is the default rank (needs_work first, most wrong columns
+  // first), matching latest.md; other sorts are stable on top of it.
+  const { key, asc } = fidelityState.sort;
+  if (key !== 'rank') {
+    const f = FIDELITY_SORTS[key];
+    rows = rows.map((t, i) => [t, i]).sort(([a, ia], [b, ib]) => {
+      const va = f(a), vb = f(b);
+      const cmp = va < vb ? -1 : va > vb ? 1 : 0;
+      return (asc ? cmp : -cmp) || ia - ib;
+    }).map(([t]) => t);
+  }
+  return rows;
+}
+
+function renderFidelityTable() {
+  const s = fidelityState.summary;
+  if (!s) return;
+  const rows = filteredFidelityTemplates();
+  document.getElementById('fidelity-count').textContent =
+    rows.length === s.templates.length ? `${s.templates.length} templates` : `${rows.length} of ${s.templates.length}`;
+  document.querySelectorAll('#fidelity-table th.sortable').forEach(th => {
+    const on = th.dataset.sort === fidelityState.sort.key;
+    th.classList.toggle('sorted', on);
+    th.classList.toggle('asc', on && fidelityState.sort.asc);
+  });
+  const tbody = document.querySelector('#fidelity-table tbody');
+  tbody.innerHTML = rows.map(t => `
+    <tr data-template="${escapeHtml(t.name)}"${fidelityState.selectedTemplate === t.name ? ' class="selected"' : ''}>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${bucketBadge(t.bucket)}</td>
+      <td class="num">${t.customers.length}</td>
+      <td class="num" title="${escapeHtml(t.wrong_columns.join('\n'))}">${t.wrong_columns.length || '—'}</td>
+      <td class="col-list">${t.structural.length ? escapeHtml(t.structural.join(', ')) : '—'}</td>
+      <td class="num">${(t.unexplained_cells || 0).toLocaleString()}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" class="empty">No templates match.</td></tr>';
+  tbody.querySelectorAll('tr[data-template]').forEach(el => {
+    el.onclick = () => {
+      fidelityState.selectedTemplate = el.dataset.template;
+      renderFidelityTable();
+      renderFidelityTemplateDetail(el.dataset.template);
+    };
+  });
+}
+
+document.querySelectorAll('#fidelity-table th.sortable').forEach(th => {
+  th.onclick = () => {
+    const key = th.dataset.sort;
+    const cur = fidelityState.sort;
+    if (cur.key === key) {
+      // Third click on a column returns to the default rank.
+      if (cur.asc === (key === 'name')) fidelityState.sort = { key, asc: !cur.asc };
+      else fidelityState.sort = { key: 'rank', asc: true };
+    } else {
+      fidelityState.sort = { key, asc: key === 'name' };
+    }
+    renderFidelityTable();
+  };
+});
+document.getElementById('fidelity-bucket').addEventListener('change', renderFidelityTable);
+document.getElementById('fidelity-search').addEventListener('input', renderFidelityTable);
+
+function renderFidelityTemplateDetail(name) {
+  const s = fidelityState.summary;
+  const t = s?.templates.find(x => x.name === name);
+  const box = document.getElementById('fidelity-detail');
+  if (!t) { box.innerHTML = '<p class="empty">Click a template to see its customers.</p>'; return; }
+  const custs = t.customers.map(slug => s.customers[slug] || { slug, status: '?', wrong_columns: [], structural: [], unexplained_cells: 0 });
+  box.innerHTML = `
+    <h2>${escapeHtml(t.name)}</h2>
+    <div class="meta">${bucketBadge(t.bucket)} &middot; ${plural(t.customers.length, 'customer')} &middot; ${(t.unexplained_cells || 0).toLocaleString()} unexplained cells</div>
+    <h3>Wrong columns (${t.wrong_columns.length})</h3>
+    ${t.wrong_columns.length
+      ? `<ul class="col-list" style="padding-left:18px; margin:0;">${t.wrong_columns.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`
+      : '<p class="empty" style="padding:4px 0;">None.</p>'}
+    ${t.structural.length ? `<h3>Structural</h3><p class="col-list">${escapeHtml(t.structural.join(', '))}</p>` : ''}
+    <h3>Customers</h3>
+    <table>
+      <thead><tr><th>Customer</th><th>Status</th><th>Wrong columns</th></tr></thead>
+      <tbody>
+        ${custs.map(c => `
+          <tr>
+            <td><a class="link" data-open-customer="${escapeHtml(c.slug)}">${escapeHtml(c.slug)}</a></td>
+            <td>${fidelityStatusBadge(c.status)}</td>
+            <td class="col-list">
+              ${c.wrong_columns.length ? escapeHtml(c.wrong_columns.join(', ')) : '—'}
+              ${c.structural.length ? `<div>${escapeHtml(c.structural.join('; '))}</div>` : ''}
+              ${c.error ? `<div style="color:var(--err);">${escapeHtml(c.error)}</div>` : ''}
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+  `;
+  box.querySelectorAll('[data-open-customer]').forEach(a => {
+    a.onclick = async () => {
+      const slug = a.dataset.openCustomer;
+      if (!state.customers.some(c => c.slug === slug)) {
+        alert(`'${slug}' is in the fidelity report but has no config under config/customers/.`);
+        return;
+      }
+      // Clear list filters so the selected customer is visible in the list.
+      document.getElementById('customer-search').value = '';
+      document.getElementById('customer-fidelity-filter').value = '';
+      showTab('customers');
+      await selectCustomer(slug);
+      document.querySelector('.customer-row.selected')?.scrollIntoView({ block: 'nearest' });
+    };
+  });
+}
+
+// Results of single-customer "Re-check fidelity" jobs run in this page
+// session, keyed by slug (from GET /fidelity/{slug}/recent). A partial
+// scoreboard run never updates latest.json, so these are shown separately
+// and clearly labelled; list badges and the Fidelity tab keep showing the
+// last full run.
+const freshFidelity = {};
+// Slugs with a finished single-customer re-check in the server's recent jobs
+// (survives a page reload); their fresh result is fetched on first view.
+const recheckedSlugs = new Set();
+
+function renderFreshFidelity(slug) {
+  const box = document.getElementById('fidelity-fresh');
+  if (!box) return;
+  const r = freshFidelity[slug];
+  const latestAt = fidelityState.summary?.generated_at;
+  // Drop it once a newer full run has superseded it.
+  if (!r || (latestAt && new Date(latestAt) >= new Date(r.generated_at))) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="fresh-fidelity">
+      <div style="margin-bottom:6px;"><strong>Re-check result — ${escapeHtml(formatReportTime(r.generated_at))}</strong></div>
+      <div class="meta" style="margin-bottom:8px;">From <code>${escapeHtml(r.report_file)}</code>${r.partial ? ' (single-customer run). Not part of <code>latest.json</code>: the list badge and Fidelity tab still show the last full run' : ''}.</div>
+      ${renderCustomerFidelity(r)}
+    </div>
+    ${fidelityState.summary ? '<div class="meta" style="margin:0 0 6px;"><strong>Last full scoreboard run</strong></div>' : ''}`;
+}
+
+// Per-customer detail, loaded lazily into the customer view.
+async function loadCustomerFidelity(slug) {
+  const box = document.getElementById('fidelity-section');
+  if (!box) return;
+  if (recheckedSlugs.has(slug) && !freshFidelity[slug]) {
+    recheckedSlugs.delete(slug);
+    try {
+      freshFidelity[slug] = await api(`/fidelity/${encodeURIComponent(slug)}/recent`);
+    } catch (e) { /* report gone: nothing to show */ }
+    if (state.selected !== slug) return;
+  }
+  renderFreshFidelity(slug);
+  if (!fidelityState.summary) {
+    box.innerHTML = fidelityMissingHtml();
+    return;
+  }
+  box.innerHTML = '<p class="empty">Loading…</p>';
+  let r;
+  try {
+    r = await api(`/fidelity/${encodeURIComponent(slug)}`);
+  } catch (e) {
+    if (state.selected !== slug) return;
+    box.innerHTML = `<p class="empty">${escapeHtml(e.body?.detail || 'Could not load fidelity detail.')}</p>`;
+    return;
+  }
+  if (state.selected !== slug) return;  // user moved on while loading
+  box.innerHTML = renderCustomerFidelity(r);
+}
+
+const CAUSE_KEYS = ['coverage_gap', 'accepted', 'rounding', 'number_format', 'whitespace', 'other'];
+
+function renderCustomerFidelity(r) {
+  const head = `<div class="meta" style="margin-bottom:8px;">
+      ${fidelityBadge(r)} &middot; scoreboard run ${escapeHtml(formatReportTime(r.generated_at))}
+    </div>`;
+  if (r.status === 'no_real_file') {
+    return head + '<p class="empty" style="padding:4px 0;">No real source file to compare against (see config/fidelity_file_map.json).</p>';
+  }
+  if (r.status === 'error') {
+    return head + `<div class="result-box err">${escapeHtml(r.error || 'Scoreboard error')}</div>`;
+  }
+  const facts = `<table class="kv">
+      <tr><th>Real file</th><td>${escapeHtml(r.real_file || '—')}</td></tr>
+      <tr><th>Rows</th><td>real ${(r.real_rows ?? 0).toLocaleString()} &middot; generated ${(r.gen_rows ?? 0).toLocaleString()}${r.only_real || r.only_gen ? ` &middot; ${r.only_real} only in real, ${r.only_gen} only in generated` : ''}</td></tr>
+      <tr><th>Columns</th><td>real ${r.real_cols ?? '?'} &middot; generated ${r.gen_cols ?? '?'}</td></tr>
+      <tr><th>Unexplained cells</th><td>${(r.unexplained_cells || 0).toLocaleString()}</td></tr>
+    </table>`;
+
+  const structural = r.structural?.length
+    ? `<div class="result-box warn"><strong>Structural issues (${r.structural.length})</strong><ul>${r.structural.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+        ${renderHeaderDiffs(r.header_diffs)}
+        ${renderTypeDiffs(r.type_diffs)}
+        ${r.only_real_examples?.length ? `<div style="margin-top:6px;">Only in real, e.g. ${escapeHtml(r.only_real_examples.join(', '))}</div>` : ''}
+        ${r.only_gen_examples?.length ? `<div style="margin-top:6px;">Only in generated, e.g. ${escapeHtml(r.only_gen_examples.join(', '))}</div>` : ''}
+      </div>`
+    : '';
+
+  const cols = Object.entries(r.columns || {})
+    .sort(([, a], [, b]) => (b.unexplained > 0) - (a.unexplained > 0) || b.unexplained - a.unexplained || b.total - a.total);
+  const colTable = cols.length ? `
+    <div class="table-scroll">
+      <table class="fidelity-cols">
+        <thead><tr><th>Column</th><th class="num">Unexplained</th>${CAUSE_KEYS.map(k => `<th class="num">${escapeHtml(k.replace('_', ' '))}</th>`).join('')}</tr></thead>
+        <tbody>
+          ${cols.map(([label, c]) => `
+            <tr class="${c.unexplained ? '' : 'clean-col'}">
+              <td class="col-label"><span class="label-text">${escapeHtml(label)}</span>${
+                c.examples?.length ? `<details><summary>${plural(c.examples.length, 'example')}</summary>${renderExamples(c.examples)}${
+                  c.unexplained_sku_sample?.length ? `<div class="col-list" style="margin-top:4px;">Unexplained SKUs: ${escapeHtml(c.unexplained_sku_sample.join(', '))}${c.unexplained_sku_count > c.unexplained_sku_sample.length ? ` … (${c.unexplained_sku_count} total)` : ''}</div>` : ''
+                }</details>` : ''}</td>
+              <td class="num"><strong>${c.unexplained ? c.unexplained.toLocaleString() : '—'}</strong></td>
+              ${CAUSE_KEYS.map(k => `<td class="num">${c[k] ? c[k].toLocaleString() : ''}</td>`).join('')}
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>` : '<p class="empty" style="padding:4px 0;">No value differences.</p>';
+
+  return head + facts + structural +
+    `<div class="meta" style="margin:12px 0 0;">Per-column differences — <strong>unexplained</strong> = total minus coverage gaps and accepted residuals. Wrong columns first.</div>` +
+    colTable;
+}
+
+function renderExamples(examples) {
+  return `<table class="examples">
+    <thead><tr><th>SKU</th><th>Real</th><th>Generated</th><th>Cause</th></tr></thead>
+    <tbody>${examples.map(e => `<tr><td>${escapeHtml(e.sku)}</td><td>${escapeHtml(e.real)}</td><td>${escapeHtml(e.gen)}</td><td>${escapeHtml(e.cause)}</td></tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function renderHeaderDiffs(diffs) {
+  if (!diffs?.length) return '';
+  return `<details style="margin-top:6px;"><summary>Header differences (first ${diffs.length})</summary>
+    <table class="examples"><thead><tr><th>Pos</th><th>Real</th><th>Generated</th></tr></thead>
+    <tbody>${diffs.map(([pos, real, gen]) => `<tr><td>${escapeHtml(pos)}</td><td>${escapeHtml(real ?? '')}</td><td>${escapeHtml(gen ?? '')}</td></tr>`).join('')}</tbody></table>
+  </details>`;
+}
+
+function renderTypeDiffs(typeDiffs) {
+  const entries = Object.entries(typeDiffs || {});
+  if (!entries.length) return '';
+  return `<details style="margin-top:6px;"><summary>Cell-type differences (${entries.length} column${entries.length > 1 ? 's' : ''})</summary>
+    <ul>${entries.map(([col, byType]) => `<li>${escapeHtml(col)}: ${escapeHtml(Object.entries(byType).map(([t, n]) => `${t} ×${n}`).join(', '))}</li>`).join('')}</ul>
+  </details>`;
+}
+
+// ---- Validations (checks) ----
+let checksCache = null;
+
+async function loadChecks() {
+  if (!checksCache) {
+    document.querySelector('#checks-table tbody').innerHTML = '<tr><td colspan="4" class="empty">Loading…</td></tr>';
+    checksCache = await api('/checks');
+  }
+  renderChecks(checksCache);
+}
+
+function renderChecks(checks) {
+  const tbody = document.querySelector('#checks-table tbody');
+  tbody.innerHTML = checks.map(c => `
+    <tr>
+      <td><span class="badge ${c.severity}">${escapeHtml(c.severity)}</span></td>
+      <td>${escapeHtml(c.label)}</td>
+      <td>${escapeHtml(c.description)}</td>
+      <td class="scope">${escapeHtml(c.scope)}</td>
+    </tr>
+  `).join('');
+}
+
+// ---- Customers ----
+// Status badge reflects the last real generate recorded in the audit log —
+// not a live check — so it can go stale itself if master data changes
+// without anyone previewing/generating again. "Regenerate All" refreshes it.
+function statusBadge(status) {
+  if (!status) return '<span class="badge never">Never generated</span>';
+  if (status.outcome === 'failed') return '<span class="badge failed">Last generate failed</span>';
+  if (status.stale) return '<span class="badge stale">Stale — regenerate</span>';
+  if (status.warning_count > 0) {
+    return `<span class="badge stale">${status.warning_count} warning${status.warning_count > 1 ? 's' : ''}</span>`;
+  }
+  return '<span class="badge success">Up to date</span>';
+}
+
+// The summary is cached for the page's lifetime; a scoreboard run elsewhere
+// (CLI, another tab) replaces latest.json without this page knowing. Compare
+// the report timestamp and reload + re-render only when it changed.
+async function refreshFidelityIfStale() {
+  let meta;
+  try {
+    meta = await api('/fidelity/meta');
+  } catch (e) {
+    return false;
+  }
+  if (fidelityState.summary && fidelityState.summary.generated_at === meta.generated_at) return false;
+  await loadFidelitySummary();
+  return true;
+}
+
+async function rerenderFidelityViews() {
+  renderCustomerList();
+  if (document.getElementById('view-fidelity').style.display !== 'none') await loadFidelityTab();
+  if (state.selected) loadCustomerFidelity(state.selected);
+}
+
+async function loadCustomers() {
+  const [customers] = await Promise.all([
+    api('/customers'),
+    fidelityState.summary || fidelityState.missing ? refreshFidelityIfStale() : loadFidelitySummary(),
+  ]);
+  state.customers = customers;
+  renderCustomerList();
+
+  const auditSelect = document.getElementById('audit-customer');
+  if (auditSelect.options.length <= 1) {
+    state.customers.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.slug; opt.textContent = c.display_name;
+      auditSelect.appendChild(opt);
+    });
+  }
+}
+
+// A customer is treated as the "future" half of a pair purely by slug
+// convention (ends in "-future"); its sibling is that suffix stripped off.
+// Not every customer has one (attribute-only feeds, current-only real
+// files, or a handful of legacy customers with no future counterpart at
+// all) - siblingSlug() just computes the slug that *would* pair with it;
+// callers check it's actually in state.customers before using it.
+function isFutureSlug(slug) { return slug.endsWith('-future'); }
+function siblingSlug(slug) { return isFutureSlug(slug) ? slug.slice(0, -'-future'.length) : `${slug}-future`; }
+
+function regionPills(c) {
+  return (c.sales_region ? `<span class="period-pill region-pill">${escapeHtml(c.sales_region)}</span>` : '')
+    + (c.neb ? '<span class="period-pill neb-pill" title="Benelux / NEB pipeline catalog">NEB</span>' : '');
+}
+
+function periodPill(slug) {
+  if (isFutureSlug(slug)) return '<span class="period-pill">Future</span>';
+  if (state.customers.some(c => c.slug === siblingSlug(slug))) return '<span class="period-pill">Current</span>';
+  return '';
+}
+
+function matchesFidelityFilter(slug, filter) {
+  if (!filter) return true;
+  const f = fidelityFor(slug);
+  if (filter === 'unscored') return !f;
+  if (!f) return false;
+  if (filter === 'wrong') return f.wrong_column_count > 0;
+  return f.status === filter;
+}
+
+// Period / region / NEB chip filters, remembered per browser (best effort).
+const CUSTOMER_FILTERS_KEY = 'catalogWorkshop.customerFilters';
+const REGIONS = ['US', 'DE', 'UK', 'EU', 'NL'];
+const chipFilters = (() => {
+  const d = { period: '', regions: [], neb: false };
+  try {
+    const v = JSON.parse(localStorage.getItem(CUSTOMER_FILTERS_KEY) || 'null');
+    if (v) return { period: v.period || '', regions: Array.isArray(v.regions) ? v.regions : [], neb: !!v.neb };
+  } catch (e) { /* storage blocked or corrupt: defaults */ }
+  return d;
+})();
+function saveChipFilters() {
+  try { localStorage.setItem(CUSTOMER_FILTERS_KEY, JSON.stringify(chipFilters)); } catch (e) { /* ignore */ }
+}
+
+function matchesChips(c, skip) {
+  if (skip !== 'period' && chipFilters.period && (chipFilters.period === 'future') !== isFutureSlug(c.slug)) return false;
+  if (skip !== 'region' && chipFilters.regions.length && !chipFilters.regions.includes(c.sales_region)) return false;
+  if (skip !== 'neb' && chipFilters.neb && !c.neb) return false;
+  return true;
+}
+
+function matchesSearchAndFidelity(c) {
+  const q = document.getElementById('customer-search').value.trim().toLowerCase();
+  const fid = document.getElementById('customer-fidelity-filter').value;
+  return matchesFidelityFilter(c.slug, fid) && (!q ||
+    c.display_name.toLowerCase().includes(q) ||
+    c.slug.toLowerCase().includes(q) ||
+    (c.template_ref || '').toLowerCase().includes(q));
+}
+
+// Current and Future siblings sit next to each other: sort by base slug, Current first.
+function siblingSortKey(c) {
+  const base = isFutureSlug(c.slug) ? c.slug.slice(0, -'-future'.length) : c.slug;
+  return `${base}\u0000${isFutureSlug(c.slug) ? 1 : 0}`;
+}
+
+function filteredCustomers() {
+  return state.customers
+    .filter(c => matchesSearchAndFidelity(c) && matchesChips(c))
+    .sort((a, b) => siblingSortKey(a).localeCompare(siblingSortKey(b)));
+}
+
+// Chip counts reflect the other active filters, so each count is what you'd get by clicking it.
+function renderChipFilters() {
+  const base = state.customers.filter(matchesSearchAndFidelity);
+  const count = (skip, pred) => base.filter(c => matchesChips(c, skip) && pred(c)).length;
+  const chip = (label, n, on, attrs) =>
+    `<button type="button" class="chip${on ? ' on' : ''}" ${attrs}${n === 0 && !on ? ' disabled' : ''}>${label}<span class="count">${n}</span></button>`;
+
+  document.getElementById('chips-period').innerHTML = '<span class="chip-label">Period</span>' + [
+    ['', 'All', () => true], ['current', 'Current', c => !isFutureSlug(c.slug)], ['future', 'Future', c => isFutureSlug(c.slug)],
+  ].map(([v, label, pred]) => chip(label, count('period', pred), chipFilters.period === v, `data-period="${v}"`)).join('');
+
+  document.getElementById('chips-region').innerHTML = '<span class="chip-label">Region</span>'
+    + chip('All', count('region', () => true), chipFilters.regions.length === 0, 'data-region=""')
+    + REGIONS.map(r => chip(r, count('region', c => c.sales_region === r), chipFilters.regions.includes(r), `data-region="${r}"`)).join('');
+
+  document.getElementById('chips-neb').innerHTML = '<span class="chip-label">Source</span>'
+    + chip('NEB only', count('neb', c => c.neb), chipFilters.neb, 'data-neb="1"')
+    + '<button type="button" class="clear-filters" id="clear-customer-filters">Clear filters</button>';
+
+  document.querySelectorAll('#chips-period .chip').forEach(b => b.onclick = () => {
+    chipFilters.period = b.dataset.period; saveChipFilters(); renderCustomerList();
+  });
+  document.querySelectorAll('#chips-region .chip').forEach(b => b.onclick = () => {
+    const r = b.dataset.region;
+    if (!r) chipFilters.regions = [];
+    else chipFilters.regions = chipFilters.regions.includes(r) ? chipFilters.regions.filter(x => x !== r) : [...chipFilters.regions, r];
+    saveChipFilters(); renderCustomerList();
+  });
+  document.querySelector('#chips-neb .chip').onclick = () => {
+    chipFilters.neb = !chipFilters.neb; saveChipFilters(); renderCustomerList();
+  };
+  document.getElementById('clear-customer-filters').onclick = () => {
+    chipFilters.period = ''; chipFilters.regions = []; chipFilters.neb = false; saveChipFilters();
+    document.getElementById('customer-search').value = '';
+    document.getElementById('customer-fidelity-filter').value = '';
+    renderCustomerList();
+  };
+}
+
+// Fidelity filter options carry live counts from the current report; options
+// no customer falls into are hidden (e.g. "No real file" once every customer
+// has one), unless currently selected.
+function updateFidelityFilterOptions() {
+  const sel = document.getElementById('customer-fidelity-filter');
+  for (const opt of sel.options) {
+    if (!opt.value) continue;
+    if (!opt.dataset.label) opt.dataset.label = opt.textContent;
+    const n = state.customers.filter(c => matchesFidelityFilter(c.slug, opt.value)).length;
+    opt.textContent = `${opt.dataset.label} (${n})`;
+    opt.hidden = n === 0 && sel.value !== opt.value;
+  }
+}
+
+function renderCustomerList() {
+  updateFidelityFilterOptions();
+  renderChipFilters();
+  const filtered = filteredCustomers();
+  document.getElementById('customer-count').textContent =
+    filtered.length === state.customers.length
+      ? `${state.customers.length} customers`
+      : `${filtered.length} of ${state.customers.length}`;
+
+  const list = document.getElementById('customer-list');
+  list.innerHTML = filtered.map(c => `
+    <div class="customer-row${state.selected === c.slug ? ' selected' : ''}" data-slug="${c.slug}">
+      <div>${escapeHtml(c.display_name)}${regionPills(c)}${periodPill(c.slug)}</div>
+      <div class="slug">${escapeHtml(c.slug)} &middot; ${escapeHtml(c.template_ref)}</div>
+      <div class="status-line">${statusBadge(c.last_generate_status)}${fidelityBadge(fidelityFor(c.slug))}</div>
+    </div>
+  `).join('') || '<p class="empty">No customers match.</p>';
+  list.querySelectorAll('.customer-row').forEach(el => {
+    el.onclick = () => selectCustomer(el.dataset.slug);
+  });
+}
+
+document.getElementById('customer-search').addEventListener('input', renderCustomerList);
+document.getElementById('customer-fidelity-filter').addEventListener('change', renderCustomerList);
+
+document.getElementById('btn-regenerate-all').onclick = () => {
+  if (!state.customers.length) return;
+  if (!confirm(`Regenerate catalogs for all ${state.customers.length} customers? This writes a new dated file for each. ` +
+    'It runs on the server in the background (~15 minutes); you can close this tab and come back.')) return;
+  startJob({ type: 'regenerate', dry_run: false, note: 'bulk regenerate from web UI' });
+};
+
+document.getElementById('btn-run-scoreboard').onclick = () => {
+  if (!confirm('Run the fidelity scoreboard for every customer? It takes ~15 minutes and uses a lot of memory; ' +
+    'it runs on the server in the background, and this page refreshes when it finishes.')) return;
+  startJob({ type: 'scoreboard' });
+};
+
+document.getElementById('btn-refresh-all').onclick = () => {
+  if (!state.customers.length) return;
+  if (!confirm(`Refresh everything: regenerate all ${state.customers.length} customers, then re-score fidelity ` +
+    'against real files (skips rebuilding catalogs a second time). Takes longer than either step alone (~30 min); ' +
+    'runs on the server in the background, and this page refreshes when it finishes.')) return;
+  startJob({ type: 'refresh', note: 'refresh everything from web UI' });
+};
+
+// ---- Background jobs ----
+// The server runs one job at a time (regenerate all / fidelity scoreboard)
+// in a background thread; the page only polls GET /jobs for progress. On
+// load we reattach to a running job, so closing/reloading never stops it.
+const JOB_POLL_MS = 2000;
+const jobState = { watchedId: null, timer: null, running: false, notice: null, firstPoll: true };
+
+// Job ids whose finished summary this browser has already shown, so a job that
+// finished while no tab was open gets its summary once on the next page load.
+// Per-browser convenience only: if storage is unavailable we treat every job
+// as seen (never nag on every load).
+const SEEN_JOBS_KEY = 'catalogWorkshop.seenJobSummaries';
+const SEEN_JOBS_MAX = 50;
+function readSeenJobs() {
+  try {
+    const v = JSON.parse(localStorage.getItem(SEEN_JOBS_KEY) || '[]');
+    return Array.isArray(v) ? v : [];
+  } catch (e) { return null; }
+}
+function jobSummarySeen(id) {
+  const seen = readSeenJobs();
+  return seen === null || seen.includes(id);
+}
+function markJobSummarySeen(id) {
+  try {
+    const seen = (readSeenJobs() || []).filter(x => x !== id);
+    seen.unshift(id);
+    localStorage.setItem(SEEN_JOBS_KEY, JSON.stringify(seen.slice(0, SEEN_JOBS_MAX)));
+  } catch (e) { /* storage blocked: nothing to remember */ }
+}
+
+async function startJob(body) {
+  jobState.notice = null;
+  try {
+    const job = await api('/jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    jobState.watchedId = job.id;
+    renderJobPanel(job);
+    setJobButtons(true);
+    scheduleJobPoll();
+  } catch (e) {
+    const d = e.body?.detail;
+    jobState.notice = e.status === 409
+      ? (d?.message || 'Another job is already running.')
+      : (typeof d === 'string' ? d : 'Could not start the job.');
+    // 409: show the job that's already running (and keep polling it).
+    await pollJobs();
+  }
+}
+
+function scheduleJobPoll() {
+  clearTimeout(jobState.timer);
+  jobState.timer = setTimeout(pollJobs, JOB_POLL_MS);
+}
+
+async function pollJobs() {
+  let data;
+  try {
+    data = await api('/jobs');
+  } catch (e) {
+    scheduleJobPoll();  // server restarting? keep trying while we think a job runs
+    return;
+  }
+  data.recent.forEach(j => {
+    if (j.type === 'scoreboard' && j.report && j.params.slugs) j.params.slugs.forEach(s => recheckedSlugs.add(s));
+  });
+  const cur = data.current;
+  const firstPoll = jobState.firstPoll;
+  jobState.firstPoll = false;
+  if (cur) {
+    jobState.watchedId = cur.id;
+    renderJobPanel(cur);
+    setJobButtons(true);
+    scheduleJobPoll();
+    return;
+  }
+  setJobButtons(false);
+  if (jobState.watchedId) {
+    // The job we were watching just finished (or finished while this tab was
+    // reloading - it's still in the server's recent list).
+    const finished = data.recent.find(j => j.id === jobState.watchedId);
+    jobState.watchedId = null;
+    if (finished) {
+      renderJobPanel(finished);
+      await onJobFinished(finished);
+    } else {
+      renderJobPanel(null);
+    }
+  } else if (firstPoll && data.recent.length && !jobSummarySeen(data.recent[0].id)) {
+    // Page load: the newest job finished while no tab was watching it.
+    renderJobPanel(data.recent[0]);
+  } else if (jobState.notice) {
+    renderJobPanel(null);
+  }
+}
+
+function setJobButtons(running) {
+  jobState.running = running;
+  document.querySelectorAll('.job-start').forEach(b => {
+    b.disabled = running;
+    b.title = running ? 'A background job is running — wait for it to finish or cancel it.' : '';
+  });
+  // Real generates are refused (409) while a job runs; Preview (dry run) is allowed.
+  const gen = document.getElementById('btn-generate');
+  if (gen) {
+    gen.disabled = running;
+    gen.title = running ? 'Paused while a background job runs — Preview (dry run) still works.' : '';
+  }
+  const note = document.getElementById('generate-job-note');
+  if (note) note.style.display = running ? 'block' : 'none';
+}
+
+function formatDuration(sec) {
+  sec = Math.max(0, Math.round(sec));
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return h ? `${h}h ${m}m` : m ? `${m}m ${String(s).padStart(2, '0')}s` : `${s}s`;
+}
+
+// The phase prefix a refresh job shows, e.g. "1/2 Regenerate" then "2/2 Scoreboard".
+function phasePrefix(job) {
+  if (job.type !== 'refresh') return '';
+  const label = job.phase === 2 ? 'Scoreboard' : 'Regenerate';
+  return `${job.phase || 1}/${job.phase_count || 2} ${label} — `;
+}
+
+function jobTitle(job) {
+  const slugs = job.params?.slugs;
+  if (job.type === 'regenerate') {
+    const scope = slugs && slugs.length !== state.customers.length ? plural(slugs.length, 'customer') : 'all customers';
+    return `Regenerate ${scope}${job.params.dry_run ? ' (dry run)' : ''}`;
+  }
+  if (job.type === 'refresh') {
+    return `${phasePrefix(job)}Refresh everything`;
+  }
+  return `Fidelity scoreboard — ${slugs ? slugs.join(', ') : 'all customers'}`;
+}
+
+function renderJobPanel(job) {
+  const panel = document.getElementById('job-panel');
+  const notice = jobState.notice ? `<div class="result-box warn" style="margin-top:0; margin-bottom:10px;">${escapeHtml(jobState.notice)}</div>` : '';
+  if (!job) {
+    panel.style.display = notice ? 'block' : 'none';
+    panel.innerHTML = notice ? notice + '<button class="action secondary" id="btn-job-dismiss" style="margin:0;">Dismiss</button>' : '';
+    const d = document.getElementById('btn-job-dismiss');
+    if (d) d.onclick = () => { jobState.notice = null; renderJobPanel(null); };
+    return;
+  }
+  panel.style.display = 'block';
+  const active = job.status === 'queued' || job.status === 'running';
+  if (!active) markJobSummarySeen(job.id);
+  panel.innerHTML = notice + (active ? renderActiveJob(job) : renderFinishedJob(job));
+  const cancel = document.getElementById('btn-job-cancel');
+  if (cancel) cancel.onclick = () => cancelJob(job);
+  const dismiss = document.getElementById('btn-job-dismiss');
+  if (dismiss) dismiss.onclick = () => { jobState.notice = null; renderJobPanel(null); };
+}
+
+function renderActiveJob(job) {
+  const known = job.total > 0;
+  const pct = known ? Math.round((job.done / job.total) * 100) : 0;
+  const eta = known && job.done > 0 && job.done < job.total
+    ? `ETA ~${formatDuration((job.elapsed_seconds / job.done) * (job.total - job.done))}` : '';
+  const isRegeneratePhase = job.type === 'regenerate' || (job.type === 'refresh' && job.phase !== 2);
+  const unit = isRegeneratePhase ? 'customers' : 'customers scored';
+  return `
+    <div class="job-head">
+      <strong>${escapeHtml(jobTitle(job))}</strong>
+      <span class="badge stale">${escapeHtml(job.status)}</span>
+      <span class="spacer"></span>
+      <button class="action secondary" id="btn-job-cancel"${job.cancel_requested ? ' disabled' : ''}>
+        ${job.cancel_requested ? 'Cancelling…' : 'Cancel'}</button>
+    </div>
+    <div class="progress${known ? '' : ' indeterminate'}"><div class="progress-bar" style="width:${pct}%"></div></div>
+    <div class="job-stats">
+      <span>${known ? `${job.done} / ${job.total} ${unit} (${pct}%)` : 'Starting…'}</span>
+      ${job.current ? `<span>Current: ${escapeHtml(job.current)}</span>` : ''}
+      <span>Elapsed ${formatDuration(job.elapsed_seconds)}</span>
+      ${eta ? `<span>${eta}</span>` : ''}
+      ${jobSummaryText(job) ? `<span>${escapeHtml(jobSummaryText(job))}</span>` : ''}
+      <span>Started by ${escapeHtml(job.requested_by)}</span>
+    </div>
+    ${job.cancel_requested ? `<div class="meta" style="margin:6px 0 0;">${job.type === 'regenerate'
+      ? 'Stopping after the current customer…' : 'Stopping the scoreboard…'}</div>` : ''}`;
+}
+
+function jobSummaryText(job) {
+  const s = job.summary || {};
+  const isRegeneratePhase = job.type === 'regenerate' || (job.type === 'refresh' && job.phase !== 2);
+  if (isRegeneratePhase) {
+    return job.done ? `${s.ok || 0} ok · ${s.blocked || 0} blocked · ${s.error || 0} errors` : '';
+  }
+  return Object.entries(s).map(([k, v]) => `${FIDELITY_STATUS_LABELS[k] || k}: ${v}`).join(' · ');
+}
+
+function renderFinishedJob(job) {
+  const kind = job.status === 'succeeded' ? 'ok' : (job.status === 'cancelled' || job.status === 'interrupted') ? 'warn' : 'err';
+  const interrupted = job.status === 'interrupted';
+  let body = '';
+  if (job.type === 'regenerate') {
+    const s = job.summary || {};
+    const bad = job.items.filter(i => i.outcome !== 'ok');
+    const verb = job.params.dry_run ? 'passed (dry run)' : 'regenerated';
+    body = `<div><strong>${s.ok || 0} of ${job.total} ${verb}</strong> · ${s.blocked || 0} blocked · ${s.error || 0} errors` +
+      (job.status === 'cancelled' ? ` · cancelled after ${job.done} of ${job.total}` : '') +
+      (interrupted ? ` · interrupted after ${job.done} of ${job.total}` : '') + '</div>' +
+      (bad.length ? `<ul>${bad.map(i => `<li><strong>${escapeHtml(i.slug)}</strong>: ${i.outcome === 'blocked' ? 'BLOCKED' : 'ERROR'} — ${escapeHtml(i.errors[0] || '')}${i.error_count > 1 ? ` (+${i.error_count - 1} more)` : ''}</li>`).join('')}</ul>` : '');
+    const warned = job.items.filter(i => i.outcome === 'ok' && i.warning_count).length;
+    if (warned) body += `<div style="margin-top:6px;">${plural(warned, 'customer')} passed with warnings${job.params.dry_run ? '' : ' (see their badges)'}.</div>`;
+    if (interrupted && job.not_run_slugs?.length) {
+      body += `<details style="margin-top:6px;"><summary>${plural(job.not_run_slugs.length, 'customer')} not run</summary>` +
+        `<div class="meta" style="margin:4px 0 0;">${escapeHtml(job.not_run_slugs.join(', '))}</div></details>`;
+    }
+  } else if (job.type === 'refresh') {
+    const p1 = job.phase1_summary || {};
+    const p1Items = job.phase1_items || [];
+    const bad1 = p1Items.filter(i => i.outcome !== 'ok');
+    body = `<div><strong>Phase 1 — Regenerate:</strong> ${p1.ok || 0} of ${p1Items.length} regenerated · ` +
+      `${p1.blocked || 0} blocked · ${p1.error || 0} errors` +
+      (interrupted && job.phase === 1 ? ` · interrupted after ${p1Items.length}` : '') + '</div>' +
+      (bad1.length ? `<ul>${bad1.map(i => `<li><strong>${escapeHtml(i.slug)}</strong>: ${i.outcome === 'blocked' ? 'BLOCKED' : 'ERROR'} — ${escapeHtml(i.errors[0] || '')}${i.error_count > 1 ? ` (+${i.error_count - 1} more)` : ''}</li>`).join('')}</ul>` : '');
+    if (job.phase !== 2) {
+      body += `<div style="margin-top:6px;">Phase 2 (scoreboard) skipped${job.status === 'cancelled' ? ' (cancelled)' : ''}.</div>`;
+    } else {
+      const bad2 = (job.items || []).filter(i => i.status === 'error');
+      body += `<div style="margin-top:10px;"><strong>Phase 2 — Scoreboard:</strong> ${escapeHtml(jobSummaryText(job) || 'No customers scored')}</div>` +
+        (job.report ? `<div style="margin-top:4px;">Report: <code>${escapeHtml(job.report)}</code></div>` : '') +
+        (bad2.length ? `<ul>${bad2.map(i => `<li><strong>${escapeHtml(i.slug)}</strong>: ${escapeHtml(i.error || 'error')}</li>`).join('')}</ul>` : '');
+    }
+  } else {
+    const bad = job.items.filter(i => i.status === 'error');
+    body = `<div><strong>${escapeHtml(jobSummaryText(job) || 'No customers scored')}</strong></div>` +
+      (job.report ? `<div style="margin-top:4px;">Report: <code>${escapeHtml(job.report)}</code>${job.params.slugs ? ' (single/partial run — latest.json not updated)' : ''}</div>` : '') +
+      (bad.length ? `<ul>${bad.map(i => `<li><strong>${escapeHtml(i.slug)}</strong>: ${escapeHtml(i.error || 'error')}</li>`).join('')}</ul>` : '');
+  }
+  const restartNote = interrupted
+    ? `<div style="margin-bottom:6px;"><strong>Interrupted — the server restarted while this job was running.</strong> It was not resumed; start it again if needed.</div>` : '';
+  const errors = job.errors?.length ? `<ul>${job.errors.map(e => `<li>${escapeHtml(e)}</li>`).join('')}</ul>` : '';
+  const output = (job.status === 'failed' || interrupted) && job.output_tail?.length
+    ? `<details style="margin-top:6px;"><summary>Scoreboard output (last ${job.output_tail.length} lines)</summary><pre class="job-output">${escapeHtml(job.output_tail.join('\n'))}</pre></details>` : '';
+  return `
+    <div class="job-head">
+      <strong>${escapeHtml(jobTitle(job))}</strong>
+      <span class="badge ${kind === 'ok' ? 'success' : kind === 'warn' ? 'stale' : 'failed'}">${escapeHtml(job.status)}</span>
+      <span class="meta" style="margin:0;">${interrupted ? 'marked interrupted' : 'finished'} ${escapeHtml(formatReportTime(job.finished_at))} · ${interrupted ? 'ran' : 'took'} ${interrupted ? 'at least ' : ''}${formatDuration(job.elapsed_seconds)}</span>
+      <span class="spacer"></span>
+      <button class="action secondary" id="btn-job-dismiss">Dismiss</button>
+    </div>
+    <div class="result-box ${kind}">${restartNote}${body}${errors}${output}</div>`;
+}
+
+async function cancelJob(job) {
+  const what = job.type === 'regenerate' ? 'It stops after the current customer; catalogs already written stay.' : 'The scoreboard is stopped and writes no report.';
+  if (!confirm(`Cancel "${jobTitle(job)}"? ${what}`)) return;
+  try {
+    renderJobPanel(await api(`/jobs/${job.id}/cancel`, { method: 'POST' }));
+  } catch (e) {
+    jobState.notice = e.body?.detail || 'Cancel failed.';
+  }
+  scheduleJobPoll();
+}
+
+// Refresh whatever the finished job changed.
+async function onJobFinished(job) {
+  if (job.type === 'regenerate') {
+    if (job.params.dry_run) return;  // dry runs don't write catalogs (blocked ones are audited, though)
+    await loadCustomers();
+    if (state.selected) {
+      const catalogs = await api(`/customers/${state.selected}/catalogs`);
+      renderDetail(await api(`/customers/${state.selected}`), catalogs);
+    }
+    return;
+  }
+  if (job.type === 'refresh') {
+    // Phase 1 always writes catalogs (unless cancelled before any customer
+    // finished); refresh customers regardless, then reload fidelity if
+    // phase 2 produced a report (a full run, so it updated latest.json).
+    await loadCustomers();
+    if (state.selected) {
+      const catalogs = await api(`/customers/${state.selected}/catalogs`);
+      renderDetail(await api(`/customers/${state.selected}`), catalogs);
+    }
+    if (job.report) {
+      fidelityState.summary = null;
+      fidelityState.missing = null;
+      await loadFidelitySummary();
+      renderCustomerList();
+      if (document.getElementById('view-fidelity').style.display !== 'none') await loadFidelityTab();
+      if (state.selected) loadCustomerFidelity(state.selected);
+    }
+    return;
+  }
+  if (!job.report) return;  // cancelled or crashed: nothing new on disk
+  if (!job.params.slugs) {
+    // Full run: latest.json was replaced.
+    fidelityState.summary = null;
+    fidelityState.missing = null;
+    await loadFidelitySummary();
+    renderCustomerList();
+    if (document.getElementById('view-fidelity').style.display !== 'none') await loadFidelityTab();
+    if (state.selected) loadCustomerFidelity(state.selected);
+    return;
+  }
+  // Partial run: latest.json is untouched by design, so read each customer's
+  // result from the newest timestamped report instead.
+  for (const slug of job.params.slugs) {
+    try {
+      freshFidelity[slug] = await api(`/fidelity/${encodeURIComponent(slug)}/recent`);
+    } catch (e) { /* not in any report: leave as-is */ }
+  }
+  if (state.selected && job.params.slugs.includes(state.selected)) loadCustomerFidelity(state.selected);
+}
+
+async function selectCustomer(slug) {
+  state.selected = slug;
+  await loadCustomers();
+  const [config, catalogs] = await Promise.all([
+    api(`/customers/${slug}`),
+    api(`/customers/${slug}/catalogs`),
+  ]);
+  state.selectedConfig = config;
+  renderDetail(config, catalogs);
+}
+
+function renderDetail(c, catalogs) {
+  const hasCategory = !!c.category_discounts;
+  const hasInstitutions = !hasCategory && !!c.institutions && typeof c.institutions === 'object';
+  const detail = document.getElementById('customer-detail');
+
+  const categoryRows = hasCategory
+    ? Object.entries(c.category_discounts).map(([k, v]) => `
+        <div class="cat-row">
+          <input type="text" class="cat-key" value="${k}" disabled>
+          <input type="number" class="cat-val" data-key="${k}" value="${v}"> %
+        </div>`).join('')
+    : '';
+
+  const institutionRows = hasInstitutions
+    ? Object.entries(c.institutions).map(([k, v]) => `
+        <div class="cat-row">
+          <input type="text" class="cat-key" value="${escapeHtml(v.header ?? k)}" disabled>
+          <input type="number" class="inst-val" data-key="${k}" value="${v.discount_percentage ?? 0}"> %
+        </div>`).join('')
+    : '';
+
+  const sibling = siblingSlug(c.slug);
+  const hasSibling = state.customers.some(x => x.slug === sibling);
+  const siblingLink = hasSibling
+    ? `<div class="sibling-link"><a href="#" id="btn-sibling">${isFutureSlug(c.slug) ? '← View Current Price version' : 'View Future Price version →'}</a></div>`
+    : '';
+
+  detail.innerHTML = `
+    <h2>${escapeHtml(c.display_name)}${periodPill(c.slug)}</h2>
+    <div class="meta">${escapeHtml(c.slug)} &middot; template: ${escapeHtml(c.template_ref)} &middot; file type: ${escapeHtml(c.file_type)}</div>
+    ${siblingLink}
+    <div><button class="action secondary" id="btn-new-like" style="margin:6px 0 0;">New customer like this…</button></div>
+    <div id="new-like-section"></div>
+
+    <h3>Discount &amp; Validity</h3>
+    ${hasCategory
+      ? `<label>Category discounts (%)</label>${categoryRows}`
+      : hasInstitutions
+        ? `<label>Institution discounts (%)</label>${institutionRows}`
+        : `<label>Discount percentage</label><input type="number" id="f-discount" value="${c.discount_percentage ?? 0}">`
+    }
+    <label>Price valid from</label>
+    <input type="date" id="f-from" value="${c.price_valid_from || ''}">
+    <label>Price valid until</label>
+    <input type="date" id="f-until" value="${c.price_valid_until || ''}">
+    <label>Overrides (JSON)</label>
+    <textarea id="f-overrides">${JSON.stringify(c.overrides || {}, null, 2)}</textarea>
+    ${hasSibling ? `<label class="meta" style="display:block; margin:6px 0;"><input type="checkbox" id="f-apply-sibling"> Also apply discount and override changes to the ${isFutureSlug(c.slug) ? 'Current' : 'Future'} price list (<code>${escapeHtml(sibling)}</code>). Validity dates are never copied.</label>` : ''}
+    <div>
+      <button class="action" id="btn-save">Save changes</button>
+    </div>
+    <div id="save-result"></div>
+
+    <h3>Excluded products</h3>
+    <div id="exclusions-section"><p class="empty">Loading…</p></div>
+
+    <h3>Generate</h3>
+    <div>
+      <button class="action secondary" id="btn-preview">Preview (dry run)</button>
+      <button class="action" id="btn-generate">Generate catalog</button>
+    </div>
+    <div class="meta" id="generate-job-note" style="display:none; margin:6px 0 0;">A background job is running (see the progress panel above). Generating is paused until it finishes or is cancelled; Preview (dry run) still works.</div>
+    <div id="generate-result"></div>
+
+    <h3 class="fidelity-heading">Fidelity vs. real file
+      <button class="action secondary job-start" id="btn-recheck-fidelity" title="">Re-check fidelity</button></h3>
+    <div id="fidelity-fresh"></div>
+    <div id="fidelity-section"></div>
+
+    <h3>Change history</h3>
+    <div id="history-section"><p class="empty">Loading…</p></div>
+
+    <h3>Catalog history</h3>
+    ${catalogs.length ? `
+      <table>
+        <thead><tr><th>File</th><th>Modified</th><th>Size</th><th></th><th></th></tr></thead>
+        <tbody>
+          ${catalogs.map((f, i) => `
+            <tr>
+              <td>${escapeHtml(f.filename)}</td>
+              <td>${f.modified}</td>
+              <td>${(f.size_bytes / 1024).toFixed(0)} KB</td>
+              <td><a class="download" href="/catalogs/${state.selected}/${encodeURIComponent(f.filename)}">Download</a></td>
+              <td>${catalogs.length > 1 && hasOlderVersion(catalogs, f) ? `<button class="action secondary btn-compare" data-file="${escapeHtml(f.filename)}" style="margin:0;">Compare with previous</button>` : ''}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      <div id="compare-result"></div>
+    ` : `<p class="empty">No catalogs generated yet.</p>`}
+  `;
+
+  document.getElementById('btn-save').onclick = () => saveChanges(c, hasCategory, hasInstitutions);
+  document.getElementById('btn-preview').onclick = () => runGenerate(true);
+  document.getElementById('btn-generate').onclick = () => openGenerateReview(c.slug);
+  if (hasSibling) {
+    document.getElementById('btn-sibling').onclick = (e) => { e.preventDefault(); selectCustomer(sibling); };
+  }
+  document.getElementById('btn-recheck-fidelity').onclick = () =>
+    startJob({ type: 'scoreboard', slugs: [c.slug] });
+  document.querySelectorAll('.btn-compare').forEach(b => { b.onclick = () => compareVersions(c.slug, b.dataset.file); });
+  loadExclusions(c.slug);
+  loadHistory(c.slug);
+  loadSnapshotCount(c.slug);
+  document.getElementById('btn-new-like').onclick = () => renderNewLike(c);
+  setJobButtons(jobState.running);
+  loadCustomerFidelity(c.slug);
+}
+
+async function saveChanges(original, hasCategory, hasInstitutions) {
+  const payload = {
+    price_valid_from: document.getElementById('f-from').value,
+    price_valid_until: document.getElementById('f-until').value,
+  };
+  if (hasCategory) {
+    const cats = {};
+    document.querySelectorAll('.cat-val').forEach(input => {
+      cats[input.dataset.key] = parseFloat(input.value);
+    });
+    payload.category_discounts = cats;
+  } else if (hasInstitutions) {
+    const institutions = {};
+    document.querySelectorAll('.inst-val').forEach(input => {
+      const key = input.dataset.key;
+      institutions[key] = { ...original.institutions[key], discount_percentage: parseFloat(input.value) };
+    });
+    payload.institutions = institutions;
+  } else {
+    payload.discount_percentage = parseFloat(document.getElementById('f-discount').value);
+  }
+  try {
+    payload.overrides = JSON.parse(document.getElementById('f-overrides').value || '{}');
+  } catch (e) {
+    showResult('save-result', false, ['Overrides is not valid JSON: ' + e.message]);
+    return;
+  }
+
+  const applySibling = document.getElementById('f-apply-sibling');
+  if (applySibling && applySibling.checked) payload.apply_to_sibling = true;
+  const box = document.getElementById('save-result');
+  try {
+    const r = await api(`/customers/${state.selected}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const updated = r._updated || [];
+    showResult('save-result', true, [updated.length ? `Saved: ${updated.join(', ')}. Generate to apply.` : 'No changes to save.']);
+    loadHistory(state.selected);
+  } catch (e) {
+    const d = e.body?.detail;
+    showResult('save-result', false, d?.errors || [typeof d === 'string' ? d : (d?.message || 'Save failed')]);
+  }
+}
+
+// ---- Change history: business changes listed, engineering runs counted ----
+function fmtChange(detail) {
+  if (!detail || typeof detail !== 'object') return escapeHtml(String(detail ?? ''));
+  return Object.entries(detail).map(([k, v]) => {
+    if (v && typeof v === 'object' && 'old' in v && 'new' in v) {
+      const show = x => escapeHtml(typeof x === 'object' ? JSON.stringify(x) : String(x));
+      return `<code>${escapeHtml(k)}</code>: ${show(v.old)} &rarr; ${show(v.new)}`;
+    }
+    return `<code>${escapeHtml(k)}</code>: ${escapeHtml(typeof v === 'object' ? JSON.stringify(v) : String(v))}`;
+  }).join('<br>');
+}
+
+async function loadHistory(slug) {
+  const box = document.getElementById('history-section');
+  if (!box) return;
+  let h;
+  try { h = await api(`/customers/${slug}/history`); } catch (e) { box.innerHTML = '<p class="empty">Could not load history.</p>'; return; }
+  if (state.selected !== slug) return;
+  const rows = h.business.slice().reverse().slice(0, 50).map(e => `
+    <tr><td>${escapeHtml(formatReportTime(e.timestamp))}</td><td>${escapeHtml(e.who || '')}</td>
+      <td>${escapeHtml(e.action === 'generate_catalog' ? 'generated' : e.action === 'create_customer' ? 'created' : 'changed')}</td>
+      <td>${fmtChange(e.detail)}</td><td>${escapeHtml(e.request || '')}</td></tr>`).join('');
+  box.innerHTML = (rows
+      ? `<table><thead><tr><th>When</th><th>Who</th><th>What</th><th>Change</th><th>Reason</th></tr></thead><tbody>${rows}</tbody></table>`
+      : '<p class="meta" style="margin:4px 0;">No business changes recorded.</p>')
+    + (h.engineering.count ? `<p class="meta" style="margin:4px 0;">Plus ${h.engineering.count} engineering runs (refreshes, fidelity checks, cleanup), latest ${escapeHtml(formatReportTime(h.engineering.latest))}.</p>` : '');
+}
+
+// ---- Copied real-file cells (master/real_cell_snapshot.csv) ----
+async function loadSnapshotCount(slug) {
+  let r;
+  try { r = await api(`/customers/${slug}/snapshot`); } catch (e) { return; }
+  if (state.selected !== slug || !r.cells) return;
+  const box = document.getElementById('fidelity-fresh');
+  if (!box) return;
+  const top = Object.entries(r.by_column).slice(0, 5).map(([k, n]) => `${escapeHtml(k.replace(/\n/g, ' '))} (${n})`).join(', ');
+  const note = document.createElement('p');
+  note.className = 'meta';
+  note.style.margin = '4px 0';
+  note.innerHTML = `${r.cells.toLocaleString()} cells (${r.skus} products) in this catalog are copied from the real file because no source reproduces them, mostly ${top}. They don't update when product data changes until a new export retires them.`;
+  box.parentNode.insertBefore(note, box);
+}
+
+// ---- New customer as a copy of this one ----
+function renderNewLike(c) {
+  const box = document.getElementById('new-like-section');
+  box.innerHTML = `
+    <div class="result-box neutral">
+      <strong>New customer like ${escapeHtml(c.display_name)}</strong>: same template and settings, without this customer's own IDs and notes.
+      <label>New id (lowercase, hyphens)</label><input type="text" id="nl-slug" placeholder="e.g. northwind-biosciences">
+      <label>Display name</label><input type="text" id="nl-name" placeholder="e.g. US - Northwind Biosciences Current Price">
+      <label>Discount percentage</label><input type="number" id="nl-discount" value="${c.discount_percentage ?? 0}">
+      <label>Price valid from</label><input type="date" id="nl-from" value="${c.price_valid_from || ''}">
+      <label>Price valid until</label><input type="date" id="nl-until" value="${c.price_valid_until || ''}">
+      <label>Customer ID (optional)</label><input type="text" id="nl-id">
+      <label>Reason / request</label><input type="text" id="nl-note" placeholder="e.g. new distributor signed by Dana">
+      <div><button class="action" id="nl-create">Create customer</button> <button class="action secondary" id="nl-cancel">Cancel</button></div>
+      <div id="nl-result"></div>
+    </div>`;
+  document.getElementById('nl-cancel').onclick = () => { box.innerHTML = ''; };
+  document.getElementById('nl-create').onclick = async () => {
+    const val = id => document.getElementById(id).value.trim();
+    try {
+      const r = await api('/customers', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: val('nl-slug'), like: c.slug, display_name: val('nl-name'),
+          discount_percentage: parseFloat(val('nl-discount')), price_valid_from: val('nl-from') || null,
+          price_valid_until: val('nl-until') || null, customer_id: val('nl-id') || null,
+          sales_region: c.sales_region || null, note: val('nl-note') }),
+      });
+      await loadCustomers();
+      await selectCustomer(r.slug);
+      if (r.notes && r.notes.length) showResult('save-result', true, ['Created. ' + r.notes.join(' ') + ' Preview, then Generate its first catalog.']);
+    } catch (e) {
+      const d = e.body?.detail;
+      document.getElementById('nl-result').innerHTML = `<div class="result-box err">${escapeHtml(typeof d === 'string' ? d : 'Create failed')}</div>`;
+    }
+  };
+}
+
+// ---- Catalog versions: compare a kept version with the one before it ----
+function hasOlderVersion(catalogs, f) {
+  // Filenames end in _YYYY-MM-DD, so string order is date order.
+  return catalogs.some(o => o.filename < f.filename && o.filename.split('.').pop() === f.filename.split('.').pop());
+}
+
+async function compareVersions(slug, filename) {
+  const box = document.getElementById('compare-result');
+  box.innerHTML = `<p class="empty">Comparing ${escapeHtml(filename)} with the previous version… (reads both files; can take a minute)</p>`;
+  try {
+    const r = await api(`/customers/${slug}/compare?to=${encodeURIComponent(filename)}`);
+    if (state.selected !== slug) return;
+    box.innerHTML = `<div class="result-box neutral"><pre style="white-space:pre-wrap; margin:0;">${escapeHtml(r.report)}</pre></div>`;
+  } catch (e) {
+    box.innerHTML = `<div class="result-box err">${escapeHtml(typeof e.body?.detail === 'string' ? e.body.detail : 'Compare failed')}</div>`;
+  }
+}
+
+// ---- Excluded products: the customer's own list + shared lists it uses ----
+async function loadExclusions(slug) {
+  const box = document.getElementById('exclusions-section');
+  let ex;
+  try { ex = await api(`/customers/${slug}/exclusions`); } catch (e) {
+    box.innerHTML = '<p class="empty">Could not load exclusions.</p>'; return;
+  }
+  if (state.selected !== slug) return;
+  renderExclusions(slug, ex);
+}
+
+function renderExclusions(slug, ex, message) {
+  const box = document.getElementById('exclusions-section');
+  const shared = ex.shared.map(s =>
+    `<li>Shared list <code>${escapeHtml(s.file)}</code>, used by <strong>${s.customers}</strong> customers. It is not edited here, because a change would affect all of them.</li>`).join('');
+  const own = ex.own.length
+    ? `<table><thead><tr><th>SKU</th><th>Reason</th><th>Requested by</th><th>On</th><th></th></tr></thead><tbody>${
+        ex.own.map(r => `<tr><td>${escapeHtml(r.sku)}</td><td>${escapeHtml(r.reason || '')}</td><td>${escapeHtml(r.requested_by || '')}</td><td>${escapeHtml(r.requested_on || '')}</td>
+          <td><button class="action secondary btn-include" data-sku="${escapeHtml(r.sku)}" style="margin:0;">Include again</button></td></tr>`).join('')}</tbody></table>`
+    : '<p class="meta" style="margin:4px 0;">No customer-specific exclusions.</p>';
+  box.innerHTML = `
+    ${shared ? `<ul class="meta">${shared}</ul>` : ''}
+    ${own}
+    <div class="filters" style="margin-top:8px;">
+      <input type="text" id="ex-skus" placeholder="SKUs to exclude, e.g. 64668S, 74332T" style="min-width:260px;">
+      <input type="text" id="ex-reason" placeholder="Reason (required)" style="min-width:220px;">
+      <button class="action" id="btn-exclude" style="margin:0;">Exclude for this customer</button>
+    </div>
+    ${ex.sibling ? `<label class="meta" style="display:block; margin:4px 0;"><input type="checkbox" id="ex-sibling"> Also apply to the other price list (<code>${escapeHtml(ex.sibling)}</code>)</label>` : ''}
+    <p class="meta" style="margin:4px 0;">Takes effect on the next Generate.</p>
+    ${message || ''}`;
+  document.getElementById('btn-exclude').onclick = () => changeExclusions(slug, 'exclude',
+    document.getElementById('ex-skus').value.split(/[\s,;]+/).filter(Boolean),
+    document.getElementById('ex-reason').value);
+  box.querySelectorAll('.btn-include').forEach(b => { b.onclick = () => changeExclusions(slug, 'include', [b.dataset.sku], ''); });
+}
+
+async function changeExclusions(slug, action, skus, reason) {
+  try {
+    const r = await api(`/customers/${slug}/exclusions`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, skus, reason, apply_to_sibling: !!document.getElementById('ex-sibling')?.checked }),
+    });
+    const msg = r.changed.length
+      ? `<div class="result-box ok">${action === 'exclude' ? 'Excluded' : 'Included again'}: ${escapeHtml(r.changed.join(', '))}${r.also && r.also.length ? ` (also for ${escapeHtml(r.also.join(', '))})` : ''}. Generate to apply.</div>`
+      : '<div class="result-box neutral">Nothing changed.</div>';
+    renderExclusions(slug, r, msg);
+    loadHistory(slug);
+  } catch (e) {
+    const d = e.body?.detail;
+    const ex = await api(`/customers/${slug}/exclusions`);
+    renderExclusions(slug, ex, `<div class="result-box err">${escapeHtml(typeof d === 'string' ? d : 'Change failed')}</div>`);
+  }
+}
+
+// Mirrors the check functions documented in docs/reference.md's "Quality checks"
+// section, so a message groups under the same name as the check that
+// produced it.
+const CHECK_CATEGORIES = [
+  // Must precede 'Price validity window' below: a cross-period message like
+  // "cross-period vs 'x': price_valid_from (...) is before ..." would
+  // otherwise match that category's price_valid_from substring test first.
+  { label: 'Cross-period consistency', test: m => m.startsWith('cross-period') },
+  { label: 'Config sanity', test: m => /^template '.*': (sku_column|price_columns)/.test(m) },
+  { label: 'Master data integrity', test: m => m.startsWith('master row') },
+  { label: 'Discount range', test: m => /out of range \[0, 100\]/.test(m) },
+  { label: 'Price validity window', test: m => /price_valid_from|price validity window/.test(m) },
+  { label: 'Output SKUs', test: m => /blank value in SKU column|duplicate SKU/.test(m) },
+  { label: 'Price columns', test: m => /(negative|non-numeric) price in column/.test(m) },
+  { label: 'Price relationships', test: m => /tiered prices not non-increasing|Discounted Price/.test(m) },
+  { label: 'Required fields', test: m => /blank required field/.test(m) },
+  { label: 'Override coverage', test: m => m.startsWith('overrides.regional_prices') },
+  { label: 'Row-count regression', test: m => /^row count (dropped|increased)/.test(m) },
+  { label: 'Category discount distribution', test: m => m.startsWith('category discount distribution') },
+];
+
+function categorize(msg) {
+  return (CHECK_CATEGORIES.find(c => c.test(msg)) || { label: 'Other' }).label;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+}
+
+// Groups messages by which check produced them, and collapses any group
+// past 5 entries behind a "show all" toggle so a catalog-wide issue (e.g.
+// thousands of price errors) doesn't bury everything else.
+function renderValidationBox(title, items, kind) {
+  if (!items.length) return '';
+  const groups = {};
+  items.forEach(m => { (groups[categorize(m)] ??= []).push(m); });
+
+  const groupsHtml = Object.entries(groups).map(([cat, msgs]) => `
+    <div class="validation-group">
+      <div class="validation-group-title">${escapeHtml(cat)} <span class="count">${msgs.length}</span></div>
+      <ul class="${msgs.length > 5 ? 'truncated' : ''}">${msgs.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+      ${msgs.length > 5 ? `<button type="button" class="toggle-more">Show all ${msgs.length}</button>` : ''}
+    </div>
+  `).join('');
+
+  return `<div class="result-box ${kind}"><strong>${escapeHtml(title)} (${items.length})</strong>${groupsHtml}</div>`;
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.matches('.toggle-more')) return;
+  const ul = e.target.previousElementSibling;
+  const expanded = ul.classList.toggle('expanded');
+  e.target.textContent = expanded ? 'Show less' : `Show all ${ul.children.length}`;
+});
+
+// Renders a sample of the actual output rows (server caps this at
+// PREVIEW_ROW_LIMIT), so a business user can see what the catalog will
+// look like before committing, not just a row count.
+function renderPreviewBox(columns, rows, totalRows) {
+  if (!rows || !rows.length) return '';
+  return `<div class="result-box neutral">
+    <strong>Preview (first ${rows.length} of ${totalRows} rows)</strong>
+    <div class="table-scroll">
+      <table>
+        <thead><tr>${columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map(r => `<tr>${columns.map(c => `<td>${escapeHtml(r[c] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// The Generate button always opens this review panel first (config changes
+// since the last successful generate, plus a dry-run summary) rather than
+// generating right away; Confirm runs the real generate. Preview (dry run)
+// bypasses this and calls runGenerate(true) directly, unchanged.
+async function openGenerateReview(slug) {
+  if (state.selected !== slug) return;  // stale click after switching customers
+  const box = document.getElementById('generate-result');
+  box.innerHTML = '<p class="empty">Checking for pending changes…</p>';
+  let pc;
+  try {
+    pc = await api(`/customers/${slug}/pending-changes`);
+  } catch (e) {
+    box.innerHTML = `<div class="result-box err">Could not check pending changes: ${escapeHtml(e.body?.detail?.message || (typeof e.body?.detail === 'string' ? e.body.detail : '') || e.message || 'request failed')}</div>`;
+    return;
+  }
+  if (state.selected === slug) renderGenerateReview(slug, pc);
+}
+
+function renderGenerateReview(slug, pc) {
+  const box = document.getElementById('generate-result');
+  const changes = pc.config_changes || [];
+  const changesHtml = changes.length
+    ? `<ul>${changes.map(e => {
+        const fields = e.detail && typeof e.detail === 'object' ? Object.keys(e.detail).join(', ') : (e.request || 'config change');
+        return `<li>${escapeHtml(formatReportTime(e.timestamp))} by ${escapeHtml(e.who)}: ${escapeHtml(fields)}</li>`;
+      }).join('')}</ul>`
+    : '<p class="meta" style="margin:4px 0;">No config changes since the last successful generate.</p>';
+
+  const rc = pc.row_count || {};
+  const rowLine = rc.previous == null
+    ? `${pc.dry_run.rows} row(s) would be written (no previous generate to compare against).`
+    : `${rc.previous} &rarr; ${rc.new} rows (${rc.delta >= 0 ? '+' : ''}${rc.delta}, ${rc.delta_pct >= 0 ? '+' : ''}${rc.delta_pct}%)` +
+      (rc.regression ? ' &mdash; <strong>row-count regression threshold exceeded</strong>' : '');
+
+  const last = pc.last_generate || {};
+  const lastLine = last.timestamp
+    ? `Last generated ${escapeHtml(formatReportTime(last.timestamp))}${last.file_path ? ` &rarr; <code>${escapeHtml(last.file_path)}</code>` : ''}`
+    : 'Never generated before.';
+
+  const noChanges = !changes.length && !rc.regression && !pc.dry_run.errors.length && !pc.dry_run.warnings.length;
+  const kind = pc.dry_run.errors.length ? 'err' : (rc.regression || pc.dry_run.warnings.length) ? 'warn' : 'neutral';
+
+  box.innerHTML = `
+    <div class="result-box ${kind}">
+      <strong>Review before generating</strong>
+      <div class="meta" style="margin:6px 0;">${lastLine}</div>
+      <div><strong>Config changes since last generate</strong></div>
+      ${changesHtml}
+      <div style="margin-top:8px;"><strong>Row count:</strong> ${rowLine}</div>
+      ${noChanges ? '<div class="meta" style="margin-top:8px;">No config changes and no row-count regression detected.</div>' : ''}
+      ${renderValidationBox('Blocking issues', pc.dry_run.errors, 'err')}
+      ${renderValidationBox('Warnings', pc.dry_run.warnings, 'warn')}
+      <div style="margin-top:10px;">
+        <button class="action secondary" id="btn-review-cancel">Cancel</button>
+        <button class="action" id="btn-review-confirm"${pc.dry_run.errors.length ? ' disabled title="Blocking issues must be resolved first"' : ''}>Confirm &amp; Generate</button>
+      </div>
+    </div>`;
+  document.getElementById('btn-review-cancel').onclick = () => { box.innerHTML = ''; };
+  document.getElementById('btn-review-confirm').onclick = () => runGenerate(false);
+}
+
+async function runGenerate(dryRun) {
+  const box = document.getElementById('generate-result');
+  box.innerHTML = '<p class="empty">Working…</p>';
+  try {
+    const result = await api(`/customers/${state.selected}/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dry_run: dryRun, note: dryRun ? 'preview from web UI' : 'generated from web UI' }),
+    });
+    const msg = dryRun
+      ? `OK (dry run): ${result.rows} row(s) would be written using template '${result.template_name}'.`
+      : `Wrote ${result.file_path} (${result.rows} rows).`;
+    const resultHtml =
+      `<div class="result-box ok">${escapeHtml(msg)}</div>` +
+      renderValidationBox('Warnings', result.warnings || [], 'warn') +
+      renderPreviewBox(result.preview_columns, result.preview_rows, result.rows);
+
+    if (!dryRun) {
+      // renderDetail() below rebuilds #generate-result from scratch to
+      // refresh catalog history — write the message back in afterward so
+      // it isn't wiped out before the user sees it.
+      const catalogs = await api(`/customers/${state.selected}/catalogs`);
+      renderDetail(await api(`/customers/${state.selected}`), catalogs);
+      document.getElementById('generate-result').innerHTML = resultHtml;
+    } else {
+      box.innerHTML = resultHtml;
+    }
+  } catch (e) {
+    const detail = e.body?.detail;
+    if (e.status === 409) {
+      box.innerHTML = `<div class="result-box warn">${escapeHtml(detail?.message || 'A background job is running; try again when it finishes.')}</div>`;
+      pollJobs();  // show the running job and disable the button
+      return;
+    }
+    const errors = detail?.errors || (typeof detail === 'string' ? [detail] : ['Generate failed']);
+    const warnings = detail?.warnings || [];
+    box.innerHTML =
+      renderValidationBox('Blocking issues', errors, 'err') +
+      renderValidationBox('Warnings', warnings, 'warn');
+  }
+}
+
+function showResult(elId, ok, lines) {
+  const box = document.getElementById(elId);
+  box.innerHTML = `<div class="result-box ${ok ? 'ok' : 'err'}">
+    ${ok ? '' : `<strong>${lines.length} issue(s):</strong>`}
+    <ul>${lines.map(l => `<li>${escapeHtml(l)}</li>`).join('')}</ul>
+  </div>`;
+}
+
+// ---- Master data ----
+function masterQueryParams() {
+  const params = new URLSearchParams();
+  const search = document.getElementById('master-search').value.trim();
+  if (search) params.set('search', search);
+  if (document.getElementById('master-flagged-only').checked) params.set('flagged_only', 'true');
+  return params;
+}
+
+async function loadMaster() {
+  const params = masterQueryParams();
+  params.set('limit', state.masterLimit);
+  params.set('offset', state.masterOffset);
+
+  const exportParams = masterQueryParams();
+  document.getElementById('master-export-link').href = '/master/export?' + exportParams.toString();
+
+  const data = await api('/master?' + params.toString());
+  state.masterTotal = data.total;
+  renderMasterTable(data.rows);
+  updateMasterPagination();
+}
+
+function renderMasterTable(rows) {
+  const tbody = document.querySelector('#master-table tbody');
+  tbody.innerHTML = rows.map(r => `
+    <tr data-sku="${escapeHtml(r.sku)}"${r.flags?.length ? ' class="flagged"' : ''}>
+      <td>${escapeHtml(r.sku)}</td>
+      <td>${escapeHtml(r.manufacturer || '')}</td>
+      <td>${escapeHtml(r.short_description || '')}</td>
+      <td>${r.list_price_usd ? '$' + parseFloat(r.list_price_usd).toFixed(2) : ''}</td>
+      <td>${escapeHtml(r.uom || '')}</td>
+      <td>${escapeHtml(r.unspsc || '')}</td>
+      <td>${escapeHtml(r.cas_number || '')}</td>
+      <td class="flags-cell">${r.flags?.length ? escapeHtml(r.flags.join(', ')) : '—'}</td>
+    </tr>
+  `).join('') || `<tr><td colspan="8" class="empty">No matching products.</td></tr>`;
+  tbody.querySelectorAll('tr[data-sku]').forEach(el => {
+    el.onclick = () => showMasterDetail(el.dataset.sku);
+  });
+}
+
+function updateMasterPagination() {
+  const { masterOffset: offset, masterLimit: limit, masterTotal: total } = state;
+  const from = total ? offset + 1 : 0;
+  const to = Math.min(offset + limit, total);
+  document.getElementById('master-page-info').textContent = `${from}–${to} of ${total}`;
+  document.getElementById('master-prev').disabled = offset <= 0;
+  document.getElementById('master-next').disabled = offset + limit >= total;
+}
+
+document.getElementById('master-search-btn').onclick = () => {
+  state.masterOffset = 0;
+  loadMaster();
+};
+document.getElementById('master-search').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { state.masterOffset = 0; loadMaster(); }
+});
+document.getElementById('master-flagged-only').addEventListener('change', () => {
+  state.masterOffset = 0;
+  loadMaster();
+});
+document.getElementById('master-prev').onclick = () => {
+  state.masterOffset = Math.max(0, state.masterOffset - state.masterLimit);
+  loadMaster();
+};
+document.getElementById('master-next').onclick = () => {
+  state.masterOffset += state.masterLimit;
+  loadMaster();
+};
+
+async function showMasterDetail(sku) {
+  const box = document.getElementById('master-detail');
+  box.innerHTML = '<p class="empty">Loading…</p>';
+  const r = await api('/master/' + encodeURIComponent(sku));
+
+  const rows = [
+    ['List price', r.list_price_usd ? `$${parseFloat(r.list_price_usd).toFixed(2)} ${r.currency || ''}` : ''],
+    ['Size', [r.size, r.size_unit].filter(Boolean).join(' ')],
+    ['UOM', r.uom],
+    ['UNSPSC', r.unspsc],
+    ['CAS #', r.cas_number],
+    ['Product classification', r.product_classification],
+    ['Assays', r.assays],
+    ['Shipping conditions', r.shipping_conditions],
+    ['Storage temperature', r.storage_temperature],
+  ].filter(([, v]) => v);
+
+  const links = [
+    r.product_url && ['Product page', r.product_url],
+    r.msds_url && ['SDS', r.msds_url],
+    r.image_url && ['Image', r.image_url],
+  ].filter(Boolean);
+
+  box.innerHTML = `
+    <h2>${escapeHtml(r.sku)}</h2>
+    <div class="meta">${escapeHtml(r.manufacturer || '')}</div>
+    ${r.flags?.length ? `<div class="result-box err">⚑ ${r.flags.length} issue${r.flags.length > 1 ? 's' : ''}: ${escapeHtml(r.flags.join(', '))}</div>` : ''}
+    <p><strong>${escapeHtml(r.short_description || '')}</strong></p>
+    ${r.long_description && r.long_description !== r.short_description ? `<p>${escapeHtml(r.long_description)}</p>` : ''}
+    <table class="kv">
+      ${rows.map(([label, val]) => `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(val)}</td></tr>`).join('')}
+    </table>
+    ${links.length ? `<div class="master-links">${links.map(([label, url]) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`).join('')}</div>` : ''}
+  `;
+}
+
+// ---- Audit ----
+async function loadAudit() {
+  const params = new URLSearchParams();
+  const customer = document.getElementById('audit-customer').value;
+  const outcome = document.getElementById('audit-outcome').value;
+  const from = document.getElementById('audit-from').value;
+  const to = document.getElementById('audit-to').value;
+  if (customer) params.set('customer', customer);
+  if (outcome) params.set('outcome', outcome);
+  const source = document.getElementById('audit-source').value;
+  if (source) params.set('source', source);
+  if (from) params.set('date_from', from);
+  if (to) params.set('date_to', to + 'T23:59:59');
+
+  const entries = await api('/audit?' + params.toString());
+  const tbody = document.querySelector('#audit-table tbody');
+  tbody.innerHTML = entries.map(e => `
+    <tr>
+      <td>${e.timestamp}</td>
+      <td>${e.who}</td>
+      <td>${e.customer || ''}</td>
+      <td>${e.action} <span class="meta">${e.source || ''}</span></td>
+      <td><span class="badge ${e.outcome}">${e.outcome}</span></td>
+      <td>${typeof e.detail === 'string' ? e.detail : JSON.stringify(e.detail)}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" class="empty">No entries match.</td></tr>';
+}
+document.getElementById('audit-filter-btn').onclick = loadAudit;
+
+loadCustomers();
+pollJobs();  // reattach to a job that's already running on the server
+
+async function checkFidelityFreshness() {
+  if (!state.customers.length) return;
+  if (await refreshFidelityIfStale()) await rerenderFidelityViews();
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkFidelityFreshness(); });
+window.addEventListener('focus', checkFidelityFreshness);
+setInterval(() => { if (!document.hidden) checkFidelityFreshness(); }, 60000);
+
+// Stale-code banner: the server keeps the generator it imported at startup.
+async function checkServerCode() {
+  const el = document.getElementById('stale-code-banner');
+  let st;
+  try { st = await api('/server/status'); } catch (e) { return; }
+  const changed = st.stale_code || [];
+  el.hidden = !changed.length;
+  if (changed.length) {
+    el.textContent = 'The web server is running old code (' + changed.join(', ') +
+      ' changed since it started at ' + st.started_at + '). Restart the server before ' +
+      'Preview/Generate or a regenerate/refresh job; until then those are refused.';
+  }
+}
+checkServerCode();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkServerCode(); });
+window.addEventListener('focus', checkServerCode);
+setInterval(() => { if (!document.hidden) checkServerCode(); }, 60000);
+</script>
+</body>
+</html>
