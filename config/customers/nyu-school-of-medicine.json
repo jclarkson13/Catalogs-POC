@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0001744",
+  "display_name": "US - NYU School of Medicine Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001744",
+  "template_ref": "nyu-school-of-medicine",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

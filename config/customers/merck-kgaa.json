@@ -1,0 +1,15 @@
+{
+  "customer_id": "NL2002180",
+  "display_name": "DE - Merck KGaA Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2002180",
+  "template_ref": "merck-kgaa-de",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "merck_kgaa_excluded_de.csv"
+  }
+}

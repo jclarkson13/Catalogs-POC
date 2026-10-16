@@ -1,0 +1,127 @@
+{
+  "customer_id": "one-advanced",
+  "display_name": "UK - One Advanced Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "One file, 22 UK institutions as price columns with their own discounts. UKSBS, Exeter and Reading have no confirmed STEP ID (null).",
+  "template_ref": "one-advanced-network",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "institutions": {
+    "cambridge": {
+      "header": "Cambridge University",
+      "discount_percentage": 22,
+      "step_classification_id": "NL2002730"
+    },
+    "cardiff": {
+      "header": "Cardiff University",
+      "discount_percentage": 5,
+      "step_classification_id": "NL2100110"
+    },
+    "kcl": {
+      "header": "King's College London",
+      "discount_percentage": 15,
+      "step_classification_id": "NL2001635"
+    },
+    "manchester": {
+      "header": "Manchester University",
+      "discount_percentage": 15,
+      "step_classification_id": "NL2002490"
+    },
+    "uksbs": {
+      "header": "UKSBS",
+      "discount_percentage": 15,
+      "step_classification_id": null
+    },
+    "qmul": {
+      "header": "Queen Mary University of London",
+      "discount_percentage": 15,
+      "step_classification_id": "NL2100375"
+    },
+    "ucl": {
+      "header": "University College London",
+      "discount_percentage": 20,
+      "step_classification_id": "NL2001060"
+    },
+    "birmingham": {
+      "header": "University of Birmingham",
+      "discount_percentage": 7.5,
+      "step_classification_id": "NL2001405"
+    },
+    "bradford": {
+      "header": "University of Bradford",
+      "discount_percentage": 0,
+      "step_classification_id": "NL2100455"
+    },
+    "hertfordshire": {
+      "header": "University of Hertfordshire Discount Price",
+      "discount_percentage": 0,
+      "step_classification_id": "NL2004135"
+    },
+    "leeds": {
+      "header": "University of Leeds ",
+      "discount_percentage": 7.5,
+      "step_classification_id": "NL2001190"
+    },
+    "leicester": {
+      "header": "University of Leicester ",
+      "discount_percentage": 10,
+      "step_classification_id": "NL2100505"
+    },
+    "liverpool": {
+      "header": "University of Liverpool",
+      "discount_percentage": 10,
+      "step_classification_id": "NL2100515"
+    },
+    "nottingham_trent": {
+      "header": "Nottingham Trent University",
+      "discount_percentage": 5,
+      "step_classification_id": "NL2004050P"
+    },
+    "york": {
+      "header": "University of York ",
+      "discount_percentage": 5,
+      "step_classification_id": "NL2100580"
+    },
+    "francis_crick": {
+      "header": "Francis Crick Institute",
+      "discount_percentage": 20,
+      "step_classification_id": "NL2002305P"
+    },
+    "lstm": {
+      "header": "Liverpool School of Tropical Medicine",
+      "discount_percentage": 0,
+      "step_classification_id": "NL2004030P"
+    },
+    "sheffield": {
+      "header": "Sheffield University",
+      "discount_percentage": 7.5,
+      "step_classification_id": "NL2003870P"
+    },
+    "st_georges": {
+      "header": "City St George's University of London",
+      "discount_percentage": 5,
+      "step_classification_id": "NL2004110P"
+    },
+    "ukhsa": {
+      "header": "UKHSA",
+      "discount_percentage": 0,
+      "step_classification_id": "NL2004600S01"
+    },
+    "exeter": {
+      "header": "University of Exeter",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "reading": {
+      "header": "University of Reading",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    }
+  },
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

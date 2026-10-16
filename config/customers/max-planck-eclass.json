@@ -1,0 +1,12 @@
+{
+  "customer_id": "max-planck-eclass",
+  "display_name": "DE - Max Planck eCLASS Export",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "Attribute-only classification companion to Max Planck's priced catalogs. Current-only (no Future file).",
+  "template_ref": "max-planck-eclass",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

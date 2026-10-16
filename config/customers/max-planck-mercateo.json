@@ -1,0 +1,24 @@
+{
+  "customer_id": "max-planck-mercateo",
+  "display_name": "DE - Max Planck Products Current Price Mercateo",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "Same institution and discount as max-planck, but the separate Mercateo marketplace format.",
+  "template_ref": "sap-gdsn-price-de-mercateo",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 20,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "date_order": "MDY",
+  "description_mode": "clean",
+  "description_long_test_count": false,
+  "eclass_system_name": "ECLASS-6.2",
+  "populate_de_sds_link": true,
+  "populate_buyer_aid": true,
+  "populate_ghs_fname_labels": true,
+  "keyword_mode": "all_raw"
+}

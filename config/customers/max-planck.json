@@ -1,0 +1,13 @@
+{
+  "customer_id": "NL2000370",
+  "display_name": "DE - Max Planck Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2000370",
+  "template_ref": "max-planck-sap-tiered",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 20,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

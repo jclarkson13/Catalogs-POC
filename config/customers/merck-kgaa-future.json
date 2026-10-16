@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2002180",
+  "display_name": "DE - Merck KGaA Future Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2002180",
+  "_note": "Future file reverts to 0% (list price) - real file verified. Its 'Supplier URL' column really contains the Unit Price (replicated quirk, see template).",
+  "template_ref": "merck-kgaa-de",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "merck_kgaa_excluded_de.csv"
+  }
+}

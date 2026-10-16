@@ -1,0 +1,13 @@
+{
+  "customer_id": "C00100027",
+  "display_name": "US - Neta Scientific Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C00100027",
+  "template_ref": "neta-scientific",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

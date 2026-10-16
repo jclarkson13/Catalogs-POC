@@ -1,0 +1,13 @@
+{
+  "customer_id": "F0003070",
+  "display_name": "US - Michigan State Univ BMB Store Current Price",
+  "sales_region": "US",
+  "step_classification_id": "F0003070",
+  "template_ref": "michigan-state-bmb",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 12,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

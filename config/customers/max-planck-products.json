@@ -1,0 +1,12 @@
+{
+  "customer_id": "max-planck-products",
+  "display_name": "DE - Max Planck Products",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "Attribute-only companion feed; no price column ('Rabattsatz' is informational only).",
+  "template_ref": "max-planck-products",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}
