@@ -1,0 +1,43 @@
+{
+  "template_name": "ariba-current-csv",
+  "source_sample": "US - Ariba Current Price CSV.csv",
+  "description": "US Ariba flat price feed (csv): headerless, semicolon-delimited, LF line endings, starting with one blank line. Five columns (item number, SKU, description, price, image URL); Price is 2dp text USD for the customer's price period.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {
+    "header_row": false,
+    "leading_blank_line": true,
+    "lineterminator": "\n"
+  },
+  "sku_column": "SKU",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "ItemNumber",
+      "source": "master",
+      "expression": "sku_leading_digits(row['sku'])"
+    },
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description'])"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "ImageURL",
+      "source": "master",
+      "expression": "row['image_url']"
+    }
+  ]
+}

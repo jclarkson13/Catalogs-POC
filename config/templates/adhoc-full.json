@@ -1,0 +1,35 @@
+{
+  "template_name": "adhoc-full",
+  "source_sample": "US - Ad-Hoc catalog Current/Future Price.xlsx",
+  "description": "US Ad-Hoc full-attribute catalog (xlsx, 22 columns), the base/reference format at 0% discount. ListPrice and Price both follow the customer's price period as 2dp text USD; descriptions use clean_pfizer_description.",
+  "file_type": "xlsx",
+  "sku_column": "SupplierPartID",
+  "price_columns": [
+    "ListPrice",
+    "Price"
+  ],
+  "columns": [
+    {"header": "ManufacturerName", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "ManufacturerPartID", "source": "master", "expression": "row['sku']"},
+    {"header": "SupplierPartID", "source": "master", "expression": "row['sku']"},
+    {"header": "ShortDescription", "source": "master", "expression": "clean_pfizer_description(row['long_description'])"},
+    {"header": "LongDescription", "source": "master", "expression": "clean_pfizer_description(row['long_description'])"},
+    {"header": "Synonyms", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "ListPrice", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "Currency", "source": "master", "expression": "row['currency']"},
+    {"header": "UOM", "source": "master", "expression": "row['uom']"},
+    {"header": "Size", "source": "master", "expression": "row['size']"},
+    {"header": "SizeUnit", "source": "master", "expression": "row['size_unit']"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Image1", "source": "master", "expression": "row['image_url']"},
+    {"header": "URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "StartDate", "source": "customer", "expression": "date_mdyyyy(customer['price_valid_from'])"},
+    {"header": "EndDate", "source": "customer", "expression": "date_mdyyyy(customer['price_valid_until'])"},
+    {"header": "ProductClassification", "source": "master", "expression": "row['product_classification']"},
+    {"header": "MSDSURL", "source": "master", "expression": "msds_url_or_blank(row)"},
+    {"header": "Assays", "source": "master", "expression": "row['assays'] or ' '"},
+    {"header": "ShippingConditions", "source": "master", "expression": "row['shipping_conditions']"},
+    {"header": "StorageTemperature", "source": "master", "expression": "row['storage_temperature']"}
+  ]
+}

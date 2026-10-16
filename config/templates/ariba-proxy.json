@@ -1,0 +1,115 @@
+{
+  "template_name": "ariba-proxy",
+  "source_sample": "US - Ariba Proxy EXCEL.xlsx",
+  "description": "US Ariba punchout proxy as xlsx (21 CIF-style columns). Browse-only: Unit Price and Market Price are blank. Short Name is ariba_name() truncated; Item Description is the product name plus size.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01000154464'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "cst_name_with_suffix(row, 'size', raw=True)"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Unit Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Unit Of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Market Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "row['long_description'][:35]"
+    },
+    {
+      "header": "Parametric Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Part Auxilliary ID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Punchout Enabled",
+      "source": "constant",
+      "expression": "'TRUE'"
+    },
+    {
+      "header": "Punchout Level",
+      "source": "constant",
+      "expression": "'Product'"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Thumbnail",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

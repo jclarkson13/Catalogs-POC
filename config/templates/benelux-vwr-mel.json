@@ -1,0 +1,240 @@
+{
+  "template_name": "benelux-vwr-mel",
+  "source_sample": "NEB/Benelux_VWR_Catalog.xlsx (same 'MEL Number' layout as the DE/UK VWR Current/Future Price exports)",
+  "description": "Benelux VWR 'MEL Number' catalog (xlsx, 55 columns) covering CST and NEB rows, EUR prices at 0%. MEL Number is blank; commodity codes come from benelux_vwr_commodity_codes.csv. NEB rows differ from CST in brand-dependent columns such as lead time. Prices are blank for overrides.blank_price_skus (new SF SKUs without an EU price in the real file).",
+  "file_type": "xlsx",
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "sku_column": "Supplier Article Number",
+  "price_columns": [
+    "Gross Purchase Price"
+  ],
+  "columns": [
+    {
+      "header": "MEL Number",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Article Number",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Lead Time in Calendar days",
+      "expression": "'1' if row['manufacturer'].startswith('Cell Signaling') else '2'"
+    },
+    {
+      "header": "Basic UOM",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Pack Size",
+      "expression": "''"
+    },
+    {
+      "header": "Pack Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Case Size",
+      "expression": "''"
+    },
+    {
+      "header": "Valid from",
+      "expression": "customer['price_valid_from'][8:10] + '/' + customer['price_valid_from'][5:7] + '/' + customer['price_valid_from'][0:4]"
+    },
+    {
+      "header": "Currency of the Purchase Price",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "Gross Purchase Price",
+      "expression": "'' if row['sku'] in customer.get('overrides', {}).get('blank_price_skus', []) else '%.2f' % (price_for(row, 'list_price_eur', customer) * (1 - discount / 100))"
+    },
+    {
+      "header": "Purchase Price Unit",
+      "expression": "'1 ' + row['uom'].upper()"
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "expression": "'1'"
+    },
+    {
+      "header": "Currency of the Recommended List Price",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "Recommended European List Price",
+      "expression": "''"
+    },
+    {
+      "header": "Short Description English",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "Short Description German",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Short Description French",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Long Description English",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "Long Description German",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Long Description French",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "External Hierarchy",
+      "expression": "''"
+    },
+    {
+      "header": "Commodity Code",
+      "expression": "lookup(row['sku'], 'benelux_vwr_commodity_codes.csv', 'commodity_code', '')"
+    },
+    {
+      "header": "Country of Origin",
+      "expression": "'US'"
+    },
+    {
+      "header": "Gross Weight",
+      "expression": "''"
+    },
+    {
+      "header": "Net Weight",
+      "expression": "''"
+    },
+    {
+      "header": "Weight Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Batch Management",
+      "expression": "'Y'"
+    },
+    {
+      "header": "Maximum Shelf Life",
+      "expression": "''"
+    },
+    {
+      "header": "Sterile",
+      "expression": "''"
+    },
+    {
+      "header": "Temperature Transport Condition",
+      "expression": "row['shipping_conditions']"
+    },
+    {
+      "header": "Temperature Storage Condition",
+      "expression": "row['storage_temperature']"
+    },
+    {
+      "header": "Hazardous Storage Condition",
+      "expression": "''"
+    },
+    {
+      "header": "EAN 13 Number",
+      "expression": "''"
+    },
+    {
+      "header": "UN-Packaging ",
+      "expression": "''"
+    },
+    {
+      "header": "Packaging Material Type",
+      "expression": "''"
+    },
+    {
+      "header": "Packaging Material Weight",
+      "expression": "''"
+    },
+    {
+      "header": "CE marking",
+      "expression": "''"
+    },
+    {
+      "header": "Medical Device Class",
+      "expression": "''"
+    },
+    {
+      "header": "GMDN Classification",
+      "expression": "''"
+    },
+    {
+      "header": "EDMA Classification",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "expression": "''"
+    },
+    {
+      "header": "EINECS",
+      "expression": "''"
+    },
+    {
+      "header": "Molecular Formula",
+      "expression": "''"
+    },
+    {
+      "header": "Molecular weight (g/mol)",
+      "expression": "''"
+    },
+    {
+      "header": "Flash Point (\u00b0C)",
+      "expression": "''"
+    },
+    {
+      "header": "MSDS",
+      "expression": "''"
+    },
+    {
+      "header": "UN Number",
+      "expression": "''"
+    },
+    {
+      "header": "ADR/RID & PG",
+      "expression": "''"
+    },
+    {
+      "header": "IMDG & PG",
+      "expression": "''"
+    },
+    {
+      "header": "IATA & PG",
+      "expression": "''"
+    },
+    {
+      "header": "H - Phrases",
+      "expression": "''"
+    },
+    {
+      "header": "P - Phrases",
+      "expression": "''"
+    },
+    {
+      "header": "Hierarchy",
+      "expression": "''"
+    },
+    {
+      "header": "ECN",
+      "expression": "''"
+    },
+    {
+      "header": "Web Exclusion",
+      "expression": "''"
+    }
+  ]
+}

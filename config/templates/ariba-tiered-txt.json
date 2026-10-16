@@ -1,0 +1,146 @@
+{
+  "template_name": "ariba-tiered-txt",
+  "source_sample": "US - Ariba 0%/05%/11% Discount Current/Future Price.txt",
+  "description": "US Ariba tiered-discount feeds (0%/5%/11%, Current and Future) as plaintext CIF_I_V3.0 (ciftxt, 19 fields). Unit Price is discounted and Market Price is list, both 2dp text USD for the price period; text cleaned with ariba_name()/clean_ariba_text().",
+  "file_type": "ciftxt",
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CURRENCY",
+      "USD"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC_V13.5"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "networkid"
+    ],
+    [
+      "LOADMODE",
+      "F"
+    ],
+    [
+      "UNUOM",
+      "TRUE"
+    ],
+    [
+      "CHARSET",
+      "UTF-8"
+    ],
+    [
+      "ITEMCOUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%d-%m-%Y %H:%M:%S"
+    ]
+  ],
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01000154464'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "row['sku'] + '/' + clean_ariba_text(row['long_description'], False, True) + '/ ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "master",
+      "expression": "'41116126' if row['product_classification'] in ('ELISA Kit', 'FastScan ELISA Kit') else row['unspsc']"
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Market Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', {'price_period': 'current'}, 0)"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "ariba_name(row, True)[:47]"
+    },
+    {
+      "header": "Supplier Part Auxiliary ID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Punchout Enabled",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Hazardous Materials",
+      "source": "constant",
+      "expression": "'FALSE'"
+    }
+  ]
+}

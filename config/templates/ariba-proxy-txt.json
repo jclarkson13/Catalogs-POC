@@ -1,0 +1,143 @@
+{
+  "template_name": "ariba-proxy-txt",
+  "source_sample": "US - Ariba Proxy.txt",
+  "description": "US Ariba punchout proxy as a plaintext CIF_I_V3.0 file (ciftxt, ENDOFDATA trailer). Browse-only: no prices. Field set differs from the tiered CIF (has Punchout Level, no Hazardous Materials); names come from ariba_name().",
+  "file_type": "ciftxt",
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CURRENCY",
+      "USD"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC_V13.5"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "networkid"
+    ],
+    [
+      "LOADMODE",
+      "F"
+    ],
+    [
+      "UNUOM",
+      "TRUE"
+    ],
+    [
+      "CHARSET",
+      "UTF-8"
+    ],
+    [
+      "ITEMCOUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%d-%m-%Y %H:%M:%S"
+    ]
+  ],
+  "sku_column": "Supplier Part ID",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01000154464'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "cst_name_with_suffix(row, 'size')"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Unit Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Market Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "ariba_name(row)[:35]"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en-US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Punchout Enabled",
+      "source": "constant",
+      "expression": "'TRUE'"
+    },
+    {
+      "header": "Punchout Level",
+      "source": "constant",
+      "expression": "'product'"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Thumbnail",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "template_name": "ariba-tiered",
+  "source_sample": "US - Ariba 05%/11% Discount Current/Future Price EXCEL.xlsx",
+  "description": "US Ariba 5%/11% discount feeds in xlsx (22 CIF-style columns, incl. Commodity Code and Parametric Name/Data). Unit Price is discounted, Market Price is list, both 2dp text USD for the price period. The 0% tier uses ariba-tiered-txt.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01000154464'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "row['sku'] + '/' + clean_ariba_text(row['long_description'], False, False) + '/' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Market Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', {'price_period': 'current'}, 0)"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "ariba_name(row)[:50]"
+    },
+    {
+      "header": "Commodity Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Parametric Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Parametric Data",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Part Auxiliary ID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Punchout Enabled",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Hazardous Materials",
+      "source": "constant",
+      "expression": "'FALSE'"
+    }
+  ]
+}

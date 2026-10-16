@@ -1,0 +1,13 @@
+{
+  "template_name": "bioke-catalogue-price",
+  "source_sample": "NEB/BIPP_Prices_Kul.xlsx and NEB/BIPP_Prices_List.xlsx",
+  "description": "Bioke/BIPP Benelux price list (xlsx): just CatalogueNumber and CataloguePrice, covering CST plus NEB rows. Price is EUR list less the customer discount as 2dp text (bipp-kul 5%, bipp-list 0%).",
+  "master_source": ["products.csv", "products_neb.csv"],
+  "file_type": "xlsx",
+  "sku_column": "CatalogueNumber",
+  "price_columns": ["CataloguePrice"],
+  "columns": [
+    {"header": "CatalogueNumber", "source": "master", "expression": "row['sku']"},
+    {"header": "CataloguePrice", "source": "master", "expression": "price_text(row['list_price_eur'], discount)"}
+  ]
+}
