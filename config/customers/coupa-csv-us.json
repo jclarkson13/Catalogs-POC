@@ -1,0 +1,14 @@
+{
+  "customer_id": "coupa-csv-us",
+  "display_name": "US - Coupa Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Generic Coupa export, separate from Coupa Marketplace. Price tier columns are all blank; the 10% comes from the literal 'Savings %' column.",
+  "template_ref": "coupa-csv-us",
+  "file_type": "csv",
+  "price_period": "current",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

@@ -1,0 +1,13 @@
+{
+  "customer_id": "F0001020",
+  "display_name": "US - Bioresco Univ of Maryland Current Price",
+  "sales_region": "US",
+  "step_classification_id": "F0001020",
+  "template_ref": "bioresco-univ-maryland",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 15,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

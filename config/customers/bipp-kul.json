@@ -1,0 +1,14 @@
+{
+  "customer_id": "bipp-kul",
+  "display_name": "BIPP_Prices_Kul",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 5% derived from the NEB sample. Covers CST+NEB products; paired with bipp-articles.",
+  "template_ref": "bioke-catalogue-price",
+  "file_type": "xlsx",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

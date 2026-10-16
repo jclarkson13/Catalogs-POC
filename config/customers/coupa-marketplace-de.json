@@ -1,0 +1,20 @@
+{
+  "customer_id": "coupa-marketplace-de",
+  "display_name": "DE - Coupa Marketplace Current Price",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "Channel-level config (no single institution). Excludes 1,457 SKUs (mostly V2/V3/V4 kit sizes); this DE exclusion set is reused by many DE customers.",
+  "template_ref": "coupa-marketplace",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "price_currency": "EUR",
+  "price_currency_field": "eur",
+  "description_region": "de",
+  "sds_lookup_column": "sds_url_de"
+}

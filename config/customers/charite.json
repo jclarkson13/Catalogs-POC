@@ -1,0 +1,13 @@
+{
+  "customer_id": "NL2900253",
+  "display_name": "DE - Charite Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2900253",
+  "template_ref": "de-charite-eclass",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 15,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0000630",
+  "display_name": "US - Cincinnati Childrens Hospital Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0000630",
+  "template_ref": "cincinnati-childrens",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 8,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

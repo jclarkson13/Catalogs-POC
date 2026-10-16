@@ -1,0 +1,16 @@
+{
+  "customer_id": "coupa-marketplace-us",
+  "display_name": "US - Coupa Marketplace Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Channel-level config (no single institution); full master population.",
+  "template_ref": "coupa-marketplace",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {},
+  "price_currency": "USD",
+  "price_currency_field": "usd"
+}

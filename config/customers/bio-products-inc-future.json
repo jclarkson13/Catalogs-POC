@@ -1,0 +1,14 @@
+{
+  "customer_id": "C0000140",
+  "display_name": "US - Bio Products Inc Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0000140",
+  "_note": "Same 30% as Current, applied to the Future price; ListPrice stays pinned to the current list price in the real file (see distributor-discount template).",
+  "template_ref": "distributor-discount",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 30,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

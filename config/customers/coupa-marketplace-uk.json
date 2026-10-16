@@ -1,0 +1,20 @@
+{
+  "customer_id": "coupa-marketplace-uk",
+  "display_name": "UK - Coupa Marketplace Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "Channel-level config (no single institution). Excludes 1,458 SKUs (one more than DE); this UK exclusion set is reused by many UK customers.",
+  "template_ref": "coupa-marketplace",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  },
+  "price_currency": "GBP",
+  "price_currency_field": "gbp",
+  "description_region": "uk",
+  "sds_lookup_column": "sds_url_eu_en"
+}

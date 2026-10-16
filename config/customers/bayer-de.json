@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2000670",
+  "display_name": "DE - Bayer Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2000670",
+  "_note": "0% discount (real file verified). Excludes the shared 1,457-SKU DE exclusion set, like coupa-marketplace-de.",
+  "template_ref": "de-bmecat-bayer",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "customer_id": "bipp-articles",
+  "display_name": "BIPP_Articles",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "Attribute-only companion to bipp-kul/bipp-list (joined via CatalogueNumber); no price columns.",
+  "template_ref": "bipp-articles",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

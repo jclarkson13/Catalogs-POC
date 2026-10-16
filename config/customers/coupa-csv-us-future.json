@@ -1,0 +1,14 @@
+{
+  "customer_id": "coupa-csv-us",
+  "display_name": "US - Coupa Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Generic Coupa export, separate from Coupa Marketplace. Real Future file is identical to Current: no prices, 'Savings %' reads 10%, so 10 is kept.",
+  "template_ref": "coupa-csv-us",
+  "file_type": "csv",
+  "price_period": "future",
+  "discount_percentage": 10,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

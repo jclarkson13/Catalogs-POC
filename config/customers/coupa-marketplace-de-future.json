@@ -1,0 +1,20 @@
+{
+  "customer_id": "coupa-marketplace-de",
+  "display_name": "DE - Coupa Marketplace Future Price",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "Channel-level config (no single institution). Same 1,457-SKU DE exclusion set as Current.",
+  "template_ref": "coupa-marketplace",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "price_currency": "EUR",
+  "price_currency_field": "eur",
+  "description_region": "de",
+  "sds_lookup_column": "sds_url_de"
+}
