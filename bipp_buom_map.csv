@@ -1,0 +1,47 @@
+size_unit,buom
+Assays,Assays
+Kit,Kit
+ML,ml
+PMOL,pmol
+Pack,PCK
+Rack,PCE
+Racks,PCE
+UNITS,Unit
+Units,Unit
+assays,Assays
+boxes,PCE
+columns,PCE
+ea,PCE
+g,g
+gel assays,PCE
+gel lanes,PCE
+gel units,PCE
+isolations,PCE
+kit,Kit
+lanes,PCE
+liter,l
+mU,PCE
+mg,mg
+ml,ml
+ml (200 mM),ml
+nmol,nmol
+pack,PCK
+pieces,PCE
+pmol,pmol
+preps,Test
+rxn,Test
+rxns,Test
+tests,Test
+tubes,PCE
+ug,µg
+units,Unit
+vial,PCE
+vials,PCE
+well,PCE
+wells,PCE
+x 384 tests,x 384 tests
+x 96 tests,x 96 tests
+µg,µg
+µl,µl
+µmol,µmol
+µmol of each,µmol

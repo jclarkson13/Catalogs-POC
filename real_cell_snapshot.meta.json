@@ -1,0 +1,8 @@
+{
+ "reviewed_at": "2026-10-02T09:10:21.135510-04:00",
+ "master_fingerprint": "720ec42101cc0478ff05ebbc487a62c16de4c3470f85fdf29d000279fa140228",
+ "rows_before": 34923,
+ "rows_after": 34923,
+ "retired": 0,
+ "_note": "Written by scripts/retire_snapshot_rows.py; generate_catalog.check_snapshot_review() warns when master/*.csv no longer matches master_fingerprint. Initial review 2026-10-02 recorded from a full --dry-run (0 of 34,923 reproducible, no errors)."
+}
