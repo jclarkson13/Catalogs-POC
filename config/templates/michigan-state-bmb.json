@@ -1,0 +1,43 @@
+{
+  "template_name": "michigan-state-bmb",
+  "source_sample": "US - Michigan State Univ BMB Store Current/Future Price.xlsx",
+  "description": "US Michigan State BMB Store file (xlsx, 6 columns): product name via clean_vwr_long_description, UOM, List Price and discounted Store Price as 2dp text USD, web address.",
+  "file_type": "xlsx",
+  "sku_column": "SKU",
+  "price_columns": [
+    "List Price",
+    "Store Price"
+  ],
+  "columns": [
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "PRODUCT NAME",
+      "source": "master",
+      "expression": "clean_vwr_long_description(row['long_description']) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_qty_mkt_with_unit.csv', 'qty_mkt_with_unit', row['size'] + ' ' + row['size_unit'])"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "Store Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Web Address",
+      "source": "master",
+      "expression": "row['product_url']"
+    }
+  ]
+}

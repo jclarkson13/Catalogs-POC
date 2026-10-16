@@ -1,0 +1,145 @@
+{
+  "template_name": "labviva-network",
+  "source_sample": "US - LabViva Current/Future Price.xlsx",
+  "description": "US LabViva network file (xlsx, 25 columns): List Price plus one price column per institution (LabShares, Regeneron, UGA, Takeda, JHU, Rutgers, Moderna, Pfizer), each from its own discount. Names come from cst_product_name_variants.csv and clean_coupa_description.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier SKU",
+  "price_columns": [
+    "List Price",
+    "LabShares",
+    "Regeneron Price",
+    "UGA Price",
+    "Takeda Price",
+    "JHU Main Campus Price",
+    "Rutgers Price",
+    "Moderna Price",
+    "Pfizer Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'][:-1] if row['manufacturer'].endswith('.') else row['manufacturer']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_product_name_variants.csv', 'product_name_no_symbols') or clean_coupa_description(row['long_description'], 'us')"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_product_name_variants.csv', 'product_name_no_symbols') or clean_coupa_description(row['long_description'], 'us')"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "LabShares",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['labshares']['discount_percentage'])"
+    },
+    {
+      "header": "Regeneron Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['regeneron']['discount_percentage'])"
+    },
+    {
+      "header": "UGA Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['uga']['discount_percentage'])"
+    },
+    {
+      "header": "Takeda Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['takeda']['discount_percentage'])"
+    },
+    {
+      "header": "JHU Main Campus Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['jhu_main_campus']['discount_percentage'])"
+    },
+    {
+      "header": "Rutgers Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['rutgers']['discount_percentage'])"
+    },
+    {
+      "header": "Moderna Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['moderna']['discount_percentage'])"
+    },
+    {
+      "header": "Pfizer Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['pfizer']['discount_percentage'])"
+    },
+    {
+      "header": "Lead Time (# of days)",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Size",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Quantity",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Product URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Expiration Date",
+      "source": "customer",
+      "expression": "date_mmddyy(customer['price_valid_until'])"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Specification 1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Specification 2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Document",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    }
+  ]
+}

@@ -1,0 +1,425 @@
+{
+  "template_name": "merck-kgaa-de",
+  "source_sample": "DE - Merck KGaA Current/Future Price.xlsx",
+  "description": "DE Merck KGaA punchout catalog (xlsx, sheet Sheet1, 77 CIF-style columns with repeated Source/Description headers). EUR prices rounded half-up as text for the price period; the UNSPSC-domain 'Value' is a constant; descriptions use clean_merck_description. Customers exclude merck_kgaa_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price",
+    "Amount"
+  ],
+  "sheet_name": "Sheet1",
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01522798508'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "f\"{clean_merck_description(row['long_description'])} {row['size']} {row['size_unit'].replace(chr(181), 'u')}\""
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Short Name",
+      "source": "master",
+      "expression": "f\"{clean_merck_description(row['long_description'])} {row['size']} {row['size_unit'].replace(chr(181), 'u')}\""
+    },
+    {
+      "header": "Domain",
+      "source": "constant",
+      "expression": "'UNSPSC'"
+    },
+    {
+      "header": "Value",
+      "source": "constant",
+      "expression": "'3430100'"
+    },
+    {
+      "header": "Thumbnail",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Normal",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Detailed",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price', '') or price_for_rounded_half_up(row, 'list_price_eur', customer, 0)) if discount == 0 else price_for_rounded_half_up(row, 'list_price_eur', customer, discount)) if customer.get('price_period') == 'future' else f\"https://www.cellsignal.de/products/{leading_digits(row['sku'])}?country=DE\""
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Market Price",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price', '') or price_for_rounded_half_up(row, 'list_price_eur', customer, 0)"
+    },
+    {
+      "header": "Supplier Part Auxiliary ID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "Expiration Date",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Effective Date",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PunchOut Enabled",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PunchoutLevel",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Territory Available",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price Unit Quantity",
+      "source": "master",
+      "expression": "f\"{row['size']} {row['size_unit'].replace(chr(181), 'u')}\""
+    },
+    {
+      "header": "Price Unit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Unit Conversion",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price Unit Quantity Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Parametric Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Parametric Data",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Source",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Source",
+      "key": "Source (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Description",
+      "key": "Description (2)",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Source",
+      "key": "Source (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Description",
+      "key": "Description (3)",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "StartDate",
+      "source": "customer",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "EndDate",
+      "source": "customer",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "Amount",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "PriceCurrency",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "PriceFactor",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lowerbound",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "StartDate",
+      "key": "StartDate (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EndDate",
+      "key": "EndDate (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Amount",
+      "key": "Amount (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceCurrency",
+      "key": "PriceCurrency (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceFactor",
+      "key": "PriceFactor (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lowerbound",
+      "key": "Lowerbound (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "StartDate",
+      "key": "StartDate (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EndDate",
+      "key": "EndDate (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Amount",
+      "key": "Amount (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceCurrency",
+      "key": "PriceCurrency (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PriceFactor",
+      "key": "PriceFactor (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lowerbound",
+      "key": "Lowerbound (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Type",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Part ID",
+      "key": "Supplier Part ID (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Type",
+      "key": "Type (2)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Part ID",
+      "key": "Supplier Part ID (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Type",
+      "key": "Type (3)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Part ID",
+      "key": "Supplier Part ID (4)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Keywords",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item Spec",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Content Unit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Packing Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MinimumQuantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QuantityInterval",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Dynamic Functions",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "InKitOnly",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "IsPartial",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Delete",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Promotion Rank",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "IsPreferredItem",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "hazardousmaterials",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "green",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "isInternalPartID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DefaultRelevance",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

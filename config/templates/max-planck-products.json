@@ -1,0 +1,180 @@
+{
+  "template_name": "max-planck-products",
+  "source_sample": "DE - Max Planck Products.xlsx",
+  "description": "DE Max Planck German attribute feed (xlsx, 34 columns), no price column. Hazard data (H/P statements, CAS, GHS) and units come from master lookups; Rabattsatz is the constant '22%' as in the real file. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Produktnummer",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Aktionscode",
+      "source": "constant",
+      "expression": "'IU'"
+    },
+    {
+      "header": "Produktnummer",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Produktbeschreibung de",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Produktbeschreibung en",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Produktlangbeschreibung de",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit']) + ') ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Produktlangbeschreibung en",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '') + ' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit']) + ') ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Herstellername",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology'"
+    },
+    {
+      "header": "Herstellerartikelnummer",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Schluesselworte",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Bild",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Produktbild Beschreibung",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Vorschaubild",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Attachment/URL",
+      "source": "master",
+      "expression": "row['product_url'].replace('www.cellsignal.com', 'www.cellsignal.de').replace('.html', '') + '?country=DE'"
+    },
+    {
+      "header": "Attachment Beschreibung",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Sicherheitsdatenblatt/URL",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'sds_url_eu_en')"
+    },
+    {
+      "header": "Technische Beschreibung",
+      "source": "constant",
+      "expression": "'MSDS hier anfordern'"
+    },
+    {
+      "header": "EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SAP Materialnummer",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Produkt gueltig von",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Produkt gueltig bis",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Verkaufseinheit",
+      "source": "constant",
+      "expression": "'St'"
+    },
+    {
+      "header": "Mengeneinheit",
+      "source": "master",
+      "expression": "lookup(row['size_unit'], 'sap_unit_codes.csv', 'sap_unit', row['size_unit'])"
+    },
+    {
+      "header": "Menge pro Verkaufseinheit",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Formel",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Special Treatment Class",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "R-S\u00e4tze",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "S-S\u00e4tze",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') + ', ' + lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw')) if lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') and lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw') else (lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') or lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw'))).replace(';', ', ')"
+    },
+    {
+      "header": "P-S\u00e4tze",
+      "source": "constant",
+      "expression": "lookup(row['sku'], 'cst_p_statements_sku.csv', 'p_statements_sku')"
+    },
+    {
+      "header": "H-S\u00e4tze",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_ghs_fields.csv', 'h_statements_pipe').replace('|', ';')"
+    },
+    {
+      "header": "SP",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SP-Text",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Rabattsatz",
+      "source": "constant",
+      "expression": "'22%'"
+    },
+    {
+      "header": "IncoTerms",
+      "source": "constant",
+      "expression": "'DDP'"
+    }
+  ]
+}

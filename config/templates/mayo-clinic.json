@@ -1,0 +1,127 @@
+{
+  "template_name": "mayo-clinic",
+  "source_sample": "US - Mayo Clinic Current/Future Price.xlsx",
+  "description": "US Mayo Clinic catalog (xlsx, 23 columns). Price is discounted USD as 2dp text for the price period; name/description columns use clean_coupa_description and packaging uses cst_qty_mkt_with_unit.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Vendor Part Number",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "Vendor Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Name with No Symbols",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'])"
+    },
+    {
+      "header": "Short Description",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'])"
+    },
+    {
+      "header": "Long Description",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'])"
+    },
+    {
+      "header": "Packaging String",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_qty_mkt_with_unit.csv', 'qty_mkt_with_unit', row['size'] + ' ' + row['size_unit'])"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "GTIN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Product Document",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    },
+    {
+      "header": "Product Image",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Keywords",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Latex Free",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Contract Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Order Quantity Multiple",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Ship From",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MSDS",
+      "source": "constant",
+      "expression": "'Y'"
+    },
+    {
+      "header": "BPA_ID",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Legal Vendor Name",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

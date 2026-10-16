@@ -1,0 +1,21 @@
+{
+  "template_name": "max-planck-sap-tiered",
+  "source_sample": "DE - Max Planck Current/Future Price.xlsx",
+  "description": "DE Max Planck SAP price list (xlsx, 11 columns) in EUR: Nettopreis (discounted) and Listenpreis for the price period, with validity dates and lead time. Separate from the Mercateo channel (sap-gdsn-price-de-mercateo). Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Produktnummer",
+  "price_columns": ["Nettopreis", "Listenpreis"],
+  "columns": [
+    {"header": "Produktnummer", "source": "master", "expression": "row['sku']"},
+    {"header": "ab Menge", "source": "constant", "expression": "'1'"},
+    {"header": "Nettopreis", "source": "master", "expression": "price_for_rounded(row, 'list_price_eur', customer, discount)"},
+    {"header": "Preiseinheit", "source": "constant", "expression": "'1'"},
+    {"header": "Waehrung", "source": "constant", "expression": "'EUR'"},
+    {"header": "Preis gueltig von", "source": "customer", "expression": "'/'.join([customer['price_valid_from'][5:7], customer['price_valid_from'][8:10], customer['price_valid_from'][:4]])"},
+    {"header": "Preis gueltig bis", "source": "customer", "expression": "'/'.join([customer['price_valid_until'][5:7], customer['price_valid_until'][8:10], customer['price_valid_until'][:4]])"},
+    {"header": "Lieferzeit in Tagen", "source": "constant", "expression": "'2'"},
+    {"header": "Mindestmenge", "source": "constant", "expression": "'1'"},
+    {"header": "Mengenintervall", "source": "constant", "expression": "'1'"},
+    {"header": "Listenpreis", "source": "master", "expression": "str(round(price_for(row, 'list_price_eur', customer)))"}
+  ]
+}

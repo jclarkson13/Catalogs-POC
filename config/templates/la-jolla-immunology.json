@@ -1,0 +1,28 @@
+{
+  "template_name": "la-jolla-immunology",
+  "source_sample": "US - La Jolla Institute for Immunology Current/Future Price.xlsx",
+  "description": "US La Jolla Institute for Immunology catalog (xlsx, 15 columns). '2020 USD List Price' (literal header) and discounted 'Sell Price' are 2dp text USD for the price period; Discount is written as text like '0.0%'.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [
+    "2020 USD List Price",
+    "Sell Price"
+  ],
+  "columns": [
+    {"header": "Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "Product Description", "source": "master", "expression": "ariba_name_with_size(row)"},
+    {"header": "Category", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "UNSPSC Code", "source": "master", "expression": "row['unspsc']"},
+    {"header": "UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "2020 USD List Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "Discount", "source": "customer", "expression": "str(discount) + '.0%'"},
+    {"header": "Sell Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "Product Size", "source": "master", "expression": "lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'])"},
+    {"header": "Searchable Keywords", "source": "master", "expression": "lookup(row['sku'], 'cst_product_keywords.csv', 'product_keywords', '')", "allow_blank_description": true},
+    {"header": "Species", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MSDS URL", "source": "master", "expression": "msds_url_or_blank(row)"},
+    {"header": "Image URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "More Information URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "Long Description", "source": "master", "expression": "ariba_name_with_size(row)"}
+  ]
+}

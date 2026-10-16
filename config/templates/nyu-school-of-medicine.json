@@ -1,0 +1,35 @@
+{
+  "template_name": "nyu-school-of-medicine",
+  "source_sample": "US - NYU School of Medicine Current/Future Price.xlsx",
+  "description": "US NYU School of Medicine catalog (xlsx, 22 columns). Price (discounted) and List Price are 2dp text USD for the price period; descriptions use ariba_name()/clean_ariba_text(), sizes from cst_marketing_name_details.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part Number",
+  "price_columns": [
+    "Price",
+    "List Price"
+  ],
+  "columns": [
+    {"header": "Supplier Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "Supplier Name", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "Short Description", "source": "master", "expression": "clean_ariba_text(ariba_name(row), False, False) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"},
+    {"header": "Long Description", "source": "master", "expression": "clean_ariba_text(ariba_name(row), False, False) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "List Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Qty per UOM", "source": "constant", "expression": "'1'"},
+    {"header": "Mfg Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "MFG Name", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Storage Temp", "source": "master", "expression": "row['storage_temperature']"},
+    {"header": "Frozen", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Refrigerated", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Flammable", "source": "constant", "expression": "'N'"},
+    {"header": "Radioactive", "source": "constant", "expression": "'N'"},
+    {"header": "Price Effective Date", "source": "customer", "expression": "customer['price_valid_from'][5:7] + '/' + customer['price_valid_from'][8:10] + '/' + customer['price_valid_from'][0:4]"},
+    {"header": "Price Expiration Date", "source": "customer", "expression": "customer['price_valid_until'][5:7] + '/' + customer['price_valid_until'][8:10] + '/' + customer['price_valid_until'][0:4]"},
+    {"header": "Incoterms", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Lead Time", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Location Code", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Category Code", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

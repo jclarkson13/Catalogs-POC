@@ -1,0 +1,142 @@
+{
+  "template_name": "pfizer",
+  "source_sample": "US - Pfizer Current/Future Price.txt",
+  "description": "US Pfizer plaintext CIF export (ciftxt, 20 fields) at 0%. Unit Price is USD list as 2dp text for the price period; descriptions use clean_pfizer_description and Keywords come from cst_all_keywords.csv.",
+  "file_type": "ciftxt",
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CURRENCY",
+      "USD"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "DUNS"
+    ],
+    [
+      "CHARSET",
+      "CP1252"
+    ],
+    [
+      "ITEMCOUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%d-%m-%Y %H:%M:%S"
+    ]
+  ],
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier ID",
+      "source": "constant",
+      "expression": "'AN01000154464-T'"
+    },
+    {
+      "header": "Supplier Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u')"
+    },
+    {
+      "header": "SPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology'"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "'https://media.cellsignal.com/pdf/' + sku_leading_digits(row['sku']) + '.pdf'"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Market Price",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Supplier Part Auxiliary ID",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Language",
+      "source": "constant",
+      "expression": "'en_US'"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Thumbnail",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Keywords",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_all_keywords.csv', 'keywords')"
+    },
+    {
+      "header": "PunchOut Enabled",
+      "source": "constant",
+      "expression": "'True'"
+    },
+    {
+      "header": "PunchOutLevel",
+      "source": "constant",
+      "expression": "'Product'"
+    }
+  ]
+}

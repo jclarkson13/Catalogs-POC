@@ -1,0 +1,30 @@
+{
+  "template_name": "mass-general-brigham",
+  "source_sample": "US - Mass General Brigham Current/Future Price.xlsx",
+  "description": "US Mass General Brigham catalog (xlsx, 17 columns). 'Price' is the undiscounted list and 'Contracts' the discounted price, both 2dp text USD for the price period; descriptions from ariba_name().",
+  "file_type": "xlsx",
+  "sku_column": "Mfg Itm ID",
+  "price_columns": [
+    "Price",
+    "Contracts"
+  ],
+  "columns": [
+    {"header": "Vendor ID", "source": "constant", "expression": "'SP00083764'"},
+    {"header": "Vendor Name", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "Mfg Itm ID", "source": "master", "expression": "row['sku']"},
+    {"header": "UOM", "source": "master", "expression": "row['uom']"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "Contracts", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "ShortDescription", "source": "master", "expression": "ariba_name(row)"},
+    {"header": "LongDescription", "source": "master", "expression": "ariba_name(row)"},
+    {"header": "mfg Name", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "Vendor ID number", "source": "master", "expression": "row['sku']"},
+    {"header": "SellingSize_MICROG", "source": "master", "expression": "row['size'] + row['size_unit']"},
+    {"header": "Category Code", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Diverse Supplier", "source": "constant", "expression": "'No'"},
+    {"header": "Preferred", "source": "constant", "expression": "'No'"},
+    {"header": "Image Name", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Image URL", "source": "master", "expression": "row['image_url']"}
+  ]
+}

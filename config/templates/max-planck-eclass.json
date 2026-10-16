@@ -1,0 +1,25 @@
+{
+  "template_name": "max-planck-eclass",
+  "source_sample": "DE - Max Planck eCLASS Export.xlsx",
+  "description": "DE Max Planck eCLASS classification file (xlsx, 3 columns): SKU, eCLASS code and group name derived from product_classification. No prices. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Produktnummer",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Produktnummer",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Klassifikation",
+      "source": "constant",
+      "expression": "'ECLASS-6.2'"
+    },
+    {
+      "header": "Klassifikationsgruppe",
+      "source": "master",
+      "expression": "unspsc_for_product_type(row)"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "template_name": "partners",
+  "source_sample": "US - Partners Current/Future Price.xlsx",
+  "description": "US Partners (Mass General Brigham legacy entity) catalog (xlsx, 15 columns). The price header embeds the STEP classification ID (C0000467_DiscountPrice); several headers contain literal quote characters, as in the real file.",
+  "file_type": "xlsx",
+  "sku_column": "Vendor Item ID",
+  "price_columns": [
+    "C0000467_DiscountPrice"
+  ],
+  "columns": [
+    {
+      "header": "\"Vendor Name\"",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Vendor Item ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Mfg Itm ID*",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item Description",
+      "source": "master",
+      "expression": "cst_product_name(row, raw=True) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "C0000467_DiscountPrice",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "\"UOM\"",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "\"Packaging String\"",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "\"Vendor Contract Number\"",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Pricing Expiration Date",
+      "source": "customer",
+      "expression": "str(int(customer['price_valid_until'][5:7])) + '/' + str(int(customer['price_valid_until'][8:10])) + '/' + customer['price_valid_until'][0:4]"
+    },
+    {
+      "header": "\"Made in Latex Free Environment\"",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "\"GTIN\"",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "\"PS Item ID\"",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "\"Contract #*\"",
+      "source": "constant",
+      "expression": "'CW1991152'"
+    },
+    {
+      "header": "\"Vendor ID\"",
+      "source": "constant",
+      "expression": "'0000083764'"
+    }
+  ]
+}

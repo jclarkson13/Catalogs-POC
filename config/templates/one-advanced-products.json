@@ -1,0 +1,65 @@
+{
+  "template_name": "one-advanced-products",
+  "source_sample": "UK - One Advanced Products.xlsx",
+  "description": "UK One Advanced attribute-only companion (xlsx, 11 columns), no prices. 'Specifications' is a pipe-delimited key=value string built from antibody attributes; aliases from target alternate names. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Catalogue Number",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Catalogue Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "cst_product_name(row) + ' ' + sku_leading_digits(row['sku'])"
+    },
+    {
+      "header": "Pack Size",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "UOM",
+      "source": "constant",
+      "expression": "'Each'"
+    },
+    {
+      "header": "UNSPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Image 1",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Specifications",
+      "source": "master",
+      "expression": "'|'.join(kv for kv in ['Species Reactivity=' + lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'reactivity', '').strip(), 'Applications=' + ('' if lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'applications', '?') == '' else row['assays']), 'Simple Host=' + lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'host', '').strip(), 'Iso Type=' + lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'isotype', '').strip(), 'Shipping Conditions=' + row['shipping_conditions'], 'Storage Conditions=' + row['storage_temperature']] if not kv.endswith('='))"
+    },
+    {
+      "header": "Alias 1",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_target_alternate_names.csv', 'target_alternate_names', '')"
+    },
+    {
+      "header": "Further Details URL 1",
+      "source": "master",
+      "expression": "row['product_url'].replace('.html', '') + '?country=GB'"
+    }
+  ]
+}

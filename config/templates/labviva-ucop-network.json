@@ -1,0 +1,109 @@
+{
+  "template_name": "labviva-ucop-network",
+  "source_sample": "US - LabViva UCOP Current/Future Price.xlsx",
+  "description": "US LabViva UC-system file (xlsx, 19 columns): List Price plus UC Merced and UCSD price columns from per-institution discounts, all 2dp text. Product Name/Description come from long_description; UOM is upper-case 'EA'.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier SKU",
+  "price_columns": [
+    "List Price",
+    "UC Merced",
+    "UCSD"
+  ],
+  "columns": [
+    {
+      "header": "Supplier SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "f\"{round(price_for(row, 'list_price_usd', customer), 2):.2f}\""
+    },
+    {
+      "header": "UC Merced",
+      "source": "institution",
+      "expression": "f\"{round(price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['uc_merced']['discount_percentage']/100), 2):.2f}\""
+    },
+    {
+      "header": "UCSD",
+      "source": "institution",
+      "expression": "f\"{round(price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['ucsd']['discount_percentage']/100), 2):.2f}\""
+    },
+    {
+      "header": "Lead Time (# of days)",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Size",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Quantity",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "Unit of Measure",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Product URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Expiration Date",
+      "source": "customer",
+      "expression": "date_mmddyy(customer['price_valid_until'])"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Specification 1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Specification 2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Document",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    }
+  ]
+}

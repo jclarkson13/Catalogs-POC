@@ -1,0 +1,136 @@
+{
+  "template_name": "network-multi-institution",
+  "source_sample": "US - Sciquest Current/Future Price Excel.xlsx",
+  "description": "US SciQuest/Jaggaer network file (xlsx, 21 columns): one row per SKU, one price column per member institution (about 20), each using customer.institutions.<key>.discount_percentage on the USD list for the price period.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [
+    "CorporateList",
+    "HigherEdList",
+    "ClevelandClinic",
+    "ECU",
+    "FredHutch",
+    "IndianaUBuyIU",
+    "KAUSTSA",
+    "NYUFullSuite",
+    "Rockefeller",
+    "Salk",
+    "Scripps",
+    "StJude/S00014",
+    "Stanford",
+    "UTEP",
+    "UTSystem",
+    "Yale2",
+    "Yeshiva",
+    "UCOP/2024004080",
+    "Moffitt",
+    "Cornell"
+  ],
+  "columns": [
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "CorporateList",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['corporate_list']['discount_percentage']/100))"
+    },
+    {
+      "header": "HigherEdList",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['higher_ed_list']['discount_percentage']/100))"
+    },
+    {
+      "header": "ClevelandClinic",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['cleveland_clinic']['discount_percentage']/100))"
+    },
+    {
+      "header": "ECU",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['ecu']['discount_percentage']/100))"
+    },
+    {
+      "header": "FredHutch",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['fred_hutch']['discount_percentage']/100))"
+    },
+    {
+      "header": "IndianaUBuyIU",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['indiana_u']['discount_percentage']/100))"
+    },
+    {
+      "header": "KAUSTSA",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['kaust']['discount_percentage']/100))"
+    },
+    {
+      "header": "NYUFullSuite",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['nyu_full_suite']['discount_percentage']/100))"
+    },
+    {
+      "header": "Rockefeller",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['rockefeller']['discount_percentage']/100))"
+    },
+    {
+      "header": "Salk",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['salk']['discount_percentage']/100))"
+    },
+    {
+      "header": "Scripps",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['scripps']['discount_percentage']/100))"
+    },
+    {
+      "header": "StJude/S00014",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['st_jude']['discount_percentage']/100))"
+    },
+    {
+      "header": "Stanford",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['stanford']['discount_percentage']/100))"
+    },
+    {
+      "header": "UTEP",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['utep']['discount_percentage']/100))"
+    },
+    {
+      "header": "UTSystem",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['ut_system']['discount_percentage']/100))"
+    },
+    {
+      "header": "Yale2",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['yale']['discount_percentage']/100))"
+    },
+    {
+      "header": "Yeshiva",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['yeshiva']['discount_percentage']/100))"
+    },
+    {
+      "header": "UCOP/2024004080",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['ucop']['discount_percentage']/100))"
+    },
+    {
+      "header": "Moffitt",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['moffitt']['discount_percentage']/100))"
+    },
+    {
+      "header": "Cornell",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - customer['institutions']['cornell']['discount_percentage']/100))"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "template_name": "new-england-biolabs-canada",
+  "source_sample": "US - New England Biolabs Canada Current/Future Price.xlsx",
+  "description": "US New England Biolabs Canada price file (xlsx, 7 columns). Both current and future USD list prices always appear side by side; 'Extended Current Price' is the discounted price for the customer's price period. Header 'UNCPSC' is spelled as in the real file.",
+  "file_type": "xlsx",
+  "sku_column": "SKU",
+  "price_columns": [
+    "US Current List Price",
+    "US Future List Price",
+    "Extended Current Price"
+  ],
+  "columns": [
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "cst_name_with_suffix(row, 'size', raw=True)"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "US Current List Price",
+      "source": "master",
+      "expression": "price_text(row['list_price_usd'])"
+    },
+    {
+      "header": "US Future List Price",
+      "source": "master",
+      "expression": "price_text(row['list_price_usd_future'])"
+    },
+    {
+      "header": "Extended Current Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "UNCPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    }
+  ]
+}
