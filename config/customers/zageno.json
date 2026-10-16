@@ -1,0 +1,41 @@
+{
+  "customer_id": "zageno",
+  "display_name": "US - Zageno Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. GBP/EUR/contract prices in overrides.regional_prices are copied from the real sample file (no regional price source).",
+  "template_ref": "marketplace-multicurrency",
+  "file_type": "xlsx",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "regional_prices": {
+      "7017S": {
+        "gbp": 286.0,
+        "eur": 329.0,
+        "contract": 286.0
+      },
+      "14654S": {
+        "gbp": 459.0,
+        "eur": 516.0,
+        "contract": 459.0
+      },
+      "12369P2": {
+        "gbp": 253.0,
+        "eur": 284.0,
+        "contract": 253.0
+      },
+      "53257S": {
+        "gbp": 63.0,
+        "eur": 71.0,
+        "contract": 63.0
+      },
+      "10001S": {
+        "gbp": 454.0,
+        "eur": 510.0,
+        "contract": 454.0
+      }
+    }
+  }
+}

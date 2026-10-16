@@ -1,0 +1,14 @@
+{
+  "customer_id": "ariba-5pct-cif",
+  "display_name": "US - Ariba 05% Discount Current Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Plaintext CIF version of the 5% Ariba tier (xlsx sibling: ariba-5pct). See ariba-tiered-txt template for the Market Price quirk.",
+  "template_ref": "ariba-tiered-txt",
+  "file_type": "ciftxt",
+  "price_period": "current",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

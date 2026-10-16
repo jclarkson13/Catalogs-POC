@@ -1,0 +1,14 @@
+{
+  "customer_id": "basf-beneering",
+  "display_name": "BASF_Beneering",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 10% derived from the NEB sample's PriceAmount vs list price.",
+  "template_ref": "basf-mycatalogcloud-oci",
+  "file_type": "xlsx",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

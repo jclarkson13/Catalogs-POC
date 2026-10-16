@@ -1,0 +1,14 @@
+{
+  "customer_id": "wageningen-ur",
+  "display_name": "Wageningen_UR",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 5% from the Netto/Bruto prijs ratio.",
+  "template_ref": "wageningen-catalogus",
+  "file_type": "xlsx",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

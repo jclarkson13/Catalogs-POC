@@ -1,0 +1,14 @@
+{
+  "customer_id": "ariba-0pct-cif-future",
+  "display_name": "US - Ariba 0% Discount (Market Rate) Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Plaintext CIF container for the 0% Ariba tier (the only real 0% Ariba files). See ariba-tiered-txt template for the Market Price quirk.",
+  "template_ref": "ariba-tiered-txt",
+  "file_type": "ciftxt",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

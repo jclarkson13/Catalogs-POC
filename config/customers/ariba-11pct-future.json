@@ -1,0 +1,14 @@
+{
+  "customer_id": "ariba-11pct",
+  "display_name": "US - Ariba 11% Discount Future Price EXCEL",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "EXCEL container of the 11% Ariba tier; columns genuinely differ from the CIF .txt sibling (ariba-11pct-cif-future) - see ariba-tiered template.",
+  "template_ref": "ariba-tiered",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 11,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

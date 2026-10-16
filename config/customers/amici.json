@@ -1,0 +1,13 @@
+{
+  "customer_id": "UK000002",
+  "display_name": "UK - Amici Catalog Current Price",
+  "sales_region": "UK",
+  "step_classification_id": "UK000002",
+  "template_ref": "amici-catalog",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"}
+}

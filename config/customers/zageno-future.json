@@ -1,0 +1,14 @@
+{
+  "customer_id": "zageno-future",
+  "display_name": "US - Zageno Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 0%. Real Future layout differs from Current (see template); STEP baseline flags this config as Fail.",
+  "template_ref": "zageno-us-future",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

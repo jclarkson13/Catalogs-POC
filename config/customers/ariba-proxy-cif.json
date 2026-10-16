@@ -1,0 +1,12 @@
+{
+  "customer_id": "ariba-proxy-cif",
+  "display_name": "US - Ariba Proxy",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Plaintext CIF version of the browse-only Ariba proxy (xlsx sibling: ariba-proxy). No prices: Unit/Market Price are always blank.",
+  "template_ref": "ariba-proxy-txt",
+  "file_type": "ciftxt",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

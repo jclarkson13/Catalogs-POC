@@ -1,0 +1,12 @@
+{
+  "customer_id": "adhoc-master-future",
+  "display_name": "US - Ad-Hoc catalog Future Price",
+  "sales_region": "US",
+  "template_ref": "adhoc-full",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0.0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

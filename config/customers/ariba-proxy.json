@@ -1,0 +1,12 @@
+{
+  "customer_id": "ariba-proxy",
+  "display_name": "US - Ariba Proxy EXCEL",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Attribute-only punchout proxy for the Ariba tiered customers. No prices: Unit/Market Price are always blank.",
+  "template_ref": "ariba-proxy",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

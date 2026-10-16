@@ -1,0 +1,11 @@
+{
+  "customer_id": "adhoc-master",
+  "display_name": "US - Ad-Hoc catalog Current Price",
+  "sales_region": "US",
+  "template_ref": "adhoc-full",
+  "file_type": "xlsx",
+  "discount_percentage": 0.0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}
