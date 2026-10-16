@@ -1,0 +1,113 @@
+{
+  "template_name": "whitehead-institute",
+  "source_sample": "US - Whitehead Institute Current/Future Price.xlsx",
+  "description": "US Whitehead Institute catalog (xlsx, 20 columns). Price (discounted) and List Price are 2dp text USD for the price period; Short Description/LongDescription come from long_description, not short_description.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part No",
+  "price_columns": [
+    "Price",
+    "List Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Part No",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Supplier Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Short Description",
+      "source": "master",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "LongDescription",
+      "source": "master",
+      "expression": "row['long_description'].replace('<lt/>', '<').replace('<gt/>', '>').replace('<sup>', '').replace('</sup>', '').replace('<sub>', '').replace('</sub>', '').replace('<i>', '').replace('</i>', '').replace('®', '(R)').replace('™', '(tm)') + '-' + row['size'] + ' ' + row['size_unit'].replace('µ', 'u')"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "'{:.2f}'.format(round(price_for(row, 'list_price_usd', customer) * (1 - discount/100), 2))"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "'{:.2f}'.format(round(price_for(row, 'list_price_usd', customer), 2))"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Currency Code",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "Mfg Part #",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Mfg Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Location Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Category Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lead time",
+      "source": "constant",
+      "expression": "'1 day'"
+    },
+    {
+      "header": "Min Order Qty",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Product Image URL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Product Thumbnail URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Qty per UOM",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Pckg Strng",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Customer Part Number",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

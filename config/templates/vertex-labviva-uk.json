@@ -1,0 +1,26 @@
+{
+  "template_name": "vertex-labviva-uk",
+  "source_sample": "UK - Vertex LabViva Current/Future Price.xlsx",
+  "description": "UK Vertex LabViva punchout file (xlsx, 16 columns) at 0%. List Price is GBP list as 2dp text for the price period; descriptions use clean_gladstone/clean_pfizer_description. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier SKU",
+  "price_columns": ["List Price"],
+  "columns": [
+    {"header": "Supplier SKU", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer SKU", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer'][:-1] if row['manufacturer'].endswith('.') else row['manufacturer']"},
+    {"header": "Product Name", "source": "master", "expression": "clean_pfizer_description(row['long_description'])"},
+    {"header": "Product Description", "source": "master", "expression": "clean_gladstone_description(row['long_description'])"},
+    {"header": "List Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_gbp', customer, discount)"},
+    {"header": "Lead Time (# of days)", "source": "constant", "expression": "'2'"},
+    {"header": "Size", "source": "master", "expression": "row['size'] + row['size_unit']"},
+    {"header": "Unit of Measure", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Product URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "Expiration Date", "source": "customer", "expression": "date_mmddyy(customer['price_valid_until'])"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Specification 1", "source": "constant", "expression": "''"},
+    {"header": "Specification 2", "source": "constant", "expression": "''"},
+    {"header": "Image", "source": "master", "expression": "row['image_url']"},
+    {"header": "Document", "source": "master", "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'sds_url_eu_en')"}
+  ]
+}

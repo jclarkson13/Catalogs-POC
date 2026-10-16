@@ -1,0 +1,49 @@
+{
+  "template_name": "vwr-network-us",
+  "source_sample": "US - VWR Current/Future Price.xlsx",
+  "description": "US VWR network file (xlsx, 7 columns), full CST master: VWR, Novartis and Biomarin discount price columns from per-institution discounts. LongDescription via clean_vwr_long_description; SAP_Supplier_Name is the manufacturer without its trailing period.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier_Material",
+  "price_columns": [
+    "VWR Discount Price",
+    "Novartis Discount Price",
+    "Biomarin Discount Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier_Material",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "SAP_Supplier_No",
+      "source": "constant",
+      "expression": "'0000014650'"
+    },
+    {
+      "header": "SAP_Supplier_Name",
+      "source": "master",
+      "expression": "row['manufacturer'][:-1] if row['manufacturer'].endswith('.') else row['manufacturer']"
+    },
+    {
+      "header": "LongDescription",
+      "source": "master",
+      "expression": "clean_vwr_long_description(row['long_description']) + '-' + row['size'] + ' ' + row['size_unit'].replace('µ', 'u')"
+    },
+    {
+      "header": "VWR Discount Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['vwr']['discount_percentage'])"
+    },
+    {
+      "header": "Novartis Discount Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['novartis']['discount_percentage'])"
+    },
+    {
+      "header": "Biomarin Discount Price",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['biomarin']['discount_percentage'])"
+    }
+  ]
+}

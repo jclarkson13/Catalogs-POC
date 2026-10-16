@@ -1,0 +1,195 @@
+{
+  "template_name": "uk-zageno",
+  "source_sample": "UK - Zageno Current/Future Price.xlsx",
+  "description": "UK Zageno marketplace file (xlsx, 36 columns). GBP and EUR list prices are raw price strings for the period, 'UCB Celltech Price' is GBP list as 2dp text; names from ariba_name(). Shipping blocks are constants. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Catalog ID",
+  "price_columns": [
+    "List Price GB [GBP]",
+    "List Price EU [EUR]",
+    "UCB Celltech Price"
+  ],
+  "columns": [
+    {
+      "header": "Product Category",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "ariba_name(row) + ' ' + sku_leading_digits(row['sku'])"
+    },
+    {
+      "header": "Brand Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Manufacturer Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Supplier Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Packaging Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Size/Quantity",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Unit",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "List Price US [USD]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "List Price GB [GBP]",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp') if customer.get('price_period') != 'future' and discount == 0 else '') or price_for_rounded(row, 'list_price_usd' if customer.get('price_period') == 'future' else 'list_price_gbp', customer, discount)"
+    },
+    {
+      "header": "List Price EU [EUR]",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future') if customer.get('price_period') == 'future' else lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_list_price')) if discount == 0 else '') or price_for_rounded(row, 'list_price_gbp' if customer.get('price_period') == 'future' else 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "UCB Celltech Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_gbp', customer, discount)"
+    },
+    {
+      "header": "Zageno Discount [%]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price Valid From",
+      "source": "customer",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "Price Valid Until",
+      "source": "customer",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Default Carrier [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Order Processing Time [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Est. Transit Time [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [GB]",
+      "source": "constant",
+      "expression": "'The Netherlands'"
+    },
+    {
+      "header": "Default Carrier [GB]",
+      "source": "constant",
+      "expression": "'DHL'"
+    },
+    {
+      "header": "Order Processing Time [GB]",
+      "source": "constant",
+      "expression": "'2'"
+    },
+    {
+      "header": "Est. Transit Time [GB]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Default Carrier [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Order Processing Time [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Est. Transit Time [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Details",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Information",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Package Content",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Product URL",
+      "source": "master",
+      "expression": "row['product_url'].replace('.html', '') + '?country=GB'"
+    },
+    {
+      "header": "Resource URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Specifications",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

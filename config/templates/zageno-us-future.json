@@ -1,0 +1,195 @@
+{
+  "template_name": "zageno-us-future",
+  "source_sample": "US - Zageno Future Price.xlsx",
+  "description": "US Zageno Future Price file (xlsx, 36 columns), which uses the UK Zageno layout instead of marketplace-multicurrency, over the full US population. USD list, raw GBP/EUR price strings, and 'UCB Celltech Price' as GBP list 2dp text.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Catalog ID",
+  "price_columns": [
+    "List Price US [USD]",
+    "List Price GB [GBP]",
+    "List Price EU [EUR]",
+    "UCB Celltech Price"
+  ],
+  "columns": [
+    {
+      "header": "Product Category",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']) + ' ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Package Content",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Brand Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Manufacturer Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Supplier Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Packaging Quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Product Size/Quantity",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Unit",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "List Price US [USD]",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "List Price GB [GBP]",
+      "source": "master",
+      "expression": "raw_price_gbp(row, customer)"
+    },
+    {
+      "header": "List Price EU [EUR]",
+      "source": "master",
+      "expression": "raw_price_eur(row, customer)"
+    },
+    {
+      "header": "UCB Celltech Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_gbp', customer, 0)"
+    },
+    {
+      "header": "Zageno Discount [%]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price Valid From",
+      "source": "customer",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "Price Valid Until",
+      "source": "customer",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Default Carrier [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Order Processing Time [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Est. Transit Time [US]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [GB]",
+      "source": "constant",
+      "expression": "'The Netherlands'"
+    },
+    {
+      "header": "Default Carrier [GB]",
+      "source": "constant",
+      "expression": "'DHL'"
+    },
+    {
+      "header": "Order Processing Time [GB]",
+      "source": "constant",
+      "expression": "'2'"
+    },
+    {
+      "header": "Est. Transit Time [GB]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Country [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Default Carrier [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Order Processing Time [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Est. Transit Time [EU]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Details",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Information",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Product URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Resource URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Image URL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Product Specifications",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

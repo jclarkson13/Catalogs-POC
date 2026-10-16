@@ -1,0 +1,217 @@
+{
+  "template_name": "univ-tennessee",
+  "source_sample": "US - Univ Of Tennessee Level 2 PunchOut Products Current/Future Price.csv",
+  "description": "US University of Tennessee Level 2 punchout file (csv, semicolon-delimited, LF, 40 columns). List Price is USD list as 2dp text; tier price columns stay blank. Description uses clean_gladstone_description; CAS from cst_hazmat_cas_fields.csv.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {
+    "lineterminator": "\n"
+  },
+  "sku_column": "Catalog Item Number",
+  "price_columns": [
+    "List Price"
+  ],
+  "columns": [
+    {
+      "header": "Status",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Catalog Item Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item/Service",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description'])"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "MFG/Provider",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "MFG/Provider Part #",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "UPC",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Item Image URL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Minimum Order Qty",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Maximum Order Qty",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 1 Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 1 Qty",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 2 Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 2 Qty",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 3 Price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tier 3 Qty",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Ship & Hand %",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Ship & Hand $ Per UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Tax %",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "UNSPSC Segment Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC Family Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC Class Title",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC Commodity Desc",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NIGP Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Product Dimension",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shipping Weight",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazard Classification",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'hazardous_class_div')"
+    },
+    {
+      "header": "MSDS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Parametric Data",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Parametric Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Territory Available",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Recycled Green Product",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazardous Product",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

@@ -1,0 +1,541 @@
+{
+  "template_name": "wageningen-catalogus",
+  "source_sample": "NEB/Wageningen_UR.xlsx, sheet 'Catalogus' (the sheet actually holding the priced rows - 'Gegevens' is a supplier-contact cover sheet, not the catalog)",
+  "description": "NL Wageningen UR catalog upload (xlsx, sheet 'Catalogus' with static leading/extra sheets, 28 Dutch columns) covering CST and NEB rows. Bruto and discounted Netto prijs are EUR 2dp text; Mutatietype is always 'I' because no prior catalog is diffed.",
+  "file_type": "xlsx",
+  "sku_column": "Art. nr. Leverancier",
+  "price_columns": [
+    "Bruto prijs",
+    "Netto prijs"
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "sheet_name": "Catalogus",
+  "leading_sheets": [
+    {
+      "name": "Gegevens",
+      "rows": [
+        [
+          "Lev Id"
+        ],
+        [
+          "Leverancier",
+          "BIOKE"
+        ],
+        [
+          "Contactpersoon",
+          "Faruk Semerci"
+        ],
+        [
+          "Tel"
+        ],
+        [
+          "Email",
+          "b2b.eu@cellsignal.com"
+        ],
+        [],
+        [
+          "Datum opmaak catalogus",
+          "12-dec-19"
+        ],
+        [
+          "Datum ingang catalogus",
+          "01-jan-20"
+        ],
+        [
+          "Vervanging of Update?",
+          "Vervanging"
+        ],
+        [
+          "Taal catalogus",
+          "EN"
+        ],
+        [],
+        [
+          "Versie catalogusdefinitie",
+          1.1
+        ],
+        [
+          "Datum modificatie",
+          "12-dec-19"
+        ],
+        [
+          null,
+          "Laatste aanpassing: 17-01-2012"
+        ],
+        [
+          "SAPI_check:",
+          "17-01-2012 om 14:40:25 uur"
+        ],
+        [
+          "Resultaat(zie blad Log)",
+          " 0 fout(en) in de catalogus"
+        ],
+        [],
+        [
+          "Link naar afbeeldingen",
+          "http://"
+        ]
+      ]
+    },
+    {
+      "name": "Stuurrecord",
+      "rows": [
+        [
+          "SUPPLIER_ID",
+          "SUPPLIER_NAME",
+          "SUPPLIER_CONTACT",
+          "SUPPLIER_TEL",
+          "SUPPLIER_EMAIL",
+          "CATALOG_CREATION_DATE",
+          "CATALOG_MUTATION_DATE",
+          "LANGUAGE_CODE"
+        ],
+        [
+          "BIOKE",
+          "Faruk Semerci",
+          0,
+          "b2b.eu@cellsignal.com",
+          0,
+          "01-jan-20",
+          "EN",
+          0
+        ]
+      ]
+    }
+  ],
+  "extra_sheets": [
+    {
+      "name": "referentietabellen",
+      "rows": [
+        [
+          "MUT_TYPE",
+          "VAT_CODE",
+          "CURRENCY_CODE",
+          "UOM",
+          "UOC",
+          "BASE_CATALOG",
+          "PICTURE",
+          "LANGUAGE_CODE"
+        ],
+        [
+          "U",
+          "H",
+          "EUR",
+          "Stuks",
+          "Stuks",
+          1,
+          ".jpg",
+          "NL"
+        ],
+        [
+          "I",
+          "L",
+          null,
+          "Doos",
+          "Doos",
+          0,
+          ".jpeg",
+          "EN"
+        ],
+        [
+          "D",
+          "N",
+          null,
+          "Stuk",
+          "Stuk",
+          null,
+          ".gif",
+          "DE"
+        ],
+        [
+          null,
+          null,
+          null,
+          "st",
+          "st",
+          null,
+          ".bpm",
+          "FR"
+        ],
+        [
+          null,
+          null,
+          null,
+          "stk",
+          "stk",
+          null,
+          ".gif"
+        ],
+        [
+          null,
+          null,
+          null,
+          "stuk",
+          "stuk",
+          null,
+          ".pcx"
+        ],
+        [
+          null,
+          null,
+          null,
+          "doos",
+          "doos",
+          null,
+          ".pict"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ".png"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ".tif"
+        ]
+      ]
+    },
+    {
+      "name": "Uitleg",
+      "rows": [
+        [
+          "Veldnaam(NL)",
+          "Mutatietype",
+          "Art. nr. Leverancier",
+          "Art. Nr. Merk",
+          "BTW Code",
+          "Bruto prijs",
+          "Netto prijs",
+          "Valuta",
+          "Besteleenheid",
+          "Inhoudseenheid",
+          "Aantal inhoudseenheden per besteleenheid",
+          "Bestelgrootte",
+          "Minimale bestelgrootte",
+          "Maximale bestelgrootte",
+          "Kernassortiment",
+          "Levertijd (dagen)",
+          "Artikelnaam",
+          "Artikel beschrijving",
+          "Artikel afbeelding",
+          "Taalcode",
+          "Omschrijving 1",
+          "Omschrijving 2: Naam van het Merk",
+          "Omschrijving 3",
+          "URL Artikelinformatie",
+          "Niveau 1",
+          "Niveau 2",
+          "Niveau 3",
+          "Niveau 4",
+          "Niveau 5"
+        ],
+        [
+          "Veldnaam(EN)",
+          "MUT_TYPE",
+          "ID_SUPPLIER",
+          "ID_CUSTOMER",
+          "VAT_CODE",
+          "GROSS_PRICE",
+          "NET_PRICE",
+          "CURRENCY_CODE",
+          "UOM",
+          "UOC",
+          "UOM_QUANTITY",
+          "ORDER_QUANTITY",
+          "MIN_QUANTITY",
+          "MAX_QUANTITY",
+          "BASE_CATALOG",
+          "DELIVERY_TIME",
+          "PRODUCT_NAME",
+          "LONG_DESCRIPTION",
+          "PICTURE",
+          "LANGUAGE_CODE",
+          "DESCRIPTION1",
+          "DESCRIPTION2",
+          "DESCRIPTION3",
+          "URL_INFO",
+          "LEVEL1",
+          "LEVEL2",
+          "LEVEL3",
+          "LEVEL4",
+          "LEVEL5"
+        ],
+        [
+          "Versie",
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1,
+          1.1
+        ],
+        [
+          "Veldtype",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "FLT",
+          "FLT",
+          "CHR",
+          "CHR",
+          "CHR",
+          "FLT",
+          "FLT",
+          "FLT",
+          "FLT",
+          "INT",
+          "FLT",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR",
+          "CHR"
+        ],
+        [
+          "Veldlengte",
+          1,
+          50,
+          50,
+          1,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          1,
+          15,
+          200,
+          99999,
+          200,
+          15,
+          200,
+          200,
+          200,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        [
+          "Verplicht",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Nee",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Nee",
+          "Nee",
+          "Ja",
+          "Nee",
+          "Nee",
+          "Ja",
+          "Nee",
+          "Ja",
+          "Nee",
+          "Nee",
+          "Ja",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee",
+          "Nee"
+        ],
+        [
+          "Controleren",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja",
+          "Ja"
+        ],
+        [
+          "Toelichting",
+          "Uitsluitend waarden uit referentietabel. Wordt alleen gebruikt bij catalogus update, niet bij vervanging.\nI= Insert\nD = Delete\nU = Update",
+          "Maximaal 50 karakters\nNr moet uniek zijn",
+          "Dient altijd gevuld te zijn met het artikelnummer van het Merk",
+          "Uit referentietabel\nH = Hoog\nL = Laag\nN = N.v.t.",
+          "Prijs zonder kortingen, exclusief BTW",
+          "Prijs inclusief kortingen, exclusief BTW",
+          "Uit referentietabel\nIn welke valuta wordt deze prijs gemeten?\nKies EUR indien Euro.",
+          "Eenheid waarin een bestelling wordt geplaatst. Bijv. bij een 'Verpakking van 10 zakken met 1000 stuks' is dit 'VERP'.\nUit referentietabel of leveranciersadministratie. Default STUK",
+          "Inhoudseenheid waaruit de besteleenheid is samengesteld. Bijv. bij een  'Verpakking van 10 zakken met 1000 stuks' is dit 'zak a 1000 stuks'.\nUit referentietabel of leveranciersadministratie.",
+          "Aantal inhoudseenheden waaruit de besteleenheid is samengesteld. Bijv. bij een  'Verpakking van 10 zakken met 1000 stuks' is dit '10'.",
+          "In welke hoeveelheden moet dit product besteld worden.                                                     1 verpakking dus bestelgrootte is '1'.",
+          "Wat is de minimale bestelgrootte.                         Niet invullen tenzij het een veelvoud van besteleenheid is.\nWordt 0 indien niet gevuld.",
+          "Wat is de maximale bestelgrootte.\nWordt 99999 indien niet gevuld.",
+          "Valt dit artikel in het kernassortiment?\n1 - Ja\n0 - Nee",
+          "Wat is de levertijd (in dagen).",
+          "Alleen stofnaam (GROS)\nNaam van het artikel.\nMax. 200 karakters. Langere omschrijvingen worden afgekapt.",
+          "Beschrijving van het artikel. Beschrijving inclusief onderverdeling, in dit geval '10x 1000 stuks'",
+          "Bestandsnaam (inclusief extensie). Extensie uit Referentietabel.",
+          "Uit referentietabel. Default NL.",
+          "Max. 200 karakters. Langere omschrijvingen worden afgekapt.",
+          "Max. 200 karakters. Langere omschrijvingen worden afgekapt. Naam van het Merk: vul hier enkel de naam van het Merk in.",
+          "Max. 200 karakters. Langere omschrijvingen worden afgekapt.",
+          "Informatie van artikel op internet",
+          "Hoogste niveau van artikelcategorie",
+          "Tweede niveau van artikelcategorie\nIs gekoppeld aan hoogste niveau.\nIndien gevuld, dan moet hoofdniveau ook gevuld zijn.",
+          "Derde niveau van artikelcategorie\nIs gekoppeld aan tweede niveau.\nIndien gevuld, dan moet niveau2 ook gevuld zijn.",
+          null,
+          "Vijfde niveau van artikelcategorie\nIs gekoppeld aan vierde niveau.\nIndien gevuld, dan moet niveau4 ook gevuld zijn."
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "GROS voorbeeld: 'Doos met 4 flessen van 2,5 liter' is dit 'Doos'. ",
+          "GROS voorbeeld: 'Doos met 4 flessen van 2,5 liter' is dit 'Liter'",
+          "GROS voorbeeld: 'Doos met 4 flessen van 2,5 liter' is dit '10' (namelijk 4x2,5)",
+          "Er wordt hier dan bij 1 item een doos met 4 flessen besteld oftewel de bestelgrootte is '1'.",
+          "Niet invullen tenzij het een veelvoud van besteleenheid is.",
+          null,
+          null,
+          null,
+          null,
+          "Omschrijving inclusief onderverdeling, in dit geval '4x 2,5 Liter'",
+          null,
+          null,
+          "bij GROS: vul hier CAS nummer in (verplicht)"
+        ]
+      ]
+    },
+    {
+      "name": "Log",
+      "rows": [
+        [
+          "datum",
+          "tijd",
+          "rij",
+          "kolom",
+          "rubriek",
+          "inhoud",
+          "opmerking"
+        ],
+        [
+          "17-01-2012",
+          "14:40:19",
+          "Start SAPI_check"
+        ],
+        [
+          "17-01-2012",
+          "14:40:25",
+          "Einde SAPI_check"
+        ]
+      ]
+    }
+  ],
+  "columns": [
+    {"header": "Mutatietype", "source": "constant", "expression": "'I'"},
+    {"header": "Art. nr. Leverancier", "source": "master", "expression": "row['sku']"},
+    {"header": "Art. Nr. Merk", "source": "master", "expression": "row['sku']"},
+    {"header": "BTW Code", "source": "constant", "expression": "'H'"},
+    {"header": "Bruto prijs", "source": "master", "expression": "price_text(row['list_price_eur'])"},
+    {"header": "Netto prijs", "source": "master", "expression": "price_text(row['list_price_eur'], discount)"},
+    {"header": "Valuta", "source": "constant", "expression": "'EUR'"},
+    {"header": "Besteleenheid", "source": "constant", "expression": "'STUK'"},
+    {"header": "Inhoudseenheid", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Aantal inhoudseenheden per besteleenheid", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Bestelgrootte", "source": "constant", "expression": "'1.00'"},
+    {"header": "Minimale bestelgrootte", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Maximale bestelgrootte", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Kernassortiment", "source": "constant", "expression": "'1'"},
+    {"header": "Levertijd (dagen)", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "Artikelnaam", "source": "master", "expression": "cst_product_name(row, raw=True)"},
+    {"header": "Artikel beschrijving", "source": "master", "expression": "row['sku'] + ' - ' + cst_product_name(row, raw=True)"},
+    {"header": "Artikel afbeelding", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Taalcode", "source": "constant", "expression": "'EN'"},
+    {"header": "Omschrijving 1", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Omschrijving 2: Naam van het Merk", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "Omschrijving 3", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "URL Artikelinformatie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Niveau 1", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Niveau 2", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Niveau 3", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Niveau 4", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Niveau 5", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "template_name": "uni-hull",
+  "source_sample": "UK - University of Hull Current/Future Price.xlsx",
+  "description": "UK University of Hull file (xlsx, 9 columns, leading blank 'Update Type'). Price and the 'University of Hull' column are 2dp text GBP; same layout as uni-strathclyde apart from the last header. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": ["Price", "University of Hull"],
+  "columns": [
+    {"header": "Update Type", "source": "constant", "expression": "''"},
+    {"header": "Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "Category ID (8)", "source": "master", "expression": "row['unspsc']"},
+    {"header": "OEM", "source": "constant", "expression": "'not known'"},
+    {"header": "Product Description (512)", "source": "master", "expression": "clean_gladstone_description(row['long_description']) + ' ' + sku_leading_digits(row['sku'])"},
+    {"header": "Purchase UOM (20)", "source": "master", "expression": "row['size'] + ' ' + row['size_unit']"},
+    {"header": "VAT", "source": "constant", "expression": "'S'"},
+    {"header": "Price", "source": "master", "expression": "raw_price_gbp(row, customer)"},
+    {"header": "University of Hull", "source": "master", "expression": "price_for_rounded(row, 'list_price_gbp', customer, discount)"}
+  ]
+}

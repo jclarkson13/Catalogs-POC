@@ -1,0 +1,58 @@
+{
+  "template_name": "uni-strathclyde",
+  "source_sample": "UK - University of Strathclyde Current/Future Price.xlsx",
+  "description": "UK University of Strathclyde file (xlsx, 9 columns, leading blank 'Update Type'). At 0% discount Price uses the raw GBP string from cst_uk_clp.csv for the period, otherwise a rounded discounted price; same layout as uni-hull apart from the last header. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [
+    "Price",
+    "University of Strathclyde"
+  ],
+  "columns": [
+    {
+      "header": "Update Type",
+      "source": "constant",
+      "expression": "None"
+    },
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Category ID (8)",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "OEM",
+      "source": "constant",
+      "expression": "'not known'"
+    },
+    {
+      "header": "Product Description (512)",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + sku_leading_digits(row['sku'])"
+    },
+    {
+      "header": "Purchase UOM (20)",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "VAT",
+      "source": "constant",
+      "expression": "'S'"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp', '') if discount == 0 else '') or price_for_rounded(row, 'list_price_gbp', customer, discount)"
+    },
+    {
+      "header": "University of Strathclyde",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_gbp', customer, discount)"
+    }
+  ]
+}

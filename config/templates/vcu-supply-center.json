@@ -1,0 +1,44 @@
+{
+  "template_name": "vcu-supply-center",
+  "source_sample": "US - Virginia Commenwealth University Supply Center Current/Future Price.xlsx",
+  "description": "US VCU Supply Center file (xlsx, sheet Sheet1, 6 columns). List Price and discounted VCU Supply Center Price for the price period; description uses clean_ariba_text.",
+  "file_type": "xlsx",
+  "sheet_name": "Sheet1",
+  "sku_column": "Part Number",
+  "price_columns": [
+    "List Price",
+    "VCU Supply Center Price"
+  ],
+  "columns": [
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "((row['long_description'] + ' ' + row['size'] + ' ' + row['size_unit']) if row['long_description'].startswith('<p>') else clean_ariba_text(row['long_description'] + ' ' + row['size'] + ' ' + row['size_unit'], False, False).replace('®', '(R)').replace('™', '(tm)')).replace('µ', 'u')"
+    },
+    {
+      "header": "Packaging UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "'%.2f' % price_for(row, 'list_price_usd', customer)"
+    },
+    {
+      "header": "VCU Supply Center Price",
+      "source": "master",
+      "expression": "'%.2f' % (price_for(row, 'list_price_usd', customer) * (1 - discount/100))"
+    },
+    {
+      "header": "More Information URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "template_name": "uni-nottingham",
+  "source_sample": "UK - University of Nottingham Current/Future Price.xlsx",
+  "description": "UK University of Nottingham Oracle-punchout-style file (xlsx, 23 columns). Price is discounted GBP rounded half-up as text; List Price is the raw GBP string from cst_uk_clp.csv (some whole numbers without decimals). UOM from cst_catalogs_uom.csv. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Item",
+  "price_columns": ["Price", "List Price"],
+  "columns": [
+    {"header": "Action", "source": "constant", "expression": "'SYNC'"},
+    {"header": "Line Number", "source": "constant", "expression": "''"},
+    {"header": "Line Type", "source": "constant", "expression": "'Goods'"},
+    {"header": "Thumbnail Image", "source": "master", "expression": "row['image_url']"},
+    {"header": "Image", "source": "master", "expression": "row['image_url']"},
+    {"header": "Description", "source": "master", "expression": "row['long_description']"},
+    {"header": "Category Name", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Supplier Item", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "Manufacturer Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "UOM", "source": "master", "expression": "lookup(row['sku'], 'cst_catalogs_uom.csv', 'catalogs_uom', row['uom'].upper())"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded_half_up(row, 'list_price_gbp', customer, discount)"},
+    {"header": "Lead Time", "source": "constant", "expression": "'3'"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Description long", "source": "master", "expression": "row['long_description'] + ' (' + lookup(row['sku'], 'cst_test_count.csv', 'test_count', '') + ')' if lookup(row['sku'], 'cst_test_count.csv', 'test_count', '') else row['long_description']"},
+    {"header": "Attachment URL", "source": "master", "expression": "row['product_url'].replace('.html', '') + '?country=GB'"},
+    {"header": "Supplier URL", "source": "master", "expression": "row['product_url'].replace('.html', '') + '?country=GB'"},
+    {"header": "Manufacturer URL", "source": "master", "expression": "row['product_url'].replace('.html', '') + '?country=GB'"},
+    {"header": "Quantity", "source": "constant", "expression": "'1'"},
+    {"header": "Packaging String", "source": "master", "expression": "row['size'] + ' ' + row['size_unit']"},
+    {"header": "List Price", "source": "master", "expression": "lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp') or price_for_rounded_half_up(row, 'list_price_gbp', customer, 0)"},
+    {"header": "Environmentally Friendly", "source": "constant", "expression": "'YES'"},
+    {"header": "Core List Item", "source": "constant", "expression": "'YES'"}
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "template_name": "upenn-cell-center",
+  "source_sample": "US - University of Pennsylvania Cell Center Current/Future Price.xlsx",
+  "description": "US UPenn Cell Center file (xlsx, 6 columns), full CST master. LIST PRICE and discounted UPENN STOCKROOM PRICE are 2dp text USD for the price period; Product Description is long_description cleaned with clean_coupa_description.",
+  "file_type": "xlsx",
+  "sku_column": "SKU",
+  "price_columns": [
+    "LIST PRICE",
+    "UPENN STOCKROOM PRICE"
+  ],
+  "columns": [
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "clean_coupa_description(row['long_description'] + ' ' + row['size'] + ' ' + row['size_unit'], 'us').replace('µ', 'u')"
+    },
+    {
+      "header": "Packaging UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "LIST PRICE",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "UPENN STOCKROOM PRICE",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "WEB ADDRESS",
+      "source": "master",
+      "expression": "row['product_url']"
+    }
+  ]
+}

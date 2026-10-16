@@ -1,0 +1,80 @@
+{
+  "template_name": "universiteit-maastricht-cif",
+  "source_sample": "NEB/Universiteit_Maastricht_Catalog.xlsx, sheet 'Universiteit Maastricht'",
+  "description": "NL Universiteit Maastricht CIF_I_V3.0 catalog (file_type cif, delivered as xlsx) covering CST and NEB rows in EUR. Unit Price is discounted and Market Price list, as 2dp text. Its metadata TIMESTAMP is MM/DD/YYYY, unlike Intervet's DD/MM/YYYY.",
+  "file_type": "cif",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CHARSET",
+      "UTF-8"
+    ],
+    [
+      "LOADMODE",
+      "F"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC_v13.5"
+    ],
+    [
+      "CURRENCY",
+      "EUR"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "Network ID"
+    ],
+    [
+      "ITEM_COUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%m/%d/%Y"
+    ],
+    [
+      "UNUOM",
+      ""
+    ],
+    [
+      "COMMENTS",
+      ""
+    ]
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "columns": [
+    {"header": "Supplier ID", "source": "constant", "expression": "'AN01013913097'"},
+    {"header": "Supplier Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Item Description", "source": "master", "expression": "cst_name_with_suffix(row, 'qty_test_count', 'delete', raw=True)"},
+    {"header": "SPSC Code", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Unit Price", "source": "master", "expression": "price_for_rounded_number(row, 'list_price_eur', customer, discount)"},
+    {"header": "Unit of Measure", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Lead Time", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "Supplier URL", "source": "master", "expression": "(lambda u: '=HYPERLINK(\"' + u + '\", \"' + u + '\")' if u else '')(row['product_url'].replace('.html', '').lower() if row['manufacturer'] == 'New England Biolabs' else row['product_url'].replace('.html', ''))"},
+    {"header": "Manufacturer URL", "source": "constant", "expression": "''"},
+    {"header": "Market Price", "source": "master", "expression": "strip_trailing_zeros(price_text(row['list_price_eur']))"},
+    {"header": "Supplier Part Auxiliary ID", "source": "constant", "expression": "''"},
+    {"header": "Language", "source": "constant", "expression": "'en_US'"},
+    {"header": "Short Name", "source": "master", "expression": "cst_name_with_suffix(row, 'qty_test_count', 'delete', raw=True)[:49].rstrip()"},
+    {"header": "Image", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Thumbnail", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Price Unit Quantity", "source": "constant", "expression": "'1'"},
+    {"header": "Price Unit", "source": "constant", "expression": "'UNPCE'"},
+    {"header": "Unit Conversion", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Price Unit Quantity Description", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

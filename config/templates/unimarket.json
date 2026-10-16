@@ -1,0 +1,146 @@
+{
+  "template_name": "unimarket",
+  "source_sample": "US - UniMarket Current/Future Price.csv",
+  "description": "US UniMarket marketplace file (csv, semicolon-delimited, LF, 26 columns) at 0%. List Price is USD list as 2dp text for the price period; the Discount column is blank. Pack quantity from cst_qty_mkt_with_unit.csv.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "sku_column": "Code",
+  "price_columns": [
+    "List Price"
+  ],
+  "columns": [
+    {
+      "header": "Code",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Name",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + (lookup(row['sku'], 'cst_qty_mkt_with_unit.csv', 'qty_mkt_with_unit') or {chr(181) + 'l': row['size'] + ' microliters', chr(181) + 'g': row['size'] + ' micrograms'}.get(row['size_unit'], ''))"
+    },
+    {
+      "header": "List Price",
+      "source": "master",
+      "expression": "strip_trailing_zeros(price_for_rounded(row, 'list_price_usd', customer, discount))"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Manufacturer Part ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Form",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Category",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Units",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Quantity Available",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Link",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Allow Decimal",
+      "source": "constant",
+      "expression": "'No'"
+    },
+    {
+      "header": "Image Name",
+      "source": "constant",
+      "expression": "'https://learn.cellsignal.com/hs-fs/hub/214398/file-641277152.png'"
+    },
+    {
+      "header": "Discount",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazardous Class",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazardous UN Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Safety Data Sheet",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Search Terms",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Pack Quantity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Controlled",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Green",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Indigenous",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Energy Star",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Recyclable",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Taxable",
+      "source": "constant",
+      "expression": "''"
+    }
+  ],
+  "csv_format": {
+    "lineterminator": "\n"
+  }
+}

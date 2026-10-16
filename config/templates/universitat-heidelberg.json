@@ -1,0 +1,257 @@
+{
+  "template_name": "universitat-heidelberg",
+  "source_sample": "DE - Universitat Heidelberg Current/Future Price.csv",
+  "description": "DE Universität Heidelberg BMEcat-style CSV (semicolon-delimited, BOM, LF, 48 columns). PRICEPERPQ1 is discounted EUR rounded half-up as text; tiers 2-4 stay blank. Descriptions use clean_pfizer_description. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {
+    "lineterminator": "\n",
+    "bom": true
+  },
+  "sku_column": "SUPPLIERAID",
+  "price_columns": [
+    "PRICEPERPQ1"
+  ],
+  "columns": [
+    {
+      "header": "CATALOGID",
+      "source": "constant",
+      "expression": "'MEDMA-71055-01'"
+    },
+    {
+      "header": "CATALOGNAME",
+      "source": "constant",
+      "expression": "'CELL SIGNALING'"
+    },
+    {
+      "header": "SUPPLIERAID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "DESCRIPTIONSHORT",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description'].replace('<lt/>sup<gt/>', ' ').replace('<lt/>/sup<gt/>', '')).replace('<sup>', ' ').replace('</sup>', '')"
+    },
+    {
+      "header": "DESCRIPTIONLONG",
+      "source": "master",
+      "expression": "row['long_description'].replace('<lt/>sup<gt/>', ' ').replace('<lt/>/sup<gt/>', '').replace('<sup>', ' ').replace('</sup>', '').replace('®', '00AE') + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') else '') + ' (' + row['size'] + ' ' + row['size_unit'] + ')'"
+    },
+    {
+      "header": "MANUFACTURERNAME",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', ' Inc.')"
+    },
+    {
+      "header": "MANUFACTURERAID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "MANUFACTURETYP",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GROUPNAME",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "CATEGORYCLASS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICELECLASS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ORDERUNIT",
+      "source": "constant",
+      "expression": "'PK'"
+    },
+    {
+      "header": "CONTENTUNIT",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "NOCUPEROU",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "QUANTITYMIN",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "QUANTITYINTERVAL",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "KEYWORD",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DELIVERYTIME",
+      "source": "constant",
+      "expression": "'2'"
+    },
+    {
+      "header": "PRICEQUANTITY",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "PRICEPERPQ1",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "QUANTITY1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PRICEPERPQ2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QUANTITY2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PRICEPERPQ3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QUANTITY3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "PRICEPERPQ4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "QUANTITY4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TAX",
+      "source": "constant",
+      "expression": "'0.19'"
+    },
+    {
+      "header": "CURRENCY",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "VALIDFROM",
+      "source": "customer",
+      "expression": "customer['price_valid_from']"
+    },
+    {
+      "header": "VALIDTO",
+      "source": "customer",
+      "expression": "customer['price_valid_until']"
+    },
+    {
+      "header": "MIMESOURCE1",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "MIMESOURCE2",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "MIMESOURCE3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "NORM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "SPECIALTREATMENTCLASS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLEREFTYP",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLEREFQTY",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ART_ID_TO",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}
