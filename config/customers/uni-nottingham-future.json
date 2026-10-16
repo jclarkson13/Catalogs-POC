@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2100520",
+  "display_name": "UK - University of Nottingham Future Price",
+  "sales_region": "UK",
+  "step_classification_id": "NL2100520",
+  "_note": "Future file reverts to 0% (list price) though Current is discounted - real file verified. Uses the shared UK exclusion set.",
+  "template_ref": "uni-nottingham",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

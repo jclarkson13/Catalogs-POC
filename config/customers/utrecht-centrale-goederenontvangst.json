@@ -1,0 +1,28 @@
+{
+  "customer_id": "utrecht-centrale-goederenontvangst",
+  "display_name": "Universiteit_Utrecht_Centrale_Goederenontvangst",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 10% from the NEB sample. Utrecht University's goods receiving, not UMC Utrecht (the hospital). overrides.blank_price_skus: 11 BSA/azide-free (SF) antibodies added after the cst_data_2.csv export, which the real NL files list with a blank price (no EU price in production yet) - remove after a new export.",
+  "template_ref": "ghx-gdsn-nl-hospital",
+  "file_type": "xlsx",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "blank_price_skus": [
+      "41088SF",
+      "96084SF",
+      "57269SF",
+      "54526SF",
+      "79872SF",
+      "94715SF",
+      "55797SF",
+      "33286SF",
+      "74105SF",
+      "69803SF",
+      "82668SF"
+    ]
+  }
+}

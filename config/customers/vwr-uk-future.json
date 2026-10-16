@@ -1,0 +1,17 @@
+{
+  "customer_id": "vwr-uk",
+  "display_name": "UK - VWR Future Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "gsk_discount_percentage is 0: the Future GSK price reverts to list price, while the stale '15%' label stays. Uses the shared UK exclusion set.",
+  "template_ref": "vwr-uk-mel",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv",
+    "gsk_discount_percentage": 0
+  }
+}

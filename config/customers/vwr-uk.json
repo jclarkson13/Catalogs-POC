@@ -1,0 +1,17 @@
+{
+  "customer_id": "vwr-uk",
+  "display_name": "UK - VWR Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "No UK STEP ID (left null). gsk_discount_percentage 10 drives 'Purchase Net Price GSK'; the file's '15%' GSK label is stale and replicated. Uses the shared UK exclusion set.",
+  "template_ref": "vwr-uk-mel",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv",
+    "gsk_discount_percentage": 10
+  }
+}

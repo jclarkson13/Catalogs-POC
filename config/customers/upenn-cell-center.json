@@ -1,0 +1,13 @@
+{
+  "customer_id": "F00010000",
+  "display_name": "US - University of Pennsylvania Cell Center Current Price",
+  "sales_region": "US",
+  "step_classification_id": "F00010000",
+  "template_ref": "upenn-cell-center",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 15,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

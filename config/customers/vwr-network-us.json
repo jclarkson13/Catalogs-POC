@@ -1,0 +1,30 @@
+{
+  "customer_id": "vwr-network-us",
+  "display_name": "US - VWR Current Price",
+  "sales_region": "US",
+  "step_classification_id": "XP00543",
+  "_note": "One file: VWR's own price plus co-op partner columns (VWR 0%, Biomarin 0%, Novartis 8%).",
+  "template_ref": "vwr-network-us",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "institutions": {
+    "vwr": {
+      "header": "VWR Discount Price",
+      "discount_percentage": 0,
+      "step_classification_id": "XP00543"
+    },
+    "novartis": {
+      "header": "Novartis Discount Price",
+      "discount_percentage": 8,
+      "step_classification_id": "C0001824"
+    },
+    "biomarin": {
+      "header": "Biomarin Discount Price",
+      "discount_percentage": 0,
+      "step_classification_id": "C0000399"
+    }
+  },
+  "overrides": {}
+}

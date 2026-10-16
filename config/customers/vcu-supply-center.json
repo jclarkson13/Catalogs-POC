@@ -1,0 +1,13 @@
+{
+  "customer_id": "F0002000",
+  "display_name": "US - Virginia Commenwealth University Supply Center Current Price",
+  "sales_region": "US",
+  "step_classification_id": "F0002000",
+  "template_ref": "vcu-supply-center",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 15,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

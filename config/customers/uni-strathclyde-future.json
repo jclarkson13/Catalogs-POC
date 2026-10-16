@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2100555P",
+  "display_name": "UK - University of Strathclyde Future Price",
+  "sales_region": "UK",
+  "step_classification_id": "NL2100555P",
+  "_note": "Genuinely 0% in both periods. Uses the shared 1,458-SKU UK exclusion set.",
+  "template_ref": "uni-strathclyde",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

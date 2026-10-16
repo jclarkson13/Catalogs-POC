@@ -1,0 +1,14 @@
+{
+  "customer_id": "universiteit-maastricht",
+  "display_name": "Universiteit_Maastricht_Catalog",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 5% from Unit vs Market Price (same tier as NKI, Wageningen, BIPP-KUL).",
+  "template_ref": "universiteit-maastricht-cif",
+  "file_type": "cif",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

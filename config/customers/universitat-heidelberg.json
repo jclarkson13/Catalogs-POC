@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2012544",
+  "display_name": "DE - Universitat Heidelberg Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2012544",
+  "_note": "7.5% with half-up rounding. Uses the shared 1,457-SKU DE exclusion set.",
+  "template_ref": "universitat-heidelberg",
+  "file_type": "csv",
+  "price_period": "current",
+  "discount_percentage": 7.5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  }
+}

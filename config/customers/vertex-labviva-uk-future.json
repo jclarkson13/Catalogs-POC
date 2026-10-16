@@ -1,0 +1,15 @@
+{
+  "customer_id": "vertex-labviva-uk",
+  "display_name": "UK - Vertex LabViva Future Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "template_ref": "vertex-labviva-uk",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

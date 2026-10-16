@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2900295",
+  "display_name": "DE - Uniklinikum K\u00f6ln Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2900295",
+  "_note": "Uses the shared 1,457-SKU DE exclusion set.",
+  "template_ref": "uniklinikum-koeln",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 17.5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  }
+}
