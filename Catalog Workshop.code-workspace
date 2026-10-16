@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"github-enterprise.uri": "https://cst.ghe.com/"
+	}
+}
