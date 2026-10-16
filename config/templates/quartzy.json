@@ -1,0 +1,34 @@
+{
+  "template_name": "quartzy",
+  "source_sample": "US - Quartzy Current/Future Price.xlsx",
+  "description": "US Quartzy marketplace catalog (xlsx, 21 columns). List Price and Quartzy Cost are 2dp text USD for the price period; names from ariba_name(), CAS from raw CAS lookups. The 'Commnent Column' header typo is from the real file.",
+  "file_type": "xlsx",
+  "sku_column": "Catalog Number",
+  "price_columns": [
+    "List Price",
+    "Quartzy Cost"
+  ],
+  "columns": [
+    {"header": "Supplier Name", "source": "master", "expression": "row['manufacturer'].rstrip('.')"},
+    {"header": "Catalog Number", "source": "master", "expression": "row['sku']"},
+    {"header": "Displayed Unit", "source": "master", "expression": "row['size'] + row['size_unit']"},
+    {"header": "UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "List Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "Quartzy Cost", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "Lead Time", "source": "constant", "expression": "'1 Day'"},
+    {"header": "Item Name", "source": "master", "expression": "ariba_name(row)"},
+    {"header": "Product Description", "source": "master", "expression": "ariba_name_with_size(row)"},
+    {"header": "Image URL", "source": "master", "expression": "row['image_url']"},
+    {"header": "Item URL", "source": "master", "expression": "row['product_url']"},
+    {"header": "Shipping Width (in)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Shipping Length (in)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Shipping Height (in)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Shipping Weight (lbs)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "Manufacturer Part #", "source": "master", "expression": "row['sku']"},
+    {"header": "Special Shipping Condition", "source": "master", "expression": "row['shipping_conditions']"},
+    {"header": "Additional Shipping Fee", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "CAS Number", "source": "master", "expression": "lookup(row['sku'], 'cst_commercial_cas_raw.csv', 'commercial_cas_number_raw', '') + (', ' if lookup(row['sku'], 'cst_commercial_cas_raw.csv', 'commercial_cas_number_raw', '') and lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw', '') else '') + lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw', '').replace(';', ', ')", "allow_blank_description": true},
+    {"header": "Commnent Column", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

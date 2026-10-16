@@ -1,0 +1,25 @@
+{
+  "template_name": "sciquest-level2-proxy",
+  "source_sample": "US - Sciquest Level 2 PunchOut Proxy.xlsx",
+  "description": "US SciQuest Level 2 punchout proxy config (xlsx, 3 columns), no prices. Two headers contain literal quote characters; DefaultAccessibility is blank and 'University Name' is the constant 'True', as in the real file.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "\"DefaultAccessibility\"",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "\"University Name\"",
+      "source": "constant",
+      "expression": "'True'"
+    }
+  ]
+}

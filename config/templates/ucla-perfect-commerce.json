@@ -1,0 +1,38 @@
+{
+  "template_name": "ucla-perfect-commerce",
+  "source_sample": "US - UCLA Perfect Commerce Current/Future Price.xlsx",
+  "description": "US UCLA Perfect Commerce catalog (xlsx, 25 columns). ContractPrice (discounted) and ListPrice are 2dp text USD for the price period; descriptions from ariba_name().",
+  "file_type": "xlsx",
+  "sku_column": "PartNum",
+  "price_columns": [
+    "ContractPrice",
+    "ListPrice"
+  ],
+  "columns": [
+    {"header": "PartNum", "source": "master", "expression": "row['sku']"},
+    {"header": "ShortDesc", "source": "master", "expression": "ariba_name_with_size(row)"},
+    {"header": "UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "ContractPrice", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "CurrencyCode", "source": "constant", "expression": "'USD'"},
+    {"header": "UNSPSCALL", "source": "master", "expression": "row['unspsc']"},
+    {"header": "PricingType", "source": "constant", "expression": "'11'"},
+    {"header": "PartNumExt", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "LongDesc", "source": "master", "expression": "ariba_name_with_size(row)"},
+    {"header": "KeyWords", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MfrName", "source": "master", "expression": "row['manufacturer']"},
+    {"header": "MfrPartNum", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "BuyerPartNum", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MinOrder", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MaxOrder", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "LeadTime", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "OrderInterval", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "ListPrice", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"},
+    {"header": "EffectiveDate", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "ExpireDate", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "ThumbName", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "PicName", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "MSDS", "source": "master", "expression": "msds_url_or_blank(row)"},
+    {"header": "MSDSDesc", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Icon1", "source": "constant", "expression": "'FreightIncFlag'"}
+  ]
+}

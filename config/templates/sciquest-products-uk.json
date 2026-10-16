@@ -1,0 +1,76 @@
+{
+  "template_name": "sciquest-products-uk",
+  "source_sample": "UK - Sciquest Products.xlsx",
+  "description": "UK SciQuest attribute-only companion (xlsx, 13 columns), no prices. Product Description uses clean_pfizer_description(long_description); keywords and category from master lookups. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Category",
+      "source": "constant",
+      "expression": "lookup(row['sku'], 'cst_sciquest_category.csv', 'sciquest_category_dflt')"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "clean_pfizer_description(row['long_description']) + ' ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Packing UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Product Size",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1 Day'"
+    },
+    {
+      "header": "MSDS URL",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'sds_url_eu_en')"
+    },
+    {
+      "header": "More Information URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Long Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Searchable Keywords",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_product_keywords.csv', 'product_keywords').replace(';', ' ')"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "template_name": "radboud-umc-price-compare",
+  "source_sample": "NEB/Prijzenbestand_Radboud_UMC.xlsx, sheet 'Fi0056 Overzicht Artikelen'",
+  "description": "NL Radboud UMC price-comparison file (xlsx, sheet 'Fi0056 Overzicht Artikelen', 22 columns with a second Dutch header row) covering CST and NEB rows. Only the 'new' side is filled (article number, delivery time, unit, Price new as discounted EUR text); old-side and spend columns are blank.",
+  "file_type": "xlsx",
+  "sku_column": "Article number.",
+  "price_columns": [
+    "Price new"
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "sheet_name": "Fi0056 Overzicht Artikelen",
+  "header_format": {
+    "extra_rows": [
+      {
+        "values": [
+          "Artikel nummer",
+          "Artikelnummer nieuw",
+          "Radboudumc artikelnummer ",
+          "Artikel Omschrijving",
+          "Artikel omschrijving nieuw",
+          "Levertijd in dagen",
+          "Levertijd nieuw",
+          "Eenheid",
+          "Eenheid nieuw",
+          "Prijs ex btw",
+          "Prijs nieuw",
+          "% Verschil",
+          "Toelichting - Optioneel",
+          "# besteld",
+          "Omzet ex btw oud",
+          "Omzet ex btw nieuw",
+          "Omzet verschil",
+          "Contractnummer Radboudumc (ERP)",
+          "Inkoopadviseur",
+          "Order type Radboudumc",
+          "Contractnummer Radboudumc (CMS)",
+          "Inkoopcategorie"
+        ]
+      }
+    ]
+  },
+  "columns": [
+    {"header": "Article number.", "source": "master", "expression": "row['sku']"},
+    {"header": "Article number new", "source": "master", "expression": "row['sku']"},
+    {"header": "Radboudumc article number", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Product Description", "source": "master", "expression": "cst_name_with_suffix(row, 'test_count_then_qty', 'keep', raw=True)"},
+    {"header": "Product description new.", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Delivery time in days", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "Delivery time new", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "Unit", "source": "constant", "expression": "'Verpakking'"},
+    {"header": "Unit new", "source": "constant", "expression": "'Verpakking'"},
+    {"header": "Price ex tax", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Price new", "source": "master", "expression": "price_text(row['list_price_eur'], discount)"},
+    {"header": "% Contrast", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Clarification - Optional", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "# ordered", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Spend ex tax old", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Spend ex tax new", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Spend difference", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Contractnumber Radboudumc (ERP)", "source": "constant", "expression": "'3266865'"},
+    {"header": "Buyer", "source": "constant", "expression": "'Busser , W.H.P.'"},
+    {"header": "Order type Radboudumc", "source": "constant", "expression": "'Catalogus'"},
+    {"header": "Contractnumber Radboudumc (CMS)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Category", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

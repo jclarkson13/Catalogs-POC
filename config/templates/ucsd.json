@@ -1,0 +1,52 @@
+{
+  "template_name": "ucsd",
+  "source_sample": "US - UCSD Current/Future Price.xlsx",
+  "description": "US UCSD punchout file (xlsx, 8 columns) with one discounted Price column (2dp text USD for the price period); same institution and discount as the UCSD column in labviva-ucop-network.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier/ Vendor Item Number",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "Description",
+      "source": "master",
+      "expression": "cst_product_name(row, raw=True) + ' #' + sku_leading_digits(row['sku'])"
+    },
+    {
+      "header": "Supplier/ Vendor Item Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Item/Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Image URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "template_name": "sanquin-prijslijst",
+  "source_sample": "NEB/Sanquin_prijslijst.xlsx, sheet 'Template'",
+  "description": "NL Sanquin price-list upload (xlsx, sheet 'Template' after static leading sheets, 15 columns) covering CST and NEB rows at 0%. PRICE is EUR list as 2dp text; DELTA is always 'nieuw' because no prior catalog is diffed.",
+  "file_type": "xlsx",
+  "sku_column": "PRODUCTNUMBER",
+  "price_columns": [
+    "PRICE"
+  ],
+  "sheet_name": "Template",
+  "leading_sheets": [
+    {
+      "name": "Template uitleg",
+      "rows": [
+        [
+          "DELTA",
+          "PRODUCTNUMBER",
+          "NAME",
+          "NEW_PRICEUNIT",
+          "OLD_PRICEUNIT",
+          "PRICE",
+          "OLD_PRICE",
+          "BTW",
+          "MANNR",
+          "MANUFACTURER",
+          "MINIMUMQUANTITY",
+          "UNSPSC",
+          "STARTDATE",
+          "ENDDATE",
+          "LEADDAYS"
+        ],
+        [
+          "tekstveld:\nkeuze tussen opties:\n- nieuw\n- gewijzigd\n- verwijderd",
+          "tekstveld:\nuniek nummer van het product",
+          "Tekstveld:\nvolledige naam/ omschrijving van het product",
+          "tekstveld:\nbestelbare eenheid volgens ISO 80000-1:2022(en) codering\n",
+          "tekstveld:\nbestelbare eenheid volgens ISO 80000-1:2022(en) codering\n",
+          "tekstveld:\nprijs bestelbare eenheid\nformaat ##,## (2 decimalen)",
+          "tekstveld:\nprijs bestelbare eenheid\nformaat ##,## (2 decimalen)",
+          "tekstveld:\nkeuze tusen:\n- 0\n- 9\n- 21",
+          "tekstveld:\nuniek nummer van manufacturer",
+          "tekstveld:\nVolledige naam van manufacturer",
+          "tekstveld\nkleinst bestelbare hoeveelheid",
+          "tekstveld:\nUNSPSC",
+          "tekstveld: eerste datum waarop het artikel bestelbaar is of de datum per wanneer de wijziging ingaat\nformaat DD-MM-YYYY",
+          "tekstveld: datum tot wanneer het artikel bestelbaar is, indien (nog) geen einddatum bekend is 31-12-2099 invullen\nformaat DD-MM-YYYY",
+          "tekstveld:\nleveringstermijn van product in dagen"
+        ],
+        [
+          "Toelichting"
+        ],
+        [
+          "Geef in dit veld aan of het artikel nieuw, gewijzigd of verwijderd is ten opzichte van de vorige prijslijst",
+          null,
+          null,
+          "Geef in dit veld op welke eenheid de genoemde prijs van toepassing is. Vul dit veld altijd in",
+          "Geef in dit veld op wat de oude eenheid was voor de genoemde prijs. Vul dit veld alleen in indien de eenheid gewijzigd is",
+          "Geef in dit veld de huidige prijs\tGeef in dit veld de oude prijs voor het artikel. Vul dit veld alleen in indien de eenheid gewijzigd is",
+          "Geef aan of op het artikel hoog (21), laag (9) of geen (0) BTW van toepassing is",
+          "Als er door de fabrikant een specifiek nummer wordt gebruikt (anders het productnummer in kolom B) kan dat hier ingevuld worden. Indien niet van toepassing dit veld leeg laten",
+          "Indien het product door een andere fabrikant wordt geproduceerd, hier de naam invullen. Indien niet van toepassing dit veld leeg laten",
+          null,
+          null,
+          null,
+          null,
+          "Vul hier het minimale aantal dagen (weekdagen, dus GEEN werkdagen) in waarbinnen het artikel geleverd wordt of kan worden (indien de leveringstermijn niet exact kan worden bepaald)"
+        ],
+        [
+          "Voorbeeld"
+        ],
+        [
+          "nieuw",
+          "AB0394498934-023",
+          "Waterstofperoxide fles 1l oplossing 30%",
+          "PC",
+          "BTL",
+          "12,57",
+          "11,98",
+          21,
+          488577464,
+          "Wasserstof GmbH\t1",
+          51172833,
+          "01-05-2025",
+          "31-12-2099",
+          4
+        ]
+      ]
+    }
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "columns": [
+    {"header": "DELTA", "source": "constant", "expression": "'nieuw'"},
+    {"header": "PRODUCTNUMBER", "source": "master", "expression": "row['sku']"},
+    {"header": "NAME", "source": "master", "expression": "cst_name_with_suffix(row, 'qty_test_count', 'keep', raw=True)"},
+    {"header": "NEW_PRICEUNIT", "source": "constant", "expression": "'PC'"},
+    {"header": "OLD_PRICEUNIT", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "PRICE", "source": "master", "expression": "price_text(row['list_price_eur'], discount)"},
+    {"header": "OLD_PRICE", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "BTW", "source": "constant", "expression": "'21'"},
+    {"header": "MANNR", "source": "master", "expression": "row['sku']"},
+    {"header": "MANUFACTURER", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "MINIMUMQUANTITY", "source": "constant", "expression": "'1'"},
+    {"header": "UNSPSC", "source": "master", "expression": "row['unspsc']"},
+    {"header": "STARTDATE", "source": "customer", "expression": "customer['price_valid_from'][5:7] + '/' + customer['price_valid_from'][8:10] + '/' + customer['price_valid_from'][:4]"},
+    {"header": "ENDDATE", "source": "customer", "expression": "customer['price_valid_until'][5:7] + '/' + customer['price_valid_until'][8:10] + '/' + customer['price_valid_until'][:4]"},
+    {"header": "LEADDAYS", "source": "constant", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"}
+  ]
+}

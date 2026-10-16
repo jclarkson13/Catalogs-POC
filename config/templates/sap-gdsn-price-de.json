@@ -1,0 +1,356 @@
+{
+  "template_name": "sap-gdsn-price-de",
+  "source_sample": "DE - Helmholtz, DE - Uni Bonn, DE - Uni Gottingen, DE - Max Planck Products Current Price Mercateo (Current/Future Price) - shared SAP/GDSN ARTICLE_PRICE layout",
+  "description": "DE SAP/GDSN-style ARTICLE_PRICE catalog for Helmholtz and Uni Bonn (xlsx, sheet Sheet1, 85 columns). EUR price for the period, rounding per the customer's price_rounding; KEYWORD follows keyword_mode and test count follows test_count_source. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sheet_name": "Sheet1",
+  "sku_column": "SUPPLIER_AID",
+  "price_columns": [
+    "PRICE_AMOUNT"
+  ],
+  "columns": [
+    {
+      "header": "SUPPLIER_AID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "EAN",
+      "expression": "''"
+    },
+    {
+      "header": "DESCRIPTION_SHORT",
+      "expression": "((row['long_description'].replace('<lt/>sup<gt/>', ' ').replace('<lt/>/sup<gt/>', '').replace('<sup>', ' ').replace('</sup>', '').replace('®', '00AE')) if customer.get('description_mode', 'buggy') == 'buggy' else (row['long_description'].replace('<lt/>sup<gt/>', '').replace('<lt/>/sup<gt/>', '').replace('<sup>', '').replace('</sup>', '').replace('<sub>', '').replace('</sub>', '').replace('<i>', '').replace('</i>', '')))"
+    },
+    {
+      "header": "DESCRIPTION_LONG",
+      "expression": "((row['long_description'].replace('<lt/>sup<gt/>', ' ').replace('<lt/>/sup<gt/>', '').replace('<sup>', ' ').replace('</sup>', '').replace('®', '00AE')) if customer.get('description_mode', 'buggy') == 'buggy' else (row['long_description'].replace('<lt/>sup<gt/>', '').replace('<lt/>/sup<gt/>', '').replace('<sup>', '').replace('</sup>', '').replace('<sub>', '').replace('</sub>', '').replace('<i>', '').replace('</i>', ''))) + ((' (' + (lookup(row['sku'], 'cst_test_count.csv', 'test_count', '') if customer.get('test_count_source') == 'raw' else lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '')) + ')') if ((lookup(row['sku'], 'cst_test_count.csv', 'test_count', '') if customer.get('test_count_source') == 'raw' else lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '')) and customer.get('description_long_test_count', True)) else '')"
+    },
+    {
+      "header": "MANUFACTURER_AID",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "MANUFACTURER_NAME",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "ARTICLE_PRICE price_type",
+      "expression": "'net_customer'"
+    },
+    {
+      "header": "PRICE_AMOUNT",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount) if customer.get('price_rounding') == 'half_up' else price_for_rounded(row, 'list_price_eur', customer, discount)"
+    },
+    {
+      "header": "ARTICLE_PRICE price_type",
+      "expression": "''",
+      "key": "ARTICLE_PRICE price_type__2"
+    },
+    {
+      "header": "PRICE_AMOUNT",
+      "expression": "''",
+      "key": "PRICE_AMOUNT__2"
+    },
+    {
+      "header": "PRICE_QUANTITY",
+      "expression": "'1'"
+    },
+    {
+      "header": "DATETIME type=valid_start_date",
+      "expression": "((str(int(customer['price_valid_from'][5:7])) + customer.get('date_separator', '/') + str(int(customer['price_valid_from'][8:10]))) if customer.get('date_order', 'DMY') == 'MDY' else (str(int(customer['price_valid_from'][8:10])) + customer.get('date_separator', '/') + str(int(customer['price_valid_from'][5:7])))) + customer.get('date_separator', '/') + customer['price_valid_from'][:4]"
+    },
+    {
+      "header": "DATETIME type=valid_end_date",
+      "expression": "((str(int(customer['price_valid_until'][5:7])) + customer.get('date_separator', '/') + str(int(customer['price_valid_until'][8:10]))) if customer.get('date_order', 'DMY') == 'MDY' else (str(int(customer['price_valid_until'][8:10])) + customer.get('date_separator', '/') + str(int(customer['price_valid_until'][5:7])))) + customer.get('date_separator', '/') + customer['price_valid_until'][:4]"
+    },
+    {
+      "header": "PRICE_CURRENCY",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "TAX",
+      "expression": "'0'"
+    },
+    {
+      "header": "DELIVERY_TIME",
+      "expression": "'3'"
+    },
+    {
+      "header": "ORDER_UNIT",
+      "expression": "'PA'"
+    },
+    {
+      "header": "CONTENT_UNIT",
+      "expression": "'PCE'"
+    },
+    {
+      "header": "NO_CU_PER_OU",
+      "expression": "'1'"
+    },
+    {
+      "header": "QUANTITY_MIN",
+      "expression": "'1'"
+    },
+    {
+      "header": "QUANTITY_INTERVAL",
+      "expression": "'1'"
+    },
+    {
+      "header": "KEYWORD",
+      "expression": "lookup(row['sku'], 'cst_product_keywords.csv', 'product_keywords', '') if customer.get('keyword_mode') == 'product' else ''.join({\"α\": \"alpha\", \"β\": \"beta\", \"γ\": \"gamma\", \"δ\": \"delta\", \"ε\": \"epsilon\", \"ζ\": \"zeta\", \"η\": \"eta\", \"θ\": \"theta\", \"ι\": \"iota\", \"κ\": \"kappa\", \"λ\": \"lamba\", \"μ\": \"mu\", \"τ\": \"tau\", \"®\": \"00AE\"}.get(c, c) for c in lookup(row['sku'], 'cst_product_keywords.csv', 'product_keywords', '')) if customer.get('keyword_mode') == 'product_greek_spelled' else lookup(row['sku'], 'cst_all_keywords.csv', 'keywords', '').replace('<gt/>', '>').replace('<lt/>', '<').replace('\\n', ';') if customer.get('keyword_mode') == 'all_raw' else ';'.join(p for p in lookup(row['sku'], 'cst_all_keywords.csv', 'keywords', '').replace('<gt/>', '>').replace('<lt/>', '<').split('\\n') if p) if customer.get('keyword_mode') == 'all_strip' else ''"
+    },
+    {
+      "header": "CATALOG_GROUP_ID",
+      "expression": "{'Monoclonal Antibody': 'Primary Antibodies', 'Matched Antibody Pair': 'Matched Antibody Pairs', 'Secondary Antibody': 'Secondary Antibodies', 'FastScan ELISA Kit': 'ELISA Kits', 'Polyclonal Antibody': 'Primary Antibodies', 'ELISA Kit': 'ELISA Kits', 'Antibody Sampler Kit': 'Primary Antibodies', 'Protein Control': 'Proteins', 'Growth Factors and Cytokines': 'Other Cytokines and Chemokines', 'Antibody Duet': 'Matched Antibody Pairs', 'Cell Extracts': 'Cell Extracts', 'Miscellaneous': 'Signal Transduction Reagents', 'Primer Set': 'Gene-specific PCR Products', 'Chemical Modulators': 'Signal Transduction Reagents', 'Buffer': 'Biological Buffers', 'PTMScan': 'Signal Transduction Reagents', 'Assay Kit': 'Signal Transduction Reagents', 'Cellular Dyes': 'Dyes and Stains', 'Cell Extract Kit': 'Cell Extracts', 'ELISA Antibody Pair': 'Matched Antibody Pairs', 'Affinity and Purification Reagents': 'Signal Transduction Reagents', 'CUT&RUN Kit': 'Signal Transduction Reagents', 'Detection System Kit': 'Signal Transduction Reagents', 'siRNA': 'siRNA/dsRNA', 'IHC Control Slides': 'Immunohistochemistry Control Slides', 'IHC Kit': 'Immunohistochemistry Kits', 'Buffer Kit': 'Biological Buffers', 'Enzyme': 'Other Proteins', 'MW Marker Kit': 'Prestained Protein Molecular Weight Markers', 'MW Marker': 'Prestained Protein Molecular Weight Markers', 'Antibody Cocktail': 'Signal Transduction Reagents', 'Detection System': 'Signal Transduction Reagents', 'Avidin and Biotin': 'Other Peptides', 'Protein Control Kit': 'Proteins', 'CUT&Tag Kit': 'Signal Transduction Reagents', 'ChIP Kit': 'Signal Transduction Reagents'}.get(row['product_classification'], '')"
+    },
+    {
+      "header": "REFERENCE_FEATURE_SYSTEM_NAME",
+      "expression": "customer.get('eclass_system_name', 'E-CLASS-6.2')"
+    },
+    {
+      "header": "REFERENCE_FEATURE_GROUP_ID",
+      "expression": "unspsc_for_product_type(row)"
+    },
+    {
+      "header": "MIME_SOURCE1",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "\"MIME_PURPOSE1\"",
+      "expression": "'normal'"
+    },
+    {
+      "header": "MIME_DESCR1",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE2",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE2",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_DESCR2",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE3",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE3",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_DESCR3",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE4",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE4",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_DESCR4",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE5",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE5",
+      "expression": "''"
+    },
+    {
+      "header": "\"MIME_DESCR5\"",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE6",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE6",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_DESCR6",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE7",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_PURPOSE7",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_DESCR7",
+      "expression": "''"
+    },
+    {
+      "header": "MIME_SOURCE8",
+      "expression": "lookup(row['sku'], 'cst_sds_url_de.csv', 'sds_url_de', '') if customer.get('populate_de_sds_link', False) else ''"
+    },
+    {
+      "header": "MIME_PURPOSE8",
+      "expression": "'safety_data_sheet'"
+    },
+    {
+      "header": "MIME_DESCR8",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLE_ORDER",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLE_REFERENCE type=similar",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLE_REFERENCE type=accessories",
+      "expression": "''"
+    },
+    {
+      "header": "ARTICLE_REFERENCE type=others",
+      "expression": "''"
+    },
+    {
+      "header": "BUYER_AID type, BUYER_AID",
+      "expression": "('%.2f' % float(row['list_price_eur'])) if customer.get('populate_buyer_aid', False) else ''"
+    },
+    {
+      "header": "ERP_GROUP_BUYER",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME1",
+      "expression": "'GHS' if customer.get('populate_ghs_fname_labels', False) else ''"
+    },
+    {
+      "header": "FVALUE1",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT1",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME2",
+      "expression": "'GHSSIGNAL' if customer.get('populate_ghs_fname_labels', False) else ''"
+    },
+    {
+      "header": "FVALUE2",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT2",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME3",
+      "expression": "'Gefahrenhinweis' if customer.get('populate_ghs_fname_labels', False) else ''"
+    },
+    {
+      "header": "\"FVALUE3\"",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT3",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME4",
+      "expression": "'Gefahrenhinweis' if customer.get('populate_ghs_fname_labels', False) else ''"
+    },
+    {
+      "header": "FVALUE4",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT4",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME5",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUES5",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT5",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME6",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE6",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT6",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME7",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE7",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT7",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME8",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE8",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT8",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME9",
+      "expression": "''"
+    },
+    {
+      "header": "FVALUE9",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT9",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME10",
+      "expression": "''"
+    },
+    {
+      "header": "FNAME10",
+      "key": "FNAME10__2",
+      "expression": "''"
+    },
+    {
+      "header": "FUNIT10",
+      "expression": "''"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "template_name": "stanford-products",
+  "source_sample": "US - Stanford University Products.csv",
+  "description": "US Stanford attribute-only feed (csv, semicolon-delimited, LF, 4 columns): part number, short description, manufacturer and product name without tag symbols plus volume. No prices.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {"lineterminator": "\n"},
+  "sku_column": "Supplier Part #",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Supplier Part #",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Short Description",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_product_name_with_volume.csv', 'product_name_no_tag_symbols_with_volume', clean_ariba_text(row['long_description'], True, False) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Product Name No Tag Symbols with Volume",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_product_name_with_volume.csv', 'product_name_no_tag_symbols_with_volume', clean_ariba_text(row['long_description'], True, False) + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    }
+  ]
+}

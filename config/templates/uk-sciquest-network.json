@@ -1,0 +1,15 @@
+{
+  "template_name": "uk-sciquest-network",
+  "source_sample": "UK - Sciquest Current/Future Price.xlsx",
+  "description": "UK SciQuest/Jaggaer network file (xlsx, 5 columns): CorporateList plus Sanger, Imperial College London and Warwick price columns from per-institution discounts, based on the raw GBP list (cst_uk_clp.csv) for the price period. Customers exclude the SKUs in coupa_marketplace_excluded_uk.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": ["CorporateList", "Sanger", "ImperialCollegeLondon", "Warwick"],
+  "columns": [
+    {"header": "Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "CorporateList", "source": "institution", "expression": "lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp', default='%.2f' % (price_for(row, 'list_price_gbp', customer) * (1 - customer['institutions']['corporate_list']['discount_percentage']/100)))"},
+    {"header": "Sanger", "source": "institution", "expression": "'%.2f' % (price_for(row, 'list_price_gbp', customer) * (1 - customer['institutions']['sanger']['discount_percentage']/100))"},
+    {"header": "ImperialCollegeLondon", "source": "institution", "expression": "'%.2f' % (price_for(row, 'list_price_gbp', customer) * (1 - customer['institutions']['imperial']['discount_percentage']/100))"},
+    {"header": "Warwick", "source": "institution", "expression": "'%.2f' % (price_for(row, 'list_price_gbp', customer) * (1 - customer['institutions']['warwick']['discount_percentage']/100))"}
+  ]
+}

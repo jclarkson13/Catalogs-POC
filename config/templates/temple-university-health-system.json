@@ -1,0 +1,119 @@
+{
+  "template_name": "temple-university-health-system",
+  "source_sample": "US - Temple University Health System Current/Future Price.xlsx",
+  "description": "US Temple University Health System catalog (xlsx, 21 columns) with one Unit Price column (2dp text USD for the price period). Descriptions come from cst_product_name_variants.csv and clean_gladstone_description.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier part no",
+  "price_columns": [
+    "Unit Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier part no",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Long Description",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_product_name_variants.csv', 'product_name_no_tags', '') or clean_gladstone_description(row['long_description'])) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Short Description",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_product_name_variants.csv', 'product_name_no_tags', '') or clean_gladstone_description(row['long_description'])) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Unit Quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Unit Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Part No",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "GTIN",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Tag Name",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Min Order Quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Order Quantity Multiple",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Effective Date",
+      "source": "customer",
+      "expression": "date_mdyyyy(customer['price_valid_from'])"
+    },
+    {
+      "header": "Expiry Date",
+      "source": "customer",
+      "expression": "date_mdyyyy(customer['price_valid_until'])"
+    },
+    {
+      "header": "ContractNo",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "Latex Flag",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "CDM Code",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "CDM Description",
+      "source": "constant",
+      "expression": "' '",
+      "allow_blank_description": true
+    },
+    {
+      "header": "HCPCS Code",
+      "source": "constant",
+      "expression": "' '"
+    },
+    {
+      "header": "HCPCS Description",
+      "source": "constant",
+      "expression": "' '",
+      "allow_blank_description": true
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "template_name": "sanofi-genzyme",
+  "source_sample": "US - Sanofi Genzyme Current/Future Price.xlsx",
+  "description": "US Sanofi Genzyme Coupa-style catalog (xlsx, 10 columns) with one Price* column (2dp text USD for the price period). Name and description use ariba_name()/clean_ariba_text(); category from cst_sciquest_category.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Part Num",
+  "price_columns": [
+    "Price*"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Part Num",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Name*",
+      "source": "master",
+      "expression": "clean_ariba_text(ariba_name(row), False, False) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    },
+    {
+      "header": "Description*",
+      "source": "master",
+      "expression": "clean_ariba_text(ariba_name(row), False, False) + ' ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))"
+    },
+    {
+      "header": "UOM code*",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Active*",
+      "source": "constant",
+      "expression": "'Yes'"
+    },
+    {
+      "header": "Item Classification Name",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_sciquest_category.csv', 'sciquest_category_dflt', row['product_classification'])"
+    },
+    {
+      "header": "UNSPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Price*",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    }
+  ]
+}

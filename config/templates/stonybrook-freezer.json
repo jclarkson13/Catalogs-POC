@@ -1,0 +1,167 @@
+{
+  "template_name": "stonybrook-freezer",
+  "source_sample": "US - StonyBrook University Freezer Current/Future Price.xlsx",
+  "description": "US Stony Brook freezer-program file (xlsx, 31 columns). actual_cost is discounted USD as 2dp text for the price period. product_name/description put a space before the size but none between size and unit (e.g. '100\u00b5l'), as in the real file.",
+  "file_type": "xlsx",
+  "sku_column": "supplier_catalog_number",
+  "price_columns": [
+    "actual_cost"
+  ],
+  "columns": [
+    {
+      "header": "supplier_name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "supplier_catalog_number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "product_name",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + row['size'] + row['size_unit']"
+    },
+    {
+      "header": "description",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + row['size'] + row['size_unit']"
+    },
+    {
+      "header": "supplier_product_url",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "product_image_url",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "UNSPSC Code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "manufacturer_name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "manufacturer_catalog_number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "central_catalog_number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "print_labels",
+      "source": "constant",
+      "expression": "'FALSE'"
+    },
+    {
+      "header": "track_expiration",
+      "source": "constant",
+      "expression": "'FALSE'"
+    },
+    {
+      "header": "track_lot_number",
+      "source": "constant",
+      "expression": "'FALSE'"
+    },
+    {
+      "header": "track_instances",
+      "source": "constant",
+      "expression": "'FALSE'"
+    },
+    {
+      "header": "is_active",
+      "source": "constant",
+      "expression": "'TRUE'"
+    },
+    {
+      "header": "label_1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Label_2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "actual_cost",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "purchase_unit_name",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "total_resale_units",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "resale_unit_name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "resale_unit_amount",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "resale_uom_name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "dynamic_pricing",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "pricing_rule",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{coreID}_min_stock_level",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{CoreID}_ideal_stock_level",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{CoreID}_max_stock_level",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{CoreID}_ordering_note",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{CoreID}_catalog_number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "facility_{CoreID}_qty_in_stock",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

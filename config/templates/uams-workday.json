@@ -1,0 +1,88 @@
+{
+  "template_name": "uams-workday",
+  "source_sample": "US - UAMS Workday Current/Future Price.xlsx",
+  "description": "US UAMS Workday file (xlsx, 15 columns) with no header row (csv_format.header_row false); column labels here are internal names only. Price is 2dp text USD for the price period at 0%.",
+  "file_type": "xlsx",
+  "csv_format": {"header_row": false},
+  "sku_column": "SKU",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "SupplierPartAuxID",
+      "source": "constant",
+      "expression": "'SPL-00032706'"
+    },
+    {
+      "header": "EffectiveDate",
+      "source": "customer",
+      "expression": "date_mmddyy(customer['price_valid_from'])"
+    },
+    {
+      "header": "ExpirationDate",
+      "source": "customer",
+      "expression": "date_mmddyy(customer['price_valid_until'])"
+    },
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "ShortDescription",
+      "source": "master",
+      "expression": "cst_product_name(row, raw=True) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "LongDescription",
+      "source": "master",
+      "expression": "cst_product_name(row, raw=True) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "UOM1",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Qty",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "UOM2",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "Flag1",
+      "source": "constant",
+      "expression": "'Y'"
+    },
+    {
+      "header": "Qty2",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Flag2",
+      "source": "constant",
+      "expression": "'N'"
+    },
+    {
+      "header": "Manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    }
+  ]
+}

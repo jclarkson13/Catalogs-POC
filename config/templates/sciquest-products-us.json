@@ -1,0 +1,197 @@
+{
+  "template_name": "sciquest-products-us",
+  "source_sample": "US - Sciquest Products.xlsx",
+  "description": "US SciQuest attribute-only companion (xlsx, 37 columns): hazmat, regulatory and antibody-detail fields, no prices. Product background, species reactivity and raw CAS come from raw-field lookups; descriptions use clean_gladstone_description.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Category",
+      "source": "constant",
+      "expression": "lookup(row['sku'], 'cst_sciquest_category.csv', 'sciquest_category_dflt')"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Description",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description'])"
+    },
+    {
+      "header": "Packaging UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Product Size",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', row['size'] + ' ' + row['size_unit'])"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "Manufacturer Part Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1 Day'"
+    },
+    {
+      "header": "Is Hazardous Material?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Health Hazards",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Physical Hazards",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Radioactive?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Minor Radioactive?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Recycled?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Controlled Substance?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Controlled Substance Flag Description",
+      "source": "constant",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Is Toxin?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Select Agent?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Green?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Green Product",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Number",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') + ', ' + lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw')) if lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') and lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw') else (lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw') or lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw'))).replace(';', ', ')"
+    },
+    {
+      "header": "MSDS URL",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    },
+    {
+      "header": "Image URL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "More Information URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Long Description",
+      "source": "master",
+      "expression": "lookup(leading_digits(row['sku']), 'cst_product_background.csv', 'product_background')",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Species Reactivity",
+      "source": "constant",
+      "expression": "';'.join(p.strip() for p in lookup(row['sku'], 'cst_species_reactivity_current_rev.csv', 'species_reactivity_current_rev').split(',')) if lookup(row['sku'], 'cst_species_reactivity_current_rev.csv', 'species_reactivity_current_rev').strip() else ''"
+    },
+    {
+      "header": "Applications",
+      "source": "master",
+      "expression": "row['assays'] or ' '"
+    },
+    {
+      "header": "Shipping Conditions",
+      "source": "master",
+      "expression": "row['shipping_conditions']"
+    },
+    {
+      "header": "Type",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Antibody Type",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'antibody_type')"
+    },
+    {
+      "header": "Host",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'host')"
+    },
+    {
+      "header": "Isotype",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Molecular Weight",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'mw_summary').split('kDa')[0]"
+    },
+    {
+      "header": "Molecular Weight Details",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'mw_summary')"
+    },
+    {
+      "header": "Storage Temperature",
+      "source": "master",
+      "expression": "row['storage_temperature']"
+    },
+    {
+      "header": "Technical Data Sheet URL",
+      "source": "master",
+      "expression": "'https://media.cellsignal.com/pdf/' + leading_digits(row['sku']) + '.pdf'"
+    }
+  ]
+}
