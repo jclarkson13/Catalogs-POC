@@ -1,0 +1,28 @@
+{
+  "customer_id": "prinses-maxima-centrum",
+  "display_name": "Prinses_Maxima_Centrum",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 7.5% derived from the NEB sample. overrides.blank_price_skus: 11 BSA/azide-free (SF) antibodies added after the cst_data_2.csv export, which the real NL files list with a blank price (no EU price in production yet) - remove after a new export.",
+  "template_ref": "ghx-gdsn-nl-hospital",
+  "file_type": "xlsx",
+  "discount_percentage": 7.5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "blank_price_skus": [
+      "41088SF",
+      "96084SF",
+      "57269SF",
+      "54526SF",
+      "79872SF",
+      "94715SF",
+      "55797SF",
+      "33286SF",
+      "74105SF",
+      "69803SF",
+      "82668SF"
+    ]
+  }
+}

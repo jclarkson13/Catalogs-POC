@@ -1,0 +1,12 @@
+{
+  "customer_id": "sciquest-level2-proxy",
+  "display_name": "US - Sciquest Level 2 PunchOut Proxy",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Attribute-only punchout companion to sciquest-network.",
+  "template_ref": "sciquest-level2-proxy",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

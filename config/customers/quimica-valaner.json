@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0007285",
+  "display_name": "US - Quimica Valaner S.A. de C.V Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0007285",
+  "template_ref": "distributor-synonyms",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 20,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

@@ -1,0 +1,12 @@
+{
+  "customer_id": "one-advanced-products",
+  "display_name": "UK - One Advanced Products",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "Attribute-only companion to the one-advanced priced file.",
+  "template_ref": "one-advanced-products",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"}
+}

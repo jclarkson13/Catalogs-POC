@@ -1,0 +1,112 @@
+{
+  "customer_id": "sciquest-network",
+  "display_name": "US - Sciquest Current Price",
+  "sales_region": "US",
+  "template_ref": "network-multi-institution",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "_note": "One file, many institutions with per-institution discounts derived from price ratios. corporate_list, higher_ed_list and nyu_full_suite have no confirmed STEP ID (null).",
+  "institutions": {
+    "corporate_list": {
+      "header": "CorporateList",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "higher_ed_list": {
+      "header": "HigherEdList",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "cleveland_clinic": {
+      "header": "ClevelandClinic",
+      "discount_percentage": 10,
+      "step_classification_id": "C0000666"
+    },
+    "ecu": {
+      "header": "ECU",
+      "discount_percentage": 0,
+      "step_classification_id": "C0000854"
+    },
+    "fred_hutch": {
+      "header": "FredHutch",
+      "discount_percentage": 10,
+      "step_classification_id": "C0000990"
+    },
+    "indiana_u": {
+      "header": "IndianaUBuyIU",
+      "discount_percentage": 10,
+      "step_classification_id": "C0001248"
+    },
+    "kaust": {
+      "header": "KAUSTSA",
+      "discount_percentage": 0,
+      "step_classification_id": "C0009372"
+    },
+    "nyu_full_suite": {
+      "header": "NYUFullSuite",
+      "discount_percentage": 5,
+      "step_classification_id": null
+    },
+    "rockefeller": {
+      "header": "Rockefeller",
+      "discount_percentage": 5,
+      "step_classification_id": "C0002134"
+    },
+    "salk": {
+      "header": "Salk",
+      "discount_percentage": 13,
+      "step_classification_id": "C0002196"
+    },
+    "scripps": {
+      "header": "Scripps",
+      "discount_percentage": 0,
+      "step_classification_id": "C0002239"
+    },
+    "st_jude": {
+      "header": "StJude/S00014",
+      "discount_percentage": 10,
+      "step_classification_id": "C0002174"
+    },
+    "stanford": {
+      "header": "Stanford",
+      "discount_percentage": 15,
+      "step_classification_id": "C0003893"
+    },
+    "utep": {
+      "header": "UTEP",
+      "discount_percentage": 16,
+      "step_classification_id": "C0002996"
+    },
+    "ut_system": {
+      "header": "UTSystem",
+      "discount_percentage": 16,
+      "step_classification_id": "C0002991"
+    },
+    "yale": {
+      "header": "Yale2",
+      "discount_percentage": 15,
+      "step_classification_id": "C0004307"
+    },
+    "yeshiva": {
+      "header": "Yeshiva",
+      "discount_percentage": 10,
+      "step_classification_id": "C0004629"
+    },
+    "ucop": {
+      "header": "UCOP/2024004080",
+      "discount_percentage": 16,
+      "step_classification_id": "C0003624"
+    },
+    "moffitt": {
+      "header": "Moffitt",
+      "discount_percentage": 5,
+      "step_classification_id": "C0002935"
+    },
+    "cornell": {
+      "header": "Cornell",
+      "discount_percentage": 10,
+      "step_classification_id": "C0000752"
+    }
+  }
+}

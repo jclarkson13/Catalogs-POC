@@ -1,0 +1,12 @@
+{
+  "customer_id": "stanford-products",
+  "display_name": "US - Stanford University Products",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Attribute-only companion to Stanford's entry in sciquest-network; no price columns.",
+  "template_ref": "stanford-products",
+  "file_type": "csv",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

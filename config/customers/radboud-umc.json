@@ -1,0 +1,14 @@
+{
+  "customer_id": "radboud-umc",
+  "display_name": "Prijzenbestand_Radboud_UMC",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 12% derived from the NEB sample's 'Price new' column.",
+  "template_ref": "radboud-umc-price-compare",
+  "file_type": "xlsx",
+  "discount_percentage": 12,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

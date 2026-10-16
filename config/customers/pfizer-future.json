@@ -1,0 +1,14 @@
+{
+  "customer_id": "pfizer-future",
+  "display_name": "US - Pfizer Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0001976",
+  "_note": "STEP ID C0001976. 0%: straight list-price passthrough in both periods.",
+  "template_ref": "pfizer",
+  "file_type": "ciftxt",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

@@ -1,0 +1,12 @@
+{
+  "customer_id": "sciquest-products-uk",
+  "display_name": "UK - Sciquest Products",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "Attribute-only companion to uk-sciquest-network; no price columns.",
+  "template_ref": "sciquest-products-uk",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"}
+}

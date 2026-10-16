@@ -1,0 +1,14 @@
+{
+  "customer_id": "sanquin",
+  "display_name": "Sanquin_prijslijst",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 0%: undiscounted list-price feed.",
+  "template_ref": "sanquin-prijslijst",
+  "file_type": "xlsx",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

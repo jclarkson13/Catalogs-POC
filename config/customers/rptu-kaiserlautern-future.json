@@ -1,0 +1,13 @@
+{
+  "customer_id": "NL2002555",
+  "display_name": "DE - RPTU Kaiserlautern Future Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2002555",
+  "template_ref": "rptu-kaiserlautern",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}
