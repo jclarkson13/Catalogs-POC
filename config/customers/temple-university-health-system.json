@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0000987",
+  "display_name": "US - Temple University Health System Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0000987",
+  "template_ref": "temple-university-health-system",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

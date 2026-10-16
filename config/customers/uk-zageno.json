@@ -1,0 +1,16 @@
+{
+  "customer_id": "uk-zageno",
+  "display_name": "UK - Zageno Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 0% in both periods.",
+  "template_ref": "uk-zageno",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "customer_id": "uams-workday",
+  "display_name": "US - UAMS Workday Future Price",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "template_ref": "uams-workday",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

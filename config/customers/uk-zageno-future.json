@@ -1,0 +1,16 @@
+{
+  "customer_id": "uk-zageno-future",
+  "display_name": "UK - Zageno Future Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 0%. Reproduces the real file's column-mislabeling bug on purpose (see template).",
+  "template_ref": "uk-zageno",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

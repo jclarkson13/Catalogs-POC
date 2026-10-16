@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2100475P",
+  "display_name": "UK - University of Dundee Current Price",
+  "sales_region": "UK",
+  "step_classification_id": "NL2100475P",
+  "_note": "Uses the shared 1,458-SKU UK exclusion set (coupa-marketplace-uk).",
+  "template_ref": "uni-dundee",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 10,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  }
+}

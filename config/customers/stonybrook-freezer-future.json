@@ -1,0 +1,14 @@
+{
+  "customer_id": "stonybrook-freezer-future",
+  "display_name": "US - StonyBrook University Freezer Future Price",
+  "sales_region": "US",
+  "step_classification_id": "F0002080",
+  "_note": "STEP ID F0002080. Flat 10% in both periods.",
+  "template_ref": "stonybrook-freezer",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 10,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

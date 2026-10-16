@@ -1,0 +1,37 @@
+{
+  "customer_id": "uk-sciquest-network",
+  "display_name": "UK - Sciquest Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "One file, 4 UK institutions: CorporateList/Warwick 0%, Sanger 5%, Imperial 20%. Sanger = 'Genome Research LTD' in STEP. Uses the shared UK exclusion set.",
+  "template_ref": "uk-sciquest-network",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  },
+  "institutions": {
+    "corporate_list": {
+      "header": "CorporateList",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "sanger": {
+      "header": "Sanger",
+      "discount_percentage": 5,
+      "step_classification_id": "NL2100210"
+    },
+    "imperial": {
+      "header": "ImperialCollegeLondon",
+      "discount_percentage": 20,
+      "step_classification_id": "NL2100245P"
+    },
+    "warwick": {
+      "header": "Warwick",
+      "discount_percentage": 0,
+      "step_classification_id": "NL2100575P"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0006272",
+  "display_name": "US - UCLA Perfect Commerce Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0006272",
+  "template_ref": "ucla-perfect-commerce",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 16,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

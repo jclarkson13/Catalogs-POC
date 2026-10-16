@@ -1,0 +1,16 @@
+{
+  "customer_id": "NL2900299",
+  "display_name": "DE - Uni Bonn Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2900299",
+  "template_ref": "sap-gdsn-price-de",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 15,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "keyword_mode": "product_greek_spelled"
+}

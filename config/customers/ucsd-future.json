@@ -1,0 +1,14 @@
+{
+  "customer_id": "C0003655",
+  "display_name": "US - UCSD Future Price",
+  "sales_region": "US",
+  "step_classification_id": "C0003655",
+  "_note": "Same institution and 16% as the UCSD column in labviva-ucop-network-future (separate punchout channel) - keep them in sync.",
+  "template_ref": "ucsd",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 16,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {}
+}

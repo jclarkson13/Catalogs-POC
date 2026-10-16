@@ -1,0 +1,20 @@
+{
+  "customer_id": "NL2000251",
+  "display_name": "DE - Uni Gottingen Future Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2000251",
+  "_note": "Future file reverts to 0% (list price) though Current is discounted - real file verified.",
+  "template_ref": "sap-gdsn-price-de-gottingen",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "date_separator": ".",
+  "populate_de_sds_link": true,
+  "populate_buyer_aid": true,
+  "keyword_mode": "product"
+}

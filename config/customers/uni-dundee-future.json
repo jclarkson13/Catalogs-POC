@@ -1,0 +1,17 @@
+{
+  "customer_id": "NL2100475P",
+  "display_name": "UK - University of Dundee Future Price",
+  "sales_region": "UK",
+  "step_classification_id": "NL2100475P",
+  "_note": "0%: the real Future file prices at list, but the DISCOUNT column still prints 10% - replicated via overrides.label_discount_percentage (10).",
+  "template_ref": "uni-dundee",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv",
+    "label_discount_percentage": 10
+  }
+}
