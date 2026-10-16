@@ -1,0 +1,14 @@
+{
+  "customer_id": "dsm",
+  "display_name": "DSM",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 5% from Unit vs Market Price. Uses the NEB master (products_neb.csv): the file has no CST SKUs.",
+  "template_ref": "dsm-cif",
+  "file_type": "cif",
+  "discount_percentage": 5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

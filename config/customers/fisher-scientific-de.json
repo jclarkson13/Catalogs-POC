@@ -1,0 +1,19 @@
+{
+  "customer_id": "NL2002115",
+  "display_name": "DE - Fisher Scientific Products Current Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2002115",
+  "_note": "Uses the shared 1,457-SKU DE exclusion set. region 'de' is where the Sanofi co-op purchasing columns are populated.",
+  "template_ref": "fisher-scientific-regional",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "region": "de",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  },
+  "price_currency": "EUR",
+  "price_currency_field": "eur"
+}

@@ -1,0 +1,12 @@
+{
+  "customer_id": "fisher-regulatory-info",
+  "display_name": "US - Fisher Regulatory Info",
+  "sales_region": "US",
+  "step_classification_id": null,
+  "_note": "Attribute-only companion to Fisher's priced catalogs (fisher-us, fisher-scientific-uk/-de); no price columns, most columns blank.",
+  "template_ref": "fisher-regulatory-info",
+  "file_type": "xlsx",
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

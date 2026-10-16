@@ -1,0 +1,14 @@
+{
+  "customer_id": "europe-price-export-future",
+  "display_name": "Europe Future Price Export",
+  "sales_region": "EU",
+  "step_classification_id": null,
+  "_note": "Generic pan-European EUR list-price reference (no institution, no STEP ID); 0% passthrough.",
+  "template_ref": "europe-price-export",
+  "file_type": "csv",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

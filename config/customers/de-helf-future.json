@@ -1,0 +1,14 @@
+{
+  "customer_id": "de-helf-future",
+  "display_name": "DE - HELF Future Price",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. Future file reverts to 0% (list price) though Current is discounted - real file verified.",
+  "template_ref": "de-helf",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

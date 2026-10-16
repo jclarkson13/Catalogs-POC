@@ -1,0 +1,14 @@
+{
+  "customer_id": "de-uniklinikum-erlangen-future",
+  "display_name": "DE - Uniklinikum Erlangen Future Price",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "No real STEP ID. Future ContractPrice reverts to BasePrice (0%) even though PriceModifier still reads 20 - real file verified.",
+  "template_ref": "de-uniklinikum-erlangen",
+  "file_type": "csv",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

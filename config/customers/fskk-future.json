@@ -1,0 +1,17 @@
+{
+  "customer_id": "NL2002445",
+  "display_name": "DE - FSKK Future Price",
+  "sales_region": "DE",
+  "step_classification_id": "NL2002445",
+  "_note": "0%: the real Future file prices at list, but Rabatt_1 still prints 0.175 - replicated via overrides.label_discount_percentage (17.5).",
+  "template_ref": "fskk-staffelpreis",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv",
+    "label_discount_percentage": 17.5
+  }
+}

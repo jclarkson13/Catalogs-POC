@@ -1,0 +1,25 @@
+{
+  "customer_id": "eu-oms-future",
+  "display_name": "EU - OMS Future Price",
+  "sales_region": "EU",
+  "step_classification_id": null,
+  "_note": "Two institutions: OMS 0% in both periods; MUW 12.5% Current, 0% Future (reverts to list price). No STEP IDs confirmed.",
+  "template_ref": "eu-oms",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "institutions": {
+    "oms": {
+      "header": "OMS_Price",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    },
+    "muw": {
+      "header": "MUW_Price",
+      "discount_percentage": 0,
+      "step_classification_id": null
+    }
+  },
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

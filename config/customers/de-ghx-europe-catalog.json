@@ -1,0 +1,15 @@
+{
+  "customer_id": "de-ghx-europe-catalog",
+  "display_name": "DE - GHX Europe Catalog",
+  "sales_region": "DE",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 0%: ListPrice equals EUR list price. Current-only (no Future file exists).",
+  "template_ref": "de-ghx-europe-catalog",
+  "file_type": "xlsx",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"
+  }
+}

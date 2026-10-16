@@ -1,0 +1,13 @@
+{
+  "customer_id": "C0000954",
+  "display_name": "US - Fisher Current Price",
+  "sales_region": "US",
+  "step_classification_id": "C0000954",
+  "template_ref": "fisher-us",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

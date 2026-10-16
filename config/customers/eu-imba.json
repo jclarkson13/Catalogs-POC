@@ -1,0 +1,14 @@
+{
+  "customer_id": "eu-imba",
+  "display_name": "EU - Institut f\u00fcr Molekulare Biotechnologie GmbH (IMBA) Current Price",
+  "sales_region": "EU",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 7.5% Current; the Future file reverts to 0%.",
+  "template_ref": "eu-imba",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 7.5,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

@@ -1,0 +1,14 @@
+{
+  "customer_id": "eu-zageno-future",
+  "display_name": "EU - Zageno Future Price",
+  "sales_region": "EU",
+  "step_classification_id": null,
+  "_note": "No STEP ID confirmed. 0%: the 'ZAGENO discounted price' columns are always blank in the real file.",
+  "template_ref": "eu-zageno",
+  "file_type": "xlsx",
+  "price_period": "future",
+  "discount_percentage": 0,
+  "price_valid_from": "2027-01-01",
+  "price_valid_until": "2027-12-31",
+  "overrides": {"excluded_skus_lookup": "coupa_marketplace_excluded_de.csv"}
+}

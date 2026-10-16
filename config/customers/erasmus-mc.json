@@ -1,0 +1,14 @@
+{
+  "customer_id": "erasmus-mc",
+  "display_name": "Erasmus_MC_ADD",
+  "sales_region": "NL",
+  "neb": true,
+  "step_classification_id": null,
+  "_note": "No STEP ID (EU discount-price group is empty in STEP). 12% from the NEB sample's price columns. Only Erasmus_MC_ADD.xlsx is modeled; the OTHERS/REMOVE delta files are out of scope.",
+  "template_ref": "erasmus-mc-contract-line",
+  "file_type": "xlsx",
+  "discount_percentage": 12,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "overrides": {}
+}

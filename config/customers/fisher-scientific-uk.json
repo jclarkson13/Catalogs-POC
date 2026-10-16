@@ -1,0 +1,19 @@
+{
+  "customer_id": "fisher-scientific-uk",
+  "display_name": "UK - Fisher Scientific Products Current Price",
+  "sales_region": "UK",
+  "step_classification_id": null,
+  "_note": "No UK-specific STEP ID (NL2002115 is DE-only). Uses the shared 1,458-SKU UK exclusion set; region 'uk' leaves the Sanofi co-op columns blank.",
+  "template_ref": "fisher-scientific-regional",
+  "file_type": "xlsx",
+  "price_period": "current",
+  "discount_percentage": 0,
+  "price_valid_from": "2026-01-01",
+  "price_valid_until": "2026-12-31",
+  "region": "uk",
+  "overrides": {
+    "excluded_skus_lookup": "coupa_marketplace_excluded_uk.csv"
+  },
+  "price_currency": "GBP",
+  "price_currency_field": "gbp"
+}
