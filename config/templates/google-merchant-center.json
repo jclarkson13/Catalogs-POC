@@ -1,0 +1,95 @@
+{
+  "template_name": "google-merchant-center",
+  "source_sample": "US - Google Merchant Center Current/Future Price.csv",
+  "description": "US Google Shopping product feed (csv, semicolon-delimited, LF, 16 columns) at 0%. price is the USD list price with a literal extra '.00' ('415.00.00', a replicated real-feed bug), so price_columns is left empty; titles, links and attributes come from cst_google_merchant_fields.csv and antibody lookups.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "sku_column": "SKU",
+  "price_columns": [],
+  "csv_format": {
+    "lineterminator": "\n"
+  },
+  "columns": [
+    {
+      "header": "CST Product No",
+      "source": "master",
+      "expression": "leading_digits(row['sku'])"
+    },
+    {
+      "header": "ID",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'id')"
+    },
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "title",
+      "source": "lookup+master",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'product_name') or row['short_description']"
+    },
+    {
+      "header": "link",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "image_link",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount) + '.00'"
+    },
+    {
+      "header": "product_type",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "applications",
+      "source": "master",
+      "expression": "'' if lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'applications', '?') == '' else (row['assays'] or ' ')"
+    },
+    {
+      "header": "species",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'species_reactivity')"
+    },
+    {
+      "header": "specificity",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'specificity')"
+    },
+    {
+      "header": "product description",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'item_description')",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Molecular Weight (kDa)",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'mw_summary')"
+    },
+    {
+      "header": "Host Species",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'host_species_code')"
+    },
+    {
+      "header": "UniProt ID",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'uniprot_id')"
+    },
+    {
+      "header": "Entrez-Gene ID",
+      "source": "lookup",
+      "expression": "lookup(row['sku'], 'cst_google_merchant_fields.csv', 'entrez_gene_id')"
+    }
+  ]
+}

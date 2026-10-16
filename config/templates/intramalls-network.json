@@ -1,0 +1,66 @@
+{
+  "template_name": "intramalls-network",
+  "source_sample": "US - Intramalls NIH Current/Future Price.xlsx",
+  "description": "US Intramalls network file (xlsx, 10 columns): one row per SKU with US list price plus NIH, FDA, Avalon and USDA price columns, each from its own institution discount. Discount percentages appear literally in the headers.",
+  "file_type": "xlsx",
+  "sku_column": "SKU",
+  "price_columns": [
+    "US LIST PRICE",
+    "INTRAMALLS NIH EXTENDED PRICE 15% DISCOUNT",
+    "INTRAMALLS FDA EXTENDED PRICE 10% DISCOUNT",
+    "Intramalls Avalon Extended 0% ",
+    "Intramalls USDA Extended 10%"
+  ],
+  "columns": [
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "PRODUCT NAME",
+      "source": "master",
+      "expression": "cst_product_name(row, raw=True) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "US LIST PRICE",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "INTRAMALLS NIH EXTENDED PRICE 15% DISCOUNT",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['nih']['discount_percentage'])"
+    },
+    {
+      "header": "INTRAMALLS FDA EXTENDED PRICE 10% DISCOUNT",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['fda']['discount_percentage'])"
+    },
+    {
+      "header": "Intramalls Avalon Extended 0% ",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['avalon']['discount_percentage'])"
+    },
+    {
+      "header": "Intramalls USDA Extended 10%",
+      "source": "institution",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, customer['institutions']['usda']['discount_percentage'])"
+    },
+    {
+      "header": "WEB ADDRESS",
+      "source": "master",
+      "expression": "'=HYPERLINK(\"' + row['product_url'].replace('.html', '') + '\", \"' + row['product_url'].replace('.html', '') + '\")'"
+    },
+    {
+      "header": "PRODUCT CATEGORY",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_sciquest_category.csv', 'sciquest_category_dflt', row['product_classification'])"
+    }
+  ]
+}

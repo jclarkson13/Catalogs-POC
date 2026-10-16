@@ -1,0 +1,315 @@
+{
+  "template_name": "erasmus-mc-contract-line",
+  "source_sample": "NEB/Erasmus_MC_ADD.xlsx, sheet 'XXEMC_Export_Raamcontractregel_'",
+  "description": "NL Erasmus MC framework-contract line export (xlsx, 44 Dutch columns, sheet XXEMC_Export_Raamcontractregel_ plus static extra sheets) covering CST and NEB rows. Only ADD rows are produced; prices are EUR list and discounted net as 2dp text.",
+  "file_type": "xlsx",
+  "sku_column": "Leveranciersartikelnummer",
+  "price_columns": [
+    "Prijs (excl.BTW)",
+    "NETTO Prijs nieuw"
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "sheet_name": "XXEMC_Export_Raamcontractregel_",
+  "extra_sheets": [
+    {
+      "name": "Toelichting op kolommen",
+      "rows": [
+        [
+          "Omschrijving kolommen",
+          "Uitleg",
+          "Restricties",
+          "Verplicht veld of optioneel"
+        ],
+        [
+          "Miniatuur",
+          "URL van de afbeelding",
+          "ondersteunde formats: .gif, .jpg, .jpeg, .png of .bmp",
+          "Optioneel",
+          "De miniatuur kunnen we zelf controleren met een parameter om zodoende de hoogte en breedte in te stellen"
+        ],
+        [
+          "Afbeelding",
+          "URL van de afbeelding",
+          "ondersteunde formats: .gif, .jpg, .jpeg, .png of .bmp",
+          "Optioneel",
+          "De afbeelding kunnen we niet controleren met een parameter (aandachtspunt i.v.m. lay-out scherm die mogelijk met een te grote afb. uit de pas loopt)"
+        ],
+        [
+          "Artikelomschrijving",
+          "Omschrijving van het artikel",
+          "maximaal 240 posities (incl spaties)",
+          "Verplicht"
+        ],
+        [
+          "Artikelomschrijving nieuw",
+          "Als er bij een update een wijziging is in de artikelomschrijving"
+        ],
+        [
+          "Reden wijziging omschrijving",
+          "Daar willen we dan graag de reden van weten"
+        ],
+        [
+          "Leveranciersartikelnummer",
+          "Artikelcode van het artikel",
+          "maximaal 25 posities (incl spaties) en moet uniek zijn",
+          "Verplicht"
+        ],
+        [
+          "Leveranciersartikelnummer nieuw",
+          "Als er bij een update een wijziging is in de artikelcode"
+        ],
+        [
+          "Reden wijziging artikelnummer",
+          "Daar willen we dan graag de reden van weten"
+        ],
+        [
+          "Hulp-ID onderdeel leverancier",
+          "NVT"
+        ],
+        [
+          "Artikelrevisie",
+          "NVT"
+        ],
+        [
+          "Fabrikant",
+          "Indien de leverancier niet de fabrikant is kan hier de fabrikant opgevoerd worden",
+          null,
+          "Optioneel"
+        ],
+        [
+          "Fabrikantartikel",
+          "Idem alleen voor het fabrikant artikelcode",
+          null,
+          "Optioneel"
+        ],
+        [
+          "Eenheid",
+          "Besteleenheid",
+          "stuks of verp a .. st",
+          "Verplicht"
+        ],
+        [
+          "Eenheid nieuw",
+          "Als er bij een update een wijziging is in de besteleenheid"
+        ],
+        [
+          "Prijs (excl.BTW)",
+          "Prijs per besteleenheid",
+          "Netto, dus minus korting en excl. btw",
+          "Verplicht"
+        ],
+        [
+          "NETTO Prijs nieuw",
+          "De nieuwe prijs per besteleenheid minus korting en excl. Btw"
+        ],
+        [
+          "Beschikbaarheid",
+          "NVT"
+        ],
+        [
+          "Doorlooptijd",
+          "Levertijd",
+          "in werkdagen",
+          "Verplicht"
+        ],
+        [
+          "UNSPSC Code",
+          "Hier dient u de UNSPSC code op te geven van het betreffende artikel conform de voorwaarden zoals gesteld in de standaard overeenkomst van het Erasmus MC. De gebruikte UNSPSC code dient de Familie – Klasse – Artikel codering te bevatten. Klassificatie op bijv. alleen de Familie code is niet toegestaan.",
+          "Hier dient u de door u gebruikte versie van de UNSPSC codeset op te geven.",
+          "Verplicht"
+        ],
+        [
+          "Alias",
+          "tbv extra zoektermen",
+          null,
+          "Optioneel"
+        ],
+        [
+          "Toelichting",
+          "NVT"
+        ],
+        [
+          "Lange omschrijving",
+          "tbv aanvullende informatie op de artikelomschrijving",
+          null,
+          "Optioneel"
+        ],
+        [
+          "URL van bijlage",
+          "?"
+        ],
+        [
+          "URL leverancier",
+          "?"
+        ],
+        [
+          "URL fabrikant",
+          "?"
+        ],
+        [
+          "Soort",
+          "?"
+        ],
+        [
+          "Informatief: Prijs (incl. BTW)",
+          "NVT"
+        ],
+        [
+          "BTW-code",
+          "BTW percentage",
+          "HOOG / LAAG",
+          "Verplicht"
+        ],
+        [
+          "BTW-code  nieuw",
+          "Als bij een update de btw wijzigd"
+        ],
+        [
+          "Vervaldatum",
+          "Als een artikel gaat vervallen kan hier een einddatum opgegeven worden",
+          null,
+          "Optioneel"
+        ],
+        [
+          "Bestemmingsorganisatie",
+          "NVT"
+        ],
+        [
+          "Bestemmingslocatie",
+          "NVT"
+        ],
+        [
+          "Hoeveelheid",
+          null,
+          "TBV staffels, maar deze zijn niet zo te laden. Dus apart aan te leveren"
+        ],
+        [
+          "Geldig vanaf",
+          null,
+          "TBV staffels, maar deze zijn niet zo te laden. Dus apart aan te leveren"
+        ],
+        [
+          "Geldig t/m",
+          null,
+          "TBV staffels, maar deze zijn niet zo te laden. Dus apart aan te leveren"
+        ],
+        [
+          "Staffelprijs",
+          null,
+          "TBV staffels, maar deze zijn niet zo te laden. Dus apart aan te leveren"
+        ],
+        [
+          "Korting",
+          null,
+          "TBV staffels, maar deze zijn niet zo te laden. Dus apart aan te leveren"
+        ]
+      ]
+    },
+    {
+      "name": "Contactgegevens",
+      "rows": [
+        [],
+        [
+          "Het verzoek om de contactgegevens van een medewerker binnen uw ICT afdeling op te geven waarmee het Erasmus MC ingeval van technische problemen contact mee kan zoeken."
+        ],
+        [],
+        [
+          "Applicatiebeheerder en/of Catalogusbeheerder"
+        ],
+        [
+          "Naam"
+        ],
+        [
+          "Functie"
+        ],
+        [
+          "E-mail"
+        ],
+        [
+          "Telefoonnummer"
+        ],
+        [],
+        [
+          "Ordering"
+        ],
+        [
+          "Naam"
+        ],
+        [
+          "Functie"
+        ],
+        [
+          "E-mail"
+        ],
+        [
+          "Telefoonnummer"
+        ],
+        [],
+        [
+          "Webshopbeheerder"
+        ],
+        [
+          "Naam"
+        ],
+        [
+          "Functie"
+        ],
+        [
+          "E-mail"
+        ],
+        [
+          "Telefoonnummer"
+        ]
+      ]
+    }
+  ],
+  "columns": [
+    {"header": "Artikelsectie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Actie", "source": "constant", "expression": "'ADD'"},
+    {"header": "Regelnummer", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Regelsoort", "source": "constant", "expression": "'Goederen'"},
+    {"header": "Miniatuur", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Afbeelding", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Artikelomschrijving", "source": "master", "expression": "cst_product_name(row, raw=True)"},
+    {"header": "Artikelomschrijving nieuw", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Reden wijziging omschrijving", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Winkelcategorie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Categorie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Leveranciersartikelnummer", "source": "master", "expression": "row['sku']"},
+    {"header": "Leveranciersartikelnummer nieuw", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Reden wijziging artikelnummer", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Hulp-ID onderdeel leverancier", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Intern artikelnummer", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Artikelrevisie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Fabrikant", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "Fabrikantartikel", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Eenheid", "source": "constant", "expression": "'STUK'"},
+    {"header": "Eenheid nieuw", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Prijs (excl.BTW)", "source": "master", "expression": "price_text(row['list_price_eur'])"},
+    {"header": "NETTO Prijs nieuw", "source": "master", "expression": "(lambda v: int(v) if v == int(v) else v)(round(float(row['list_price_eur']) * (1 - discount/100), 2))"},
+    {"header": "Beschikbaarheid", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Doorlooptijd", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "UNSPSC Code", "source": "master", "expression": "row['unspsc']"},
+    {"header": "Alias", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Toelichting", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Lange omschrijving", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "URL van bijlage", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "URL leverancier", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "URL fabrikant", "source": "master", "expression": "('=HYPERLINK(\"' + row['product_url'].replace('.html', '').lower() + '\", \"' + row['product_url'].replace('.html', '').lower() + '\")') if row['product_url'] else ''", "allow_blank_description": true},
+    {"header": "Soort", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Informatief: Prijs (incl. BTW)", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "BTW-code", "source": "constant", "expression": "'2'"},
+    {"header": "BTW-code  nieuw", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Vervaldatum", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Bestemmingsorganisatie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Bestemmingslocatie", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Hoeveelheid", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Geldig vanaf", "source": "customer", "expression": "'-'.join(customer['price_valid_from'].split('-')[::-1])"},
+    {"header": "Geldig t/m", "source": "customer", "expression": "'-'.join(customer['price_valid_until'].split('-')[::-1])"},
+    {"header": "Staffelprijs", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Korting", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

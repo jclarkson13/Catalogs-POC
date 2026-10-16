@@ -1,0 +1,91 @@
+{
+  "template_name": "eu-oms",
+  "source_sample": "EU - OMS Current/Future Price.xlsx",
+  "description": "EU OMS/MUW (Vienna) price file (xlsx, 15 columns) in EUR: ListPrice plus OMS_Price and MUW_Price columns, each from its own institution discount, written with decimal commas. Note the real header 'CA S_Number'. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "decimal_comma": true,
+  "sku_column": "Supplier_CatalogNumber",
+  "price_columns": [
+    "ListPrice",
+    "OMS_Price",
+    "MUW_Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier_CatalogNumber",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer_CatalogNumber",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "ProductDescription",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + (' (' + lookup(row['sku'], 'cst_test_count.csv', 'test_count') + ')' if lookup(row['sku'], 'cst_test_count.csv', 'test_count') else '')"
+    },
+    {
+      "header": "ProductDescription_Alternative",
+      "allow_blank_description": true,
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_target_alternate_names.csv', 'target_alternate_names', '').replace('<lt/>', '<').replace('<gt/>', '>')"
+    },
+    {
+      "header": "Unit",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "ListPrice",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_eur', customer, 0).replace('.', ',')"
+    },
+    {
+      "header": "OMS_Price",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, customer['institutions']['oms']['discount_percentage']).replace('.', ',')"
+    },
+    {
+      "header": "MUW_Price",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, customer['institutions']['muw']['discount_percentage']).replace('.', ',')"
+    },
+    {
+      "header": "Manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "CA S_Number",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_constituent_cas_raw.csv', 'constituent_cas_number_raw', lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'constituent_cas_number', row['cas_number'])).replace('; ', ', ').replace(';', ',')"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "WebLink",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Intrastat",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'intrastat_no', '').replace('.', '')"
+    },
+    {
+      "header": "Country of Origin",
+      "source": "constant",
+      "expression": "'US'"
+    },
+    {
+      "header": "Net weight (KG)",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

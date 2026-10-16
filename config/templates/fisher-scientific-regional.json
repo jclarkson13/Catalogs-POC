@@ -1,0 +1,130 @@
+{
+  "template_name": "fisher-scientific-regional",
+  "source_sample": "DE - Fisher Scientific Products Current/Future Price.xlsx and UK - Fisher Scientific Products Current/Future Price.xlsx",
+  "description": "Fisher Scientific DE/UK reseller price file (xlsx, 23 columns). Currency and price source depend on the customer's region (raw EUR list string or raw GBP uk_clp) and price period; per-pharma Fisher cost/price column pairs follow the layout. DE and UK customers exclude their region's SKU list.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Catalogue Number",
+  "price_columns": [
+    "Supplier List price",
+    "Supplier purchase cost to Fisher",
+    "Fisher supported purchase (cost) price for Sanofi",
+    "Sanofi Price"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Catalogue Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "English Item Description",
+      "source": "master",
+      "expression": "row['long_description'].replace('<lt/>sup<gt/>', '<sup>').replace('<lt/>/sup<gt/>', '</sup>').replace('<sup>', '').replace('</sup>', '').replace('<i>', '').replace('</i>', '').replace('<sub>', '').replace('</sub>', '')"
+    },
+    {
+      "header": "UOM - Pack quantity",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_qty_mkt_with_unit.csv', 'qty_mkt_with_unit') or (row['size'] + ' ' + {'µl': 'microliters', 'µg': 'micrograms'}.get(row['size_unit'], row['size_unit']))"
+    },
+    {
+      "header": "Pricing Effective Start Date",
+      "source": "customer",
+      "expression": "customer['price_valid_from'].replace('-', '')"
+    },
+    {
+      "header": "Pricing Effective End Date",
+      "source": "customer",
+      "expression": "customer['price_valid_until'].replace('-', '')"
+    },
+    {
+      "header": "Supplier List price currency",
+      "source": "customer",
+      "expression": "customer.get('price_currency', 'USD')"
+    },
+    {
+      "header": "Supplier List price",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp') if customer.get('price_currency_field') == 'gbp' else lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price') if customer.get('price_currency_field') == 'eur' else '') or price_for_rounded(row, 'list_price_' + customer.get('price_currency_field', 'usd'), customer, 0)"
+    },
+    {
+      "header": "Supplier discount % ",
+      "source": "customer",
+      "expression": "str(discount)"
+    },
+    {
+      "header": "Purchasing currency",
+      "source": "customer",
+      "expression": "customer.get('price_currency', 'USD')"
+    },
+    {
+      "header": "Supplier purchase cost to Fisher",
+      "source": "master",
+      "expression": "((lookup(row['sku'], 'cst_uk_clp.csv', 'uk_clp_future' if customer.get('price_period') == 'future' else 'uk_clp') if customer.get('price_currency_field') == 'gbp' else lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price') if customer.get('price_currency_field') == 'eur' else '') if discount == 0 else '') or price_for_rounded(row, 'list_price_' + customer.get('price_currency_field', 'usd'), customer, discount)"
+    },
+    {
+      "header": "Check For Missing Items",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for Bayer",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Bayer price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for Boehringer Ingelheim",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Boehringer Ingelheim price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for GSK",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GSK price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for MSD",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MSD price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for Pfizer",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Pfizer price",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Fisher supported purchase (cost) price for Sanofi",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_' + customer.get('price_currency_field', 'usd'), customer, discount) if customer.get('region') == 'de' else ''"
+    },
+    {
+      "header": "Sanofi Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_' + customer.get('price_currency_field', 'usd'), customer, 0) if customer.get('region') == 'de' else ''"
+    }
+  ]
+}

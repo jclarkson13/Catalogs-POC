@@ -1,0 +1,755 @@
+{
+  "template_name": "ghx-gdsn-nl-hospital",
+  "source_sample": "NEB/<Institution>.xlsx (Dutch GHX/GDSN hospital catalog upload format, shared verbatim layout across all 9 NL hospital customers)",
+  "description": "NL GHX/GDSN hospital catalog upload (xlsx, sheet 'Template NL', 103 columns with long bilingual multi-line headers and header styling) for several Dutch hospitals, CST plus NEB rows. Gross/net EUR prices from list and discount; UOM codes via ghx_uom_code_map.csv and NEB sizes via format_neb_size(). Prices are blank for overrides.blank_price_skus (new SF SKUs without an EU price in the real files).",
+  "file_type": "xlsx",
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "sku_column": "Artikelnummer\n\n\n_________________\nArticle number",
+  "price_columns": [
+    "Brutoprijs \n(prijs zonder korting & excl. BTW)\n\n_________________\nGross Price\n(price excl. discount & excl. VAT)",
+    "Nettoprijs\n(prijs verpakkingseenheid)\n\n_________________\nNet price\n(price trade unit)"
+  ],
+  "columns": [
+    {
+      "header": "ALGEMEEN\nVelden in het ROOD zijn verplicht voor GHX.\nVelden in het BLAUW omrand zijn verplicht voor de GDSN.\nVelden in ORANJE zijn voorwaardelijk verplicht. \n\nZie ook de kolom verplicht in de  ‘Uitleg - Explanation’ sheet.",
+      "expression": "''"
+    },
+    {
+      "header": "Artikelnummer\n\n\n_________________\nArticle number",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Artikelnaam\n\n\n_________________\nArticle name",
+      "expression": "(row['long_description'] + ' (' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ' ( ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') + ' ))' if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') else (row['long_description'] + ' (' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ')' if (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) else row['long_description'] + ' (' + row['size'] + ' ' + row['size_unit'] + ')'))[:90].rstrip()"
+    },
+    {
+      "header": "Artikelomschrijving\n\n\n_________________\nArticle Description",
+      "expression": "row['sku'] + ' ' + ((row['long_description'] + ' (' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ' ( ' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') + ' ))' if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') else (row['long_description'] + ' (' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ')' if (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) else row['long_description'] + ' (' + row['size'] + ' ' + row['size_unit'] + ')')))[:200]"
+    },
+    {
+      "header": "Artikelomschrijving Taal Code\n\n\n_________________\nTrade Item Description Language Code",
+      "expression": "'US'"
+    },
+    {
+      "header": "Brutoprijs \n(prijs zonder korting & excl. BTW)\n\n_________________\nGross Price\n(price excl. discount & excl. VAT)",
+      "expression": "'' if row['sku'] in customer.get('overrides', {}).get('blank_price_skus', []) else '%.2f' % price_for(row, 'list_price_eur', customer)"
+    },
+    {
+      "header": "Nettoprijs\n(prijs verpakkingseenheid)\n\n_________________\nNet price\n(price trade unit)",
+      "expression": "'' if row['sku'] in customer.get('overrides', {}).get('blank_price_skus', []) else '%.2f' % (price_for(row, 'list_price_eur', customer) * (1 - discount / 100))"
+    },
+    {
+      "header": "Is BestelbareEenheid\n\n\n_________________\nIs Orderable Unit",
+      "expression": "'1'"
+    },
+    {
+      "header": "Is BasisEenheid\n\n\n_________________\nIs Base Unit",
+      "expression": "'1'"
+    },
+    {
+      "header": "Omschrijving Verpakkingseenheid\n\n\n_________________\nDescription Trade Unit",
+      "expression": "((lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') + ')' if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev', '') else ('(' + (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) + ')' if (lookup(row['sku'], 'cst_marketing_name_details.csv', 'qty_mkt_txt_abbrev_units', '') or ((row['size'] + ' ' + row['size_unit']).replace(chr(181), 'u') if row['manufacturer'].startswith('Cell Signaling') else '')) else row['size'] + ' ' + row['size_unit']))[:25]"
+    },
+    {
+      "header": "UOM Code Verpakkingseenheid\n\n\n_________________\nUOM Code Trade Unit",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Inhoud Verpakkingseenheid\n(aantal basiseenheden)\n\n_________________\nContent Trade Unit\n(number of base units)",
+      "expression": "'1'"
+    },
+    {
+      "header": "UOM Code Basiseenheid\n\n\n_________________\nUOM Code Base Unit",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "Inhoud Basiseenheid \n\n\n_________________\nContent of Base Unit",
+      "expression": "format_neb_size(row)"
+    },
+    {
+      "header": "UOM Code Inhoud Basiseenheid \n(UOM code kleinste eenheid)\n\n_________________\nUOM Code Content of Base Unit \n(UOM code smallest units)",
+      "expression": "lookup(row['size_unit'], 'ghx_uom_code_map.csv', 'uom_code', 'EA')"
+    },
+    {
+      "header": "Omrekenfactor \n(aantal kleinste eenheden in de verpakkingseenheid)\n_________________\nConversion Factor \n(number of smallest units in trade unit)",
+      "expression": "'1'"
+    },
+    {
+      "header": "Prijs per Kleinste eenheid\n\n\n_________________\nPrice Smallest Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Aantal van de Volgende Lagere Verpakkingslaag\n\n_________________\nQuantity Of Next Lower Level Trade Item",
+      "expression": "''"
+    },
+    {
+      "header": "Artikel Hiërarchie Omschrijving\n\n\n_________________\nTrade Item Hierarchy Descriptor",
+      "expression": "'CASE'"
+    },
+    {
+      "header": "GTIN Verpakkingseenheid\n\n\n_________________\nGTIN Trade Unit",
+      "expression": "''"
+    },
+    {
+      "header": "GTIN Verpakkingseenheid Historie\n\n\n_________________\nGTIN Trade Unit History",
+      "expression": "''"
+    },
+    {
+      "header": "GTIN Basiseenheid \n\n\n_________________\nGTIN Base Unit",
+      "expression": "''"
+    },
+    {
+      "header": "GTIN Basiseenheid Historie\n\n\n_________________\nGTIN Base Unit History",
+      "expression": "''"
+    },
+    {
+      "header": "Aanvullende Productidentificatie\n\n\n_________________\nAdditional Trade Item Identification",
+      "expression": "''"
+    },
+    {
+      "header": "Code voor Aanvullende Productidentificatie\n\n_________________\nAdditional Trade Item Identification Type Code",
+      "expression": "''"
+    },
+    {
+      "header": "GHX BTW Code \n\n\n_________________\nGHX VAT Code",
+      "expression": "'2'"
+    },
+    {
+      "header": "Staffel Vanaf\n\n\n_________________\nPricebreak From",
+      "expression": "''"
+    },
+    {
+      "header": "Staffel Tot\n\n\n_________________\nPricebreak Until",
+      "expression": "''"
+    },
+    {
+      "header": "Naam Fabrikant\n\n\n_________________\nName Manufacturer",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Artikelnummer Fabrikant\n\n\n_________________\nArticle Number Manufacturer",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "GLN Fabrikant\n\n\n_________________\nGLN Manufacturer",
+      "expression": "''"
+    },
+    {
+      "header": "GLN Leverancier\n\n\n_________________\nGLN Provider",
+      "expression": "''"
+    },
+    {
+      "header": "Doelmarkt Landcode\n\n\n_________________\nTarget Market Country Code",
+      "expression": "'NL'"
+    },
+    {
+      "header": "Link Artikelinformatie\n\n\n_________________\nLink Article Description",
+      "expression": "'' if not row['product_url'] else (lambda u: '=HYPERLINK(\"' + u + '\", \"' + u + '\")')(row['product_url'][:-5].lower() if row['product_url'].endswith('.html') else row['product_url'].lower())",
+      "allow_blank_description": true
+    },
+    {
+      "header": "Link Artikelfoto\n\n\n_________________\nLink Article Picture",
+      "expression": "''"
+    },
+    {
+      "header": "Link IFU\n\n\n_________________\n Link IFU",
+      "expression": "''"
+    },
+    {
+      "header": "Functionele Artikelnaam\n\n\n_________________\nFunctional Article Name",
+      "expression": "''"
+    },
+    {
+      "header": "Functionele Naam Taal Code\n\n\n_________________\nFunctional Name Language Code",
+      "expression": "''"
+    },
+    {
+      "header": "Merknaam\n\n\n_________________\nBrand Name",
+      "expression": "''"
+    },
+    {
+      "header": "Artikelnummer Alternatief Artikel\n\n\n_________________\nArticle Number Alternative Article",
+      "expression": "''"
+    },
+    {
+      "header": "Artikelnaam Alternatief Artikel\n\n\n_________________\nArticle Name Alternative Article",
+      "expression": "''"
+    },
+    {
+      "header": "Barcode Alternatief Artikel\n\n\n_________________\nBarcode Alternative Article",
+      "expression": "''"
+    },
+    {
+      "header": "UNSPSC Code\n\n\n_________________\nUNSPSC Code",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "GMDN Code\n\n\n_________________\nGMDN Code",
+      "expression": "''"
+    },
+    {
+      "header": "EMDN Code\n\n\n_________________\nEMDN Code",
+      "expression": "''"
+    },
+    {
+      "header": "GPCCategoryCode\t\n\n\n_________________\nGPC Category Code",
+      "expression": "''"
+    },
+    {
+      "header": "Code voor Aanvullende Productclassificatie\n\n_________________\nAdditional Trade Item Classification System Code",
+      "expression": "''"
+    },
+    {
+      "header": "Aanvullende Productclassificatiewaarde\n(Risicoklasse)\n____________________\nAdditional Trade Item Classification Code Value\n(Risk class)",
+      "expression": "''"
+    },
+    {
+      "header": "CE Certificaat nummer\n\n\n_________________\nCE Certificate number",
+      "expression": "''"
+    },
+    {
+      "header": "CE Certificaat einddatum\n\n\n_________________\nCE Certificate enddate",
+      "expression": "''"
+    },
+    {
+      "header": "CE Certificerende instantie\n\n\n_________________\nCE Certifying Body",
+      "expression": "''"
+    },
+    {
+      "header": "Duurzaam Geproduceerd\n\n\n_________________\nSustainably Produced",
+      "expression": "'0'"
+    },
+    {
+      "header": "Naam Duurzaamheidslabel\n\n\n_________________\nName Sustainability Label",
+      "expression": "''"
+    },
+    {
+      "header": "Omschrijving Duurzaamheid\n\n\n_________________\nSustainability Description",
+      "expression": "''",
+      "allow_blank_description": true
+    },
+    {
+      "header": "CAS nummer\n\n\n_________________\nCAS registry number",
+      "expression": "lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number_raw', row['cas_number'])"
+    },
+    {
+      "header": "Stofnaam\n\n\n_________________\nChemical Substance Name",
+      "expression": "''"
+    },
+    {
+      "header": "Brutoformule\n\n\n_________________\nChemical Formula",
+      "expression": "''"
+    },
+    {
+      "header": "Claim Type Code\n\n\n_________________\nClaim Type Code",
+      "expression": "''"
+    },
+    {
+      "header": "Element Claim Code\n\n\n_________________\nElement Claim Code",
+      "expression": "''"
+    },
+    {
+      "header": "UN-nummer Gevaarlijke Stof\n\n\n_________________\nUN Dangerous Goods Number",
+      "expression": "''"
+    },
+    {
+      "header": "ADR Gevarenklasse\n\n\n_________________\nADR Danger Category",
+      "expression": "''"
+    },
+    {
+      "header": "Veiligheidsblad (VIB/SDS)\n\n\n_________________\nMaterial Safety Data Sheet",
+      "expression": "''"
+    },
+    {
+      "header": "Link Veiligheidsinformatieblad\n(SDS)\n\n_________________\nLink Safety Data Sheet \n(SDS)",
+      "expression": "''"
+    },
+    {
+      "header": "Eindgebruikersverklaring\n\n\n_________________\nEnd-User Declaration",
+      "expression": "''"
+    },
+    {
+      "header": "Koelgoed\n\n\n_________________\nRefrigerated good",
+      "expression": "1 if 'COLD' in row['shipping_conditions'] else 0"
+    },
+    {
+      "header": "Vriesgoed\n\n\n_________________\nFrozen good",
+      "expression": "1 if 'DRYICE' in row['shipping_conditions'] else 0"
+    },
+    {
+      "header": "Code Type Temperatuur\n\n\n_________________\nTemperature Qualifier Code",
+      "expression": "''"
+    },
+    {
+      "header": "Gebruiksaanwijzing Code Referentie\n\n\n_________________\nHandling Instructions Code Reference",
+      "expression": "'11' if row['storage_temperature'] in ('+4C', '4C') else ('FPC' if '-20C' in row['storage_temperature'] or '-80C' in row['storage_temperature'] else 'SRT')"
+    },
+    {
+      "header": "Maximum Temperatuur\n\n\n_________________\nMaximum Temperature",
+      "expression": "''"
+    },
+    {
+      "header": "Minimum Temperatuur\n\n\n_________________\nMinimum Temperature",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheid van Temperatuur\n\n\n_________________\nUnit Of Temperature",
+      "expression": "'CEL'"
+    },
+    {
+      "header": "Bruto Gewicht Verpakkingseenheid \n\n\n____________________\nGross Weight Trade Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheidscode Bruto Gewicht Verpakkingseenheid\n(UOM)\n_________________\nMeasurement Unit Code Gross Weight \n(UOM)",
+      "expression": "''"
+    },
+    {
+      "header": "Hoogte\n\n\n_________________\nHeight",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheidscode Hoogte\n(UOM) \n\n_________________\nMeasurement Unit Code Height \n(UOM)",
+      "expression": "''"
+    },
+    {
+      "header": "Breedte\n\n\n_________________\nWidth",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheidscode Breedte\n(UOM) \n\n_________________\nMeasurement Unit Code Width \n(UOM)",
+      "expression": "''"
+    },
+    {
+      "header": "Diepte\n\n\n_________________\nDepth",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheidscode Diepte\n(UOM) \n\n_________________\nMeasurement Unit Code Depth\n(UOM)",
+      "expression": "''"
+    },
+    {
+      "header": "Bruto Gewicht Basiseenheid\n(Incl. verpakking)\n\n_________________\nWeight Base Unit\n(Incl. packaging)",
+      "expression": "''"
+    },
+    {
+      "header": "Eenheidscode Gewicht Basiseenheid\n(UOM) \n\n_________________\nMeasurement Unit Code Weight Base Unit \n(UOM)",
+      "expression": "''"
+    },
+    {
+      "header": "Herbruikbaar\n\n\n_________________\nReusable",
+      "expression": "''"
+    },
+    {
+      "header": "Herbruikbaarheids Code\n\n\n_________________\nReusability Type Code",
+      "expression": "''"
+    },
+    {
+      "header": "Indicatie Implanteerbaar\n\n\n_________________\nIs Trade Item Implantable",
+      "expression": "''"
+    },
+    {
+      "header": "Bevat het Artikel Menselijk Weefsel\n\n\n_________________\nDoes Trade Item Contain Human Tissue",
+      "expression": "''"
+    },
+    {
+      "header": "Serienummer\n\n\n_________________\nSerialnumber",
+      "expression": "''"
+    },
+    {
+      "header": "Locatie Serienummer op de Verpakking\n\n_________________\nSerial Number Location Code",
+      "expression": "''"
+    },
+    {
+      "header": "Batch Nummer\n\n\n_________________\nBatch Number",
+      "expression": "''"
+    },
+    {
+      "header": "Steriel\n\n\n_________________\nSterile",
+      "expression": "''"
+    },
+    {
+      "header": "Type Sterilisatie Gebruikt door Fabrikant\n\n_________________\nInitial Manufacturer Sterilization Code",
+      "expression": "''"
+    },
+    {
+      "header": "Latex\n\n\n_________________\nLatex",
+      "expression": "''"
+    },
+    {
+      "header": "MRI Compatibility\n\n\n_________________\nMRI Compatibility",
+      "expression": "''"
+    },
+    {
+      "header": "Is ConsumentenEenheid\n\n\n_________________\nIs Consumer Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Is VerzendEenheid \n\n\n_________________\nIs Dispatch Unit",
+      "expression": "''"
+    },
+    {
+      "header": "Levertijd\n\n\n_________________\nLeadtime",
+      "expression": "'1' if row['manufacturer'].startswith('Cell Signaling') else '2'"
+    },
+    {
+      "header": "Code Type Datum op Verpakking\n\n\n_________________\nTrade Item Date On Packaging Type Code",
+      "expression": "''"
+    },
+    {
+      "header": "Startdatum Beschikbaarheid\n\n\n_________________\nStartdate Availability",
+      "expression": "''"
+    },
+    {
+      "header": "Einddatum Beschikbaarheid\n\n\n_________________\nEnddate Availability",
+      "expression": "''"
+    },
+    {
+      "header": "Startdatum Prijs Artikel\n\n\n_________________\nStartdate Price Article",
+      "expression": "customer['price_valid_from'][8:10] + '-' + customer['price_valid_from'][5:7] + '-' + customer['price_valid_from'][0:4]"
+    },
+    {
+      "header": "Einddatum Prijs Artikel\n\n\n_________________\nEnddate Price Article",
+      "expression": "customer['price_valid_until'][8:10] + '-' + customer['price_valid_until'][5:7] + '-' + customer['price_valid_until'][0:4]"
+    },
+    {
+      "header": "Contract aanwezig\n\n\n_________________\nContract available",
+      "expression": "'0'"
+    },
+    {
+      "header": "Contractnummer Provider\n\n\n_________________\nContractnumber Provider",
+      "expression": "''"
+    },
+    {
+      "header": "Zoeksleutels\n\n\n_________________\nSearchkeys",
+      "expression": "''"
+    }
+  ],
+  "header_format": {
+    "row1_height": 96.0,
+    "fills": [
+      "FFDEEAF6",
+      "FFFA9A8C",
+      "FFFA9A8C",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFFA9A8C",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFAA42",
+      "FFF89A8D",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFAA42",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFAA42",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFF89A8D",
+      "FFF89A8D",
+      "FFFFFEEE",
+      "FFFFFEEE",
+      "FFFFFEEE"
+    ],
+    "extra_rows": [
+      {
+        "height": 225.0,
+        "values": [
+          "Wil je weten welke velden verplicht zijn voor specifieke zorginstellingen of ziekenhuizen? \nScroll dan helemaal naar rechts in de sheet ‘Uitleg - Explanation’ om duidelijk te zien welke velden (voorwaardelijk) verplicht zijn en voor welke gebruikers.\n\n\nALGEMENE INVULINSTRUCTIES\n- Geen vreemde tekens gebruiken zoals:\n« ™  ® &    ½   |   ¦   <   >   Ø   °   Ï   ē   etc.\n\n- Wijzig geen kolomnamen.\n\n- Gebruik geen formules in de invulvelden.\n\n- Sla de template op in XLSX formaat.\n\n\n\n\n\n\nIf you prefer a template with English instructions, find the sheet called 'Template EN' and move it to the first position.",
+          "Het unieke artikelnummer dat u als leverancier aan het artikel geeft.\n\n\nINVULINSTRUCTIES \n- Vul het unieke artikelnummer in van het artikel.\n\n(min 3 en max 46 karakters)",
+          "De korte naam van het artikel\n\n\nINVULINSTRUCTIES \n- Vul de korte naam van het artikel in.\n\n(min 3 en max 90 karakters)",
+          "De lange volledige artikelomschrijving\n\n\nINVULINSTRUCTIES\n- Vul een volledige artikelomschrijving in. \n\n(max 200 karakters)\n\n\n* Vult u dit veld in? \nDan is het verplicht om het volgende veld ook in te vullen, 'Artikelomschrijving Taal Code'.",
+          "Code die de taal aangeeft waarin de artikelomschrijving (het vorige veld) is geschreven.\n\n\nINVULINSTRUCTIES\n- Kies een geldige taalcode uit de codelijst.\n\n- Voor de juiste codes, ga naar de 'Country Code' sheet.\n\n\n* Dit veld is verplicht als het vorige veld\n'Artikelomschrijving' gevuld is.",
+          "De prijs zonder eventuele korting (ook wel list prijs of adviesprijs) van de verpakkingseenheid. \n\nDe brutoprijs is exclusief belastingen.\n\n\nINVULINSTRUCTIES\n- Vul hier de prijs in zonder de korting in.\n\n- Let op, dit is exclusief BTW.\n\n- Gebruik geen duizendtallenscheidingsteken.\n\n- Alles is in euro's en gebruik geen valutateken (€).\n\n- Heeft deze verpakkingseenheid geen prijs, vul dan 0 in.\n\n- Alleen invullen als deze verpakkingslaag een besteleenheid is.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "De nettoprijs van de verpakkingseenheid, inclusief eventuele kortingen.\n\nDe nettoprijs is exclusief BTW.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul de nettoprijs in.\n\n- Gebruik geen duizendtallenscheidingsteken.\n\n- Alles is in euro's en gebruik geen valutateken (€).\n\n- Heeft deze verpakkingseenheid geen prijs, vul dan 0 in.\n\n- Voer voor prijs op aanvraag 0 in en zet in dat geval het veld “Is OrderableUnit” op 1 (JA). \n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Geef aan of deze verpakkingseenheid ook een besteleenheid is. \n\nIs er een nettoprijs beschikbaar voor deze verpakkingslaag en is het ook bestelbaar.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of deze verpakkingseenheid ook de kleinste verpakkingseenheid is in de verpakkingshiërarchie. \n\nIndien er GTIN's bestaan voor dit artikel, dan is het de kleinste verpakkingslaag met een GTIN.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Een gedetailleerde omschrijving van de hele verpakkingshiërarchie van de besteleenheid, ofwel de huidige verpakkingseenheid, tot aan de kleinste verpakkingseenheid inclusief de aantallen en/of de inhoud.\n\nAls deze verpakkingslaag geen besteleenheid is, kunt u dit veld leeg laten.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul een gedetailleerde beschrijving in van de verpakkingshiërarchie door gebruik te maken van de UOM codes.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet.\n\n(max 15 karakters)",
+          "De gestandaardiseerde eenheidscode (UOM) wordt gebruikt om de eenheden te beschrijven voor deze specifieke laag in de verpakkingshiërarchie, ongeacht of deze laag bestelbaar is.\n\nVoor meer uitleg over de UOM  en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul de gestandaardiseerde eenheidscode (UOM) in die overeenkomt met de laag in de verpakkingshiërarchie waarnaar u verwijst, ongeacht of deze laag bestelbaar is.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de meest gebruikte opties in de dropdownlist.\n\n\n* Als 'Is Besteleenheid' en 'Is BasisEenheid' beide de waarde 1 hebben, dan zal dit veld gelijk zijn aan 'UOM Code Basiseenheid'.",
+          "Dit veld geeft aan hoeveel basiseenheden zich bevinden in deze verpakkingseenheid, ongeacht of dit de besteleenheid is. \n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul het aantal basiseenheden in dat in de betreffende verpakkingseenheid zit.\n\n- Dit veld is numeriek.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)\n\n* Als 'Is Besteleenheid' en 'Is BasisEenheid' beide de waarde 1 hebben, dan kunt u hier de waarde 1 invullen.",
+          "Gestandaardiseerde eenheidscode (UOM) die wordt gebruikt om de basiseenheid in de verpakkingshiërarchie te beschrijven.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child '.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in die overeenkomt met de basiseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de meest gebruikte opties in de dropdownlist.\n\n\n* Als 'Is Besteleenheid' en 'Is BasisEenheid' beide de waarde 1 hebben, dan zal dit veld gelijk zijn aan 'UOM Code Verpakkingseenheid'.",
+          "Dit veld geeft de inhoud aan, ofwel de hoeveelheid kleinste eenheden, doorgaans gewicht, volume of aantal, zich bevinden in de basiseenheid. \n\nHet geeft inzicht in de totale inhoud van de basiseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul de inhoud in, of het aantal kleinste eenheden in dat in een basiseenheid zit.\n\n- Dit veld is numeriek.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Gestandaardiseerde eenheidscode (UOM) behorende bij de kleinste eenheid, doorgaans de inhoudsmaat van de basiseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child '.\n\n\nINVULINSTRUCTIES\n-Vul de gestandaardiseerde eenheidscode in (UOM) behorende bij de kleinste eenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de meest gebruikte opties in de dropdownlist.",
+          "Dit veld geeft het totaal aantal kleinste eenheden aan dat zich in deze verpakkingseenheid bevindt, ongeacht of dit de besteleenheid is. \n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul het aantal kleinste eenheden in dat zich in de verpakkingseenheid bevindt.\n\n- Berekening is:\nInhoud Verpakkingseenheid maal Inhoud Basiseenheid.\n\n- Dit veld is numeriek.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Dit is de prijs van een kleinste eenheid, dus de nettoprijs gedeeld door de omrekenfactor.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Bereking is: \nDe Nettoprijs gedeeld door de Omrekenfactor.\n\n- Gebruik geen valutatekens, alles is in euro's (€).\n\n- Als deze verpakkingslaag geen prijs heeft, ofwel niet bestelbaar is, dan kunt u dit veld leeg laten.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Dit veld geeft aan hoeveel verpakkingen van de eerstvolgende lagere verpakkingslaag zich in de huidige verpakkingseenheid bevinden.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul in hoeveel verpakkingen van de direct onderliggende verpakkingslaag in de huidige verpakkingeenheid zitten.\n\n- Als er geen volgende verpakkingslaag is, dan kunt u dit veld leeg laten.\n\nVOORBEELD\nAls de huidige verpakkingseenheid een doos is die 12 pakken bevat, en elk pak 6 flessen, vult u in dit veld 12 in, omdat de pakken de directe onderliggende verpakkingslaag van de doos zijn. De inhoud van de pakken (de flessen) is hier niet relevant, omdat dat de daaropvolgende verpakkingslaag betreft.\n\n(max 5 karakters)",
+          "Code die de hiërarchische verpakkingslaag van het artikel aangeeft, zoals pallet, doos, of basiseenheid. \n\n\nINVULINSTRUCTIES\n- Selecteer de juiste code die de hiërarchische verpakkingslaag van het artikel beschrijft uit de beschikbare lijst van codes.\n\n- Voor de juiste codes en meer uitleg, ga naar sheet 'DescriptorCode', of maak gebruik van de dropdownlist.",
+          "Het GTIN barcodenummer van de verpakkingseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul het GTIN-nummer van de verpakkingseenheid in.\n\n- Gebruik de barcode die hoort bij de UOM van de verpakkingseenheid.\n\n- Een GTIN kan niet twee keer voorkomen in de lijst.\n\n- Dit veld is numeriek.\n\n(min 13 max 14 karakters)\n\n\n* Als er een GTIN aanwezig is voor deze verpakkingslaag, dan is dit veld verplicht.\nIs er geen GTIN, dan is het invullen van de velden 'Aanvullende Productidentificatie' en 'Code voor Aanvullende Productidentificatie' verplicht voor alle medische producten.",
+          "Alle oude GTIN barcodenummers van de verpakkingseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Info' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul alle oude GTIN-nummers van de verpakkingseenheid in.\n\n- Gebruik de barcode die hoort bij de UOM van de verpakkingseenheid.\n\n- Meerdere barcodes invoeren is mogelijk. Deze moeten dan wel gescheiden worden door een spatie.\n\n(max 200 karakters)",
+          "Het GTIN barcodenummer van de basiseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul het GTIN nummer in van de basiseenheid.\n\n- Gebruik de barcode die hoort bij de UOM van de basiseenheid.\n\n(min 13 max 14 karakters)",
+          "Alle oude GTIN barcodenummers van de basiseenheid.\n\nVoor meer uitleg over de UOM en de verpakkingshierachie, ga naar sheets 'UOM Example' en 'Parent-Child'.\n\n\nINVULINSTRUCTIES\n- Vul alle oude GTIN-nummers in van de basiseenheid.\n\n- Gebruik de barcode die hoort bij de UOM van de basiseenheid.\n\n- Meerdere barcodes invoeren is mogelijk. Deze moeten dan wel gescheiden worden door een spatie.\n\n(max 200 karakters)",
+          "Code voor aanvullende identificatie naast de GTIN, of een alternatief barcode bij het ontbreken van een GTIN. Zoals HBIC, een modelnummer van de leverancier, RVG-nummer (geneesmiddelen), of FDA Medical Device Listing-nummer etc.\n\n\nINVULINSTRUCTIES\n- Vul het relevante aanvullende identificatienummer in voor het artikel.\n\n- Voor geneesmiddelen, gebruik het RVG-nummer (Nederland) of een ander geldig registratienummer.\n\n- Dit veld kan meermaals worden gebruikt voor hetzelfde artikel indien er meerdere identificatienummers zijn.\n\n(max 50 karakters)\n\n\n* Als 'GTIN Verpakkingseenheid' niet gevuld is, dan is dit veld verplicht.\nAls dit veld gevuld is dan is het komende veld 'Code voor Aanvullende Productidentificatie' ook verplicht.",
+          "Dit veld geeft aan welk type aanvullende identificatie op het artikel van toepassing is, zoals een modelnummer of een door de leverancier toegewezen nummer. \n\n\nINVULINSTRUCTIES\n- Selecteer de juiste code die overeenkomt met het type aanvullende productidentificatie uit de lijst van toegestane waarden.\n\n- Dit veld kan meerdere codes bevatten indien er meerdere identificatienummers zijn.\n\n- Zie voor de juiste codes de 'ATIIT Code' sheet.\n\n\n* Dit veld is verplicht, als het vorige veld 'Aanvullende Productidentificatie' gevuld is.",
+          "De GHX BTW-code voor de Nederlandse markt.\n\n\nINVULINSTRUCTIES\n- Vul hier de juiste GHX BTW-code in die correspondeert met het BTW-percentage voor de Nederlandse markt:\n\n0 =   0% \n1 =   9% \n2 = 21% \n3 = 12%\n\n- Vul de GHX BTW code, niet het BTW percentage.\n\n- Als u onder een buitenlands BTW-nummer factureert, vul dan \"0\" in.",
+          "Het startpunt van de staffel, ofwel het aantal besteleenheden vanaf waar de staffelkorting van toepassing is.\n\nINVULINSTRUCTIES\n- Vul het aantal besteleenheden in vanaf waar de staffelkorting van toepassing is.\n\n(max 4 karakters)\n\n\n* Dit veld moet enkel ingevuld worden als dit een staffelbestand is.",
+          "Het eindpunt van de staffel, ofwel het aantal besteleenheden tot waar deze staffelkorting van toepassing is.\n\nINVULINSTRUCTIES\n- Vul het aantal besteleenheden in tot waar de staffelkorting van toepassing is.\n\n(max 4 karakters)\n\n\n* Dit veld moet enkel ingevuld worden als dit een staffelbestand is.",
+          "Naam van de fabrikant/merkhouder/eigenaar van het merk\n\n\nINVULINSTRUCTIES\n- Vul de naam van de fabrikant/ merkhouder/ eigenaar van het merk in.\n\n- Als deze niet bekend is vult u de leveranciersnaam in.\n\n(max 50 karakters)",
+          "Het unieke artikelnummer dat de fabrikant aan het artikel geeft, vaak het referentienummer op de verpakking.  \n\n\nINVULINSTRUCTIES\n- Vul het unieke artikelnummer van de fabrikant in, vaak het referentienummer op de verpakking.\n\n- Als dit artikelnummer afwijkt van het artikelnummer van de leverancier, dan is dit veld verplicht. \n\n(min 3 en max 46 karakters)",
+          "Het Global Location Number (GLN) van de fabrikant die verantwoordelijk is voor de productie van het artikel. \n\n\nINVULINSTRUCTIES\n- Vul het GLN in van de fabrikant die het artikel heeft geproduceerd.\n\n- Dit nummer helpt bij het identificeren van de locatie en entiteit van de fabrikant.\n\n(13 karakters)",
+          "Het Global Location Number (GLN) van de partij die de informatie verstrekt over het product. \n\n\nINVULINSTRUCTIES\n- Vul het GLN in van de partij die verantwoordelijk is voor de informatie over het handelsartikel.\n\n- Wanneer u ook gebruik maakt van EDI-communicatie, gebruik dan hetzelfde GLN die u gebruikt voor EDI-berichten.\n\n(13 karakters)",
+          "De landcode van de doelmarkt waar het product verkocht en gedistribueerd wordt. \n\n\nINVULINSTRUCTIES\n- Vul de landcode in voor het land waar het product op de markt gebracht zal worden.\n\n- Zie voor de juiste codes de 'Country Code' sheet.",
+          "Weblink (url) naar een website met (extra) informatie over het artikel.\n\n\nINVULINSTRUCTIES\n- De weblink moet starten met: https.\n\n- GEEN link naar een site waar ook besteld kan worden.\n\n(max 255 karakters)",
+          "Weblink (url) naar een afbeelding van het artikel.\n\n\nINVULINSTRUCTIES\n- De weblink moet starten met: https.\n\n- GEEN link naar een site waar ook besteld kan worden.\n\n(max 255 karakters)",
+          "Weblink (url) naar de Instructie voor gebruik (IFU) van dit product.\n\nEen IFU bevat belangrijke informatie over het veilige en correcte gebruik van het product.\n\n\nINVULINSTRUCTIES\n- De weblink moet starten met: https.\n\n- GEEN link naar een site waar ook besteld kan worden.\n\n(max 255 karakters)",
+          "De functionele artikelnaam beschrijft wat het artikel is en hoe het door de eindgebruiker wordt gebruikt. \n\n\nINVULINSTRUCTIES\n- Geef een korte, duidelijke beschrijving van de functie van het artikel door de vraag te beantwoorden: \"Wat is het?\".\n\n- Vermijd afkortingen of complexe termen en houd de beschrijving eenvoudig en begrijpelijk.\n\n(max 150 karakters)\n\n\n* Vult u dit veld in? \nDan is het verplicht om het volgende veld ook in te vullen,\n'Functionele Naam Taal Code'.",
+          "Code die de taal aangeeft waarin de tekst van veld 'Functionele Artikelnaam' wordt uitgedrukt.\n\n\nINVULINSTRUCTIES\n- Kies een geldige taalcode uit de codelijst.\n\n- Voor de juiste codes, ga naar de 'Country Code' sheet.\n\n\n* Dit veld is verplicht als het vorige veld\n'Functionele Artikelnaam' gevuld is.",
+          "De merknaam is de naam waaronder het artikel op de markt wordt gebracht en door consumenten wordt herkend, zoals vastgesteld door de fabrikant of distributeur.\n\n\nINVULINSTRUCTIES\n- Vul de merknaam in.\n\n(min 3 en max 90 karakters)",
+          "Het unieke artikelnummer van een alternatief artikel.\n\n\nINVULINSTRUCTIES \n- Vul een uniek artikelnummer in van een alternatief artikel.\n\n(min 3 en max 46 karakters)\n\n\n* Vult u dit veld in? \nDan is het verplicht om de volgende twee velden ook in te vullen, 'Artikelnaam Alternatief Artikel' en 'Barcode Alternatief Artikel'.",
+          "De artikelnaam van een alternatief artikel.\n\n\nINVULINSTRUCTIES\n- Vul artikelnaam van van een alternatief artikel, volgens de leverancier of fabrikant.\n\n(min 3 en max 90 karakters)\n\n\n* Dit veld is verplicht als het vorige veld\n'Artikelnummer Alternatief Artikel' gevuld is.",
+          "Vul het huidige barcodenummer in van het alternatief artikel, volgens de leverancier of fabrikant\n\n\nINVULINSTRUCTIES\n- Vul het barcodenummer in van een alternatief artikel, gebruikmakend van EAN, GTIN of HIBC.\n\n(max 50 karakters)\n\n\n* Dit veld is verplicht als het veld\n'Artikelnummer Alternatief Artikel' gevuld is.",
+          "Internationale UNSPSC artikelcodering.  \n(United Nations Standard Products and Services Code)\n\n\nINVULINSTRUCTIES\n- Vul de UNSPSC artikelcodering in.\n\n(max 8 karakters)",
+          "De GMDN code.\n(Global Medical Device Nomenclature). Dit is een internationale standaard die wordt gebruikt voor de naamgeving en de definitie van medische hulpmiddelen.\n\n\nINVULINSTRUCTIES\n- Vul de GMDN code in.\n\n(5 karakters)\n\n\n* Dit veld is verplicht, wanneer het artikel geregistreerd moet worden in het Landelijk Implantaten Register (LIR)",
+          "De EMDN-code\n(European Medical Device Nomenclature)\n\nDit is een Europese standaard die wordt gebruikt voor de naamgeving en classificatie van medische hulpmiddelen, in overeenstemming met de EU Medical Device Regulation (MDR).\n\n\nINVULINSTRUCTIES\n- Vul de EMDN code in.\n\n(5 karakters)",
+          "GPC Brick code van de GS1 Global Product Classification (GPC), die de productcategorie van het handelsartikel specificeert.\n\n\nINVULINSTRUCTIES\n- Vul de GPC Brick code in die de productcategorie van het handelsartikel specificeert. \n\n- Het is een unieke 8-cijferige code die de GPC van het product weergeeft.\n\n(8 karakters)",
+          "Een code die aangeeft welk aanvullend productclassificatiesysteem wordt toegepast op het artikel. \n\n\nINVULINSTRUCTIES\n- Vul de juiste code in van het aanvullende classificatiesysteem dat van toepassing is op het artikel. \n\n- Dit veld is nummeriek.\n\n- Zie voor de juiste codes de 'ATIC Code' sheet.",
+          "Vul hier de EU MDR of IVDR classificatie in voor medische hulpmiddelen.\n\nDe specifieke classificatiewaarde binnen het gekozen productclassificatiesysteem.\n\n\nINVULINSTRUCTIES\n- Vul de bijbehorende classificatiewaarde in die past bij het geselecteerde classificatiesysteem. \n\n- Zie voor de juiste codes de 'ATIC Code' sheet.",
+          "Het nummer van het CE-certificaat indien van toepassing.\n\n\nINVULINSTRUCTIES\n- Vul het nummer van het CE-certificaat in.\n\n- Verplicht voor medische hulpmiddelen.\n\n(max 15 karakters)\n\n\n* Verplicht voor medische hulpmiddelen.\nVult u dit veld in? \nDan is het verplicht om de twee volgende velden ook in te vullen,\n'CE Certificaat einddatum' of 'CE Certificerende instantie'.",
+          "De einddatum van het CE-certificaat.\n\n\nINVULINSTRUCTIES\n- Vul de einddatum in van het CE-certificaat.\n\n- Gebruik het formaat: DD-MM-JJJJ\n\n- De ingevoerde datum kan niet in het verleden liggen.\n\n\n* Dit veld is verplicht, als het vorige veld 'CE Certificaat nummer' gevuld is.",
+          "Naam van de organisatie die de certificering heeft uitgegeven (aangemelde instantie).\n\n\nINVULINSTRUCTIES\n- Vul de naam in van de organisatie die de certificering heeft uitgegeven.\n\n(max 50 karakters)\n\n\n* Dit veld is verplicht, als het veld 'CE Certificaat nummer' gevuld is.",
+          "Geeft aan of het product duurzaam is geproduceerd, met aandacht voor milieu-, sociale en/of economische aspecten.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE\n\n\n* Vult u dit veld met JA in? \nDan is het verplicht om minstens één van de twee volgende velden ook in te vullen,\n'Naam Duurzaamheidslabel' of 'Omschrijving Duurzaamheid'.",
+          "De naam van een erkend duurzaamheidslabel, duurzaamheidscertificaat, kwaliteitslabel of duurzaam assortiment van de leverancier (bijvoorbeeld \"EKO-keurmerk\" of \"Greener by Design\").\n\n\nINVULINSTRUCTIES\n- Vul de naam in van het duurzaamheidslabel, certificaat of duurzaam assortiment.\n\n(max 50 karakters)",
+          "Geef een heldere omschrijving welke duurzame productiemethoden en criteria zijn toegepast om dit product als duurzaam te kwalificeren.\n\n\nINVULINSTRUCTIES\n- Beschrijf de duurzame productiepraktijken die voor dit product zijn gebruikt.\n\n- Geef aan op welke milieu-, sociale en economische punten dit product duurzaam is.\n\n- Houd de beschrijving beknopt maar informatief.\n\n(max 2000 karakters)",
+          "Identificatie code van chemische substanties. \n\n\nINVULINSTRUCTIES\n- Vul de identificatie code in van de chemische substantie. \n\n- Volg het format: \n2 tot 5 cijfers - 2 cijfers - 1 cijfer \n(XXXXX-XX-X).\nGescheiden door een '-'.",
+          "De naam van de stof waar het artikel uit bestaat.\n\n\nINVULINSTRUCTIES\n- Vul de naam van de stof in waar het artikel uit bestaat.\n\n(max 200 karakters)",
+          "De brutoformule/ moleculeformule van de chemische substantie.\n\n\nINVULINSTRUCTIES\n- Vul de moleculeformule in van de chemische substantie. \n\n(max 40 karakters)",
+          "Code waarmee wordt aangegeven in hoeverre een artikel een bepaalde stof of ingrediënt bevat.\n\n\nINVULINSTRUCTIES\n- Selecteer de code waarmee wordt aangegeven in hoeverre een artikel een bepaalde stof of ingrediënt bevat.\n\n- Voor meer informatie en de juiste codes, zie de 'ClaimTypeCode' sheet.",
+          "Het type stof of ingrediënt waarop de claim (van het vorige veld) betrekking heeft.\n\n\nINVULINSTRUCTIES\n- Selecteer het type stof of ingrediënt waarop de claim (uit het vorige veld) betrekking heeft.\n\n- Kies de juiste type stof of ingredient met behulp van de sheet 'ClaimElementCode'.",
+          "Dit is een nummer van vier cijfers dat een gevaarlijke stof identificeert tijdens het transport, volgens de voorschriften van de Verenigde Naties.\n\n\nINVULINSTRUCTIES\n- Vul het UN-nummer in.\n\n- Dit is een nummer van vier cijfers.\n\n- Zie voor de juiste codes de 'UN Number' sheet.",
+          "ADR transportgevarenklasse.\n\n\nINVULINSTRUCTIES\n- Vul de ADR transportgevarenklasse in.\n\n- Gebruik de codes uit de 'ADR Class' sheet.",
+          "Geef aan of er een wettelijk VIB (veiligheidsinformatiblad) vereist is, ofwel een SDS/(Safety Data Sheet).\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Externe link naar het VIB (veiligheidsinformatieblad) ofwel het SDS (Safety Data Sheet).\n\n\nINVULINSTRUCTIES\n- De weblink moet starten met: https.\n\n- GEEN link naar een site waar ook besteld kan worden.\n\n(max 255 karakters)",
+          "Geeft aan of er voor dit artikel een eindgebruikersverklaring vereist is vanwege wettelijke bepalingen voor bepaalde stoffen die misbruikt kunnen worden.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of het artikel gekoeld moet worden tijdens transport en/of tijdens opslag. \n\nKoeling: 2°C tot 8°C.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of het artikel bevroren moet zijn tijdens transport en/of tijdens opslag. \n\nBevroren: onder -15°C.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Een code die het type temperatuur aangeeft dat van toepassing is op het artikel, bijvoorbeeld voor opslag- of transportomstandigheden voor gekoelde of bevroren producten.\n\n\nINVULINSTRUCTIES\n- Kies de juiste code uit de beschikbare codelijst. \n\n- Zie voor de juiste codes de 'TemperatureQualifierCode' sheet, of maak gebruik van de dropdownlist.",
+          "Code die de informatie en processen definieert die nodig zijn om het artikel veilig te behandelen.\n\nHet label, de IFU en de voorschriften voor reiniging, desinfectie en sterilisatie zijn leidend. Raadpleeg deze.\n\n\nINVULINSTRUCTIES\n- Selecteer één van de volgende waarden: \n\nSRT\nBewaar op kamertemperatuur\n\nFPC\nBewaar in de vriezer\n\n11\nKoeling nodig\n\n- U kunt ook gebruik maken van de dropdownlist.",
+          "De maximale temperatuur waarbij het artikel veilig kan worden opgeslagen of getransporteerd, zonder dat de kwaliteit of veiligheid in gevaar komt.\n\n\nINVULINSTRUCTIES\n- Vul de maximale temperatuur in graden Celsius in. \n\n- Dit is de hoogste temperatuur waarbij het product nog steeds aan de vereisten voldoet.\n\n(max 4 cijfers voor de komma en 2 decimalen erna)",
+          "De minimale temperatuur waarbij het artikel veilig kan worden opgeslagen of getransporteerd, zonder dat de kwaliteit of veiligheid in gevaar komt.\n\n\nINVULINSTRUCTIES\n- Vul de minimale temperatuur in graden Celsius in. \n\n- Dit is de laagste temperatuur waarbij het product nog steeds aan de vereisten voldoet.\n\n(max 4 cijfers voor de komma en 2 decimalen erna)",
+          "De eenheid waarin de temperatuur is uitgedrukt, gebruikt voor de maximale en minimale temperatuurwaarden.\n\n\nINVULINSTRUCTIES\n-Vul de gestandaardiseerde eenheidscode in (UOM) behorende bij de temperatuur.\n\n- Zorg ervoor dat dezelfde eenheid wordt gebruikt voor zowel de maximale als de minimale temperatuurwaarden. (zie vorige twee kolommen)\n\n- Indien dit veld leeg wordt gelaten, wordt standaard Celsius gebruikt.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "Het totale bruto gewicht van de verpakkingseenheid van het artikel. Dit is inclusief de verpakking.\n\n\nINVULINSTRUCTIES\n- Vul het totale bruto gewicht in van de verpakkingseenheid van het artikel.\n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Eenheidscode (UOM) voor het bruto gewicht van de verpakkingseenheid.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in voor het bruto gewicht van de verpakkingseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "De hoogte van de verpakkingseenheid van het artikel. \n\n\nINVULINSTRUCTIES\n- Vul de hoogte van de verpakkingseenheid in. \n\n(maximaal 5 cijfers voor de komma en 5 decimalen erna)",
+          "Eenheidscode (UOM) voor de hoogte van de verpakkingseenheid.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in voor de hoogte van de verpakkingseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "De breedte van de verpakkingseenheid van het artikel. \n\n\nINVULINSTRUCTIES\n- Vul de breedte van de verpakkingseenheid in.\n\n(maximaal 5 cijfers voor de komma en 5 decimalen erna)",
+          "Eenheidscode (UOM) voor de breedte van de verpakkingseenheid.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in voor de breedte van de verpakkingseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "De diepte van de verpakkingseenheid van het artikel.\n\nINVULINSTRUCTIES\n- Vul de diepte van de verpakkingseenheid in.\n\n(maximaal 5 cijfers voor de komma en 5 decimalen erna)",
+          "Eenheidscode (UOM) voor de diepte van de verpakkingseenheid.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in voor de diepte van de verpakkingseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "Het totale gewicht van de basiseenheid van het artikel. \n\n\nINVULINSTRUCTIES\n- Vul het totale gewicht in van de basiseenheid van het artikel. \n\n(maximaal 7 cijfers voor de komma en 5 decimalen erna)",
+          "Eenheidscode (UOM) van het gewicht van de basiseenheid.\n\n\nINVULINSTRUCTIES\n- Vul de eenheidscode (UOM) in van het gewicht van de basiseenheid.\n\n- Zie voor de juiste codes de 'UOM Codes' sheet, of maak gebruik van de dropdownlist.",
+          "Is het artikel een herbruikbaar chirurgisch instrument of niet.\n\nDit geldt alleen voor medische artikelen.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE\n\n\n* Vult u dit veld een 1 in? \nDan is het verplicht om het volgende veld ook in te vullen, 'Herbruikbaarheids Code'.\nIs het antwoord 0, dan kun je het volgende veld overslaan.",
+          "Code om aan te geven of een artikel bedoeld is voor eenmalig of meervoudig gebruik volgens de specificaties van de fabrikant.\n\n\nINVULINSTRUCTIES\n- Kies uit de volgende opties:\n\nLIMITED_REUSABLE\nHet product kan worden hergebruikt, maar de fabrikant heeft speciale instructies, beperkingen of richtlijnen gegeven voor het hergebruik van dit product.\n\nREUSABLE\nHet product is bedoeld om meerdere keren te worden gebruikt.\n\nREUSABLE_SAME_PATIENT\nHet product kan alleen worden hergebruikt voor dezelfde patiënt.\n\nSINGLE_USE\nHet product is bedoeld voor eenmalig gebruik en mag niet opnieuw worden gebruikt.\n\n\n* Dit veld is verplicht, als het vorige veld 'Herbruikbaar' gevuld is met een 1.",
+          "Een implantaat is een medisch hulpmiddel dat geheel of gedeeltelijk in het menselijk lichaam wordt ingebracht, en bedoeld is om daar tijdelijk of permanent te blijven, zoals bepaald door lokale regelgeving.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geeft aan of het artikel menselijk weefsel bevat, zoals gebruikt in bepaalde medische hulpmiddelen of producten.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of er voor dit artikel serienummers in omloop zijn. \n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE\n\n\n* Vult u dit veld een 1 in? \nDan is het verplicht om het volgende veld ook in te vullen,\n'Locatie Serienummer op de Verpakking'.\nIs het antwoord 0, dan kun je het volgende veld overslaan.",
+          "Geeft aan waar het serienummer van het artikel zich bevindt, bijvoorbeeld op de verpakking of op het product zelf.\n\n\nINVULINSTRUCTIES\n- Kies een geldige waarde uit de onderstaande codelijst. Meerdere waarden zijn mogelijk:\n\nMARKED_ON_PACKAGING\nSerienummer is op de verpakking gemarkeerd.\n\nMARKED_ON_PACKAGING_INSERT\nSerienummer staat op de bijgevoegde verpakking insert.\n\nMARKED_ON_TRADE_ITEM\nSerienummer is direct op het artikel gemarkeerd.\n\nUNKNOWN\nLocatie van het serienummer is onbekend.\n\nNOT_MARKED\nEr is geen serienummer gemarkeerd op het artikel.\n\n\n* Dit veld is verplicht, als het vorige veld 'Serienummer' gevuld is met een 1.",
+          "Geef aan of voor dit artikel batchnummers in omloop zijn.\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of dit artikel steriel is.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE\n\n\n* Vult u in dit veld een 1 in? \nDan is het verplicht om het volgende veld ook in te vullen, 'Type Sterilisatie Gebruikt door Fabrikant'.\nIs het antwoord 0, dan kun je het volgende veld overslaan.",
+          "Een code waarmee wordt aangegeven op welke manier het artikel is gesteriliseerd door de fabrikant tijdens het productieproces. \n\n\nINVULINSTRUCTIES\n- Selecteer de juiste sterilisatiemethode uit de beschikbare codes. \n\n- Indien het artikel niet gesteriliseerd is, selecteer de waarde NOT-STERILISED.\n\n- Zie voor de juiste codes de 'SterilisationTypeCode' sheet,\nof maak gebruik van de dropdownlist.\n\n\n* Dit veld is verplicht, als het vorige veld 'Steriel' gevuld is met een 1.",
+          "Geef aan of dit artikel latex bevat, conform het etiket.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geef aan of dit artikel geschikt is voor gebruik in een MRI.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Geeft aan of het artikel bestemd is om direct aan consumenten te worden verkocht. \n\nEen consumenteneenheid is doorgaans de eenheid die in winkels aan eindgebruikers wordt verkocht.\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Dit veld geeft aan of het artikel wordt beschouwd als een afzonderlijke verzendeenheid. \n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Levertijd in het aantal dagen.\n\n\nINVULINSTRUCTIES    \n- Vul de gemiddelde levertijd in het aantal werkdagen.\n\n- Het veld moet numeriek zijn, dus niet: \n'7-14' of '14 dagen' invullen.",
+          "Code die het type datum aangeeft dat op de verpakking van het product, bijvoorbeeld de productiedatum of vervaldatum.\n\n\nINVULINSTRUCTIES    \n- Kies een geldige waarde uit de lijst van sheet 'TIDOPT Codes', of maak gebruik van de dropdownlist.",
+          "De startdatum vanaf wanneer het artikel beschikbaar is (om te bestellen) bij de leverancier.\n\n\nINVULINSTRUCTIES\n- Vul de startdatum in wanneer het artikel   beschikbaar is.\n\n- Gebruik het formaat: DD-MM-JJJJ\n\n- Deze datum hoeft niet gelijk te zijn met de startdatum van de volledige prijslijst of met de startdatum van de prijs van het artikel.\n\n- De ingevoerde datum kan zowel in het verleden als in de toekomst liggen.",
+          "De einddatum wanneer het artikel niet meer beschikbaar is (om te bestellen) bij de leverancier.\n\nDit veld is verplicht als een artikel (tijdelijk) niet beschikbaar is.\n\n\nINVULINSTRUCTIES\n- Vul de einddatum in wanneer het artikel niet meer beschikbaar is.\n\n- Gebruik het formaat: DD-MM-JJJJ\n\n- Deze datum hoeft niet gelijk te zijn met de einddatum van de volledige prijslijst\n\n- De ingevulde datum waarde mag alleen in de toekomst liggen en niet vóór 'Startdatum Beschikbaarheid'.",
+          "Startdatum van de netto prijs van dit artikel.\n\n\nINVULINSTRUCTIES\n- Vul de datum in waarop de netto prijs van het artikel ingaat.\n\n- Gebruik het formaat: DD-MM-JJJJ\n\n- Deze datum hoeft niet gelijk te zijn met de startdatum van de volledige prijslijst of van de 'Startdatum Beschikbaarheid'.\n\n- De ingevoerde datum kan zowel in het verleden als in de toekomst liggen.",
+          "Einddatum van de netto prijs van dit artikel.\n\n\nINVULINSTRUCTIES\n- Vul de datum in waarop de netto prijs van het artikel eindigt.\n\n- Gebruik het formaat: DD-MM-JJJJ\n\n- Deze datum hoeft niet gelijk te zijn met  de 'Einddatum Beschikbaarheid'.\n\n- De ingevulde datum waarde mag alleen in de toekomst liggen en niet vóór de 'Startdatum Prijs Artikel'.",
+          "Is er een contract aanwezig voor dit artikel met deze prijs?\n\n\nINVULINSTRUCTIES\n1 = JA\n0 = NEE",
+          "Wat is het contractnummer van de provider voor dit artikel?\n\n\nINVULINSTRUCTIES \n- Vul het contractnummer in van het artikel.\n\n(max 30 karakters)",
+          "Aanvullende trefwoorden in die helpen bij het zoeken naar uw artikelen.\n\n\nINVULINSTRUCTIES\n- Vul aanvullende trefwoorden in die helpen bij het zoeken naar uw artikelen. Zoals synoniemen en gerelateerde termen. \n\nWij nemen automatisch de volgende elementen op in de zoeksleutels:\n- artikelnaam.\n- de eerste 200 karakters van de artikelomschrijving.\n- artikelnummer van de fabrikant.\n- naam van de fabrikant. \n- Merknaam.\n- Functionele Artikelnaam\n\n\nScheid de verschillende zoeksleutels met een spatie.\n\n(max 2000 karakters)"
+        ]
+      }
+    ],
+    "column_widths": [
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0
+    ]
+  },
+  "sheet_name": "Template NL"
+}

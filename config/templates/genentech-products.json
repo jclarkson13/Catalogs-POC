@@ -1,0 +1,86 @@
+{
+  "template_name": "genentech-products",
+  "source_sample": "US - Genentech Products.csv",
+  "description": "US Genentech attribute-only companion feed (csv with BOM, LF, 15 columns), no prices. name and description are clean_gladstone_description(long_description) plus size and unit.",
+  "file_type": "csv",
+  "csv_format": {"bom": true, "lineterminator": "\n"},
+  "sku_column": "sku",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "language_code",
+      "source": "constant",
+      "expression": "'en'"
+    },
+    {
+      "header": "product_identifier",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "name",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "description",
+      "source": "master",
+      "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "sku",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "brand",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "unspsc_version",
+      "source": "constant",
+      "expression": "'UNv14.0801'"
+    },
+    {
+      "header": "unit size",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "unit_label",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "manufacturer",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "mpn",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "product_page_url",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "image_urls_1",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "document_url_1",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    }
+  ]
+}

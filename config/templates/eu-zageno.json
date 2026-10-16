@@ -1,0 +1,243 @@
+{
+  "template_name": "eu-zageno",
+  "source_sample": "EU - Zageno Current/Future Price.xlsx",
+  "description": "EU Zageno marketplace file (xlsx, 46 columns). Only the UK GBP and EU EUR published list prices are filled, from raw price strings; the US price and all 'ZAGENO discounted price' columns are blank. Hazard, CAS and antibody fields from master lookups. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Catalog ID",
+  "price_columns": [
+    "Published List Price for UK Marketplace [GBP]",
+    "Published List Price for EUROPEAN Marketplace [EUR]"
+  ],
+  "columns": [
+    {
+      "header": "Supplier Name",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology Europe BV'"
+    },
+    {
+      "header": "Supplier Product Category",
+      "source": "master",
+      "expression": "row['product_classification']"
+    },
+    {
+      "header": "Supplier Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Manufacturer Catalog ID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Brand Name",
+      "source": "constant",
+      "expression": "'Cell Signaling Technology'"
+    },
+    {
+      "header": "Manufacturer Name",
+      "source": "master",
+      "expression": "row['manufacturer'].rstrip('.')"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "Product Long Description",
+      "source": "master",
+      "expression": "row['long_description'] + ' ' + leading_digits(row['sku'])"
+    },
+    {
+      "header": "Samples/Size",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Packaging Quantity",
+      "source": "master",
+      "expression": "row['size_unit'].replace(chr(181), 'u')"
+    },
+    {
+      "header": "UNSPSC code",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "HS Code",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'intrastat_no')[:7]"
+    },
+    {
+      "header": "Hazard codes",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_ghs_fields.csv', 'h_statements_pipe').replace('|', ',')"
+    },
+    {
+      "header": "Primary Image",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Additional Image 1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Additional Image 2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier URL",
+      "source": "master",
+      "expression": "row['product_url'].removesuffix('.html') + '?country=GB'"
+    },
+    {
+      "header": "Resource URL",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'sds_url_eu_en')"
+    },
+    {
+      "header": "Manufacturer URL",
+      "source": "master",
+      "expression": "row['product_url'].removesuffix('.html') + '?country=GB'"
+    },
+    {
+      "header": "Ship from Country",
+      "source": "constant",
+      "expression": "'NL'"
+    },
+    {
+      "header": "Minimum Order Quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Published List Price for US Marketplace [USD]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ZAGENO discounted price US Marketplace [USD]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Published List Price for UK Marketplace [GBP]",
+      "source": "master",
+      "expression": "raw_price_gbp(row, customer)"
+    },
+    {
+      "header": "ZAGENO discounted price for UK Marketplace [GBP]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Published List Price for EUROPEAN Marketplace [EUR]",
+      "source": "master",
+      "expression": "raw_price_eur(row, customer)"
+    },
+    {
+      "header": "ZAGENO discounted price for EUROPEAN Marketplace [EUR]",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price valid until",
+      "source": "customer",
+      "expression": "customer['price_valid_until'][5:7] + '-' + customer['price_valid_until'][8:10] + '-' + customer['price_valid_until'][:4]"
+    },
+    {
+      "header": "Lead time",
+      "source": "constant",
+      "expression": "'3'"
+    },
+    {
+      "header": "Shipping Condition",
+      "source": "master",
+      "expression": "row['shipping_conditions']"
+    },
+    {
+      "header": "CASNumber",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'constituent_cas_number') + ',' + lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number')) if lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'constituent_cas_number') and lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number') else (lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'constituent_cas_number') or lookup(row['sku'], 'cst_hazmat_cas_fields.csv', 'commercial_cas_number'))"
+    },
+    {
+      "header": "Molecular Formula",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'molecular_formula')"
+    },
+    {
+      "header": "SMILES",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "IUPAC Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "InChiKey",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Purity",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'purity').replace('<gt/>', 'greater than ').replace('&gt;', 'greater than ').replace('<lt/>', 'less than ').replace('&lt;', 'less than ')"
+    },
+    {
+      "header": "Volume",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "GTIN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Applications",
+      "source": "master",
+      "expression": "row['assays'] or ' '"
+    },
+    {
+      "header": "Clonality",
+      "source": "master",
+      "expression": "'Monoclonal' if 'Monoclonal' in row['product_classification'] else ('Polyclonal' if 'Polyclonal' in row['product_classification'] else '')"
+    },
+    {
+      "header": "Color",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Dimensions (L x W x H)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Host",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_lsds_antibody_fields.csv', 'host')"
+    },
+    {
+      "header": "Material",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Reactivity",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Shelf Life",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_shelf_life.csv', 'shelf_life')"
+    }
+  ]
+}

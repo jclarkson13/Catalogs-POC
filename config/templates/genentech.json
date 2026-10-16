@@ -1,0 +1,83 @@
+{
+  "template_name": "genentech",
+  "source_sample": "US - Genentech Current/Future Price.csv",
+  "description": "US Genentech marketplace price file (csv, LF, 13 columns; first header carries a literal BOM character). Price is discounted USD as 2dp text; public_price is the list price rounded to a whole number.",
+  "file_type": "csv",
+  "sku_column": "identifier",
+  "price_columns": [
+    "Price",
+    "public_price"
+  ],
+  "csv_format": {
+    "lineterminator": "\n"
+  },
+  "columns": [
+    {
+      "header": "\ufefftype",
+      "key": "type",
+      "_note": "The real Current/Future files both start with a UTF-8 byte-order mark (EF BB BF) - write_csv() always writes plain utf-8, so the BOM is carried as a literal U+FEFF prefix on this first header (key stays 'type'). Confirmed byte-identical to both real files 2026-09-25.",
+      "source": "constant",
+      "expression": "'product'"
+    },
+    {
+      "header": "identifier",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "billing_scheme",
+      "source": "constant",
+      "expression": "'standard'"
+    },
+    {
+      "header": "tax_behaviour",
+      "source": "constant",
+      "expression": "'inclusive'"
+    },
+    {
+      "header": "catalog_identifier",
+      "source": "constant",
+      "expression": "'US_cellsignal-genentech'"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "public_price",
+      "source": "master",
+      "expression": "str(int(round(price_for(row, 'list_price_usd', customer))))"
+    },
+    {
+      "header": "Currency",
+      "source": "constant",
+      "expression": "'USD'"
+    },
+    {
+      "header": "store_id",
+      "source": "constant",
+      "expression": "'2'"
+    },
+    {
+      "header": "Country",
+      "source": "constant",
+      "expression": "'US'"
+    },
+    {
+      "header": "starts_at",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "end_at",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "minimum_order_quantity",
+      "source": "constant",
+      "expression": "'1'"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "template_name": "europe-price-export",
+  "source_sample": "Europe Current/Future Price Export.csv",
+  "description": "Pan-European reference price export (csv, semicolon-delimited, LF, 3 columns): SKU, product name with volume, and EU CLP as the raw EUR list string for the price period, 0% discount. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "csv",
+  "delimiter": ";",
+  "csv_format": {"lineterminator": "\n"},
+  "sku_column": "Item SKU",
+  "price_columns": [
+    "EU CLP (EUR)"
+  ],
+  "columns": [
+    {
+      "header": "Item SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Name No Symbols with Volume",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_product_name_with_volume.csv', 'product_name_no_symbols_with_volume', row['long_description'].replace('<sup>®</sup>', '(R)').replace('<sup>™</sup>', '(tm)').replace('®', '(R)').replace('™', '(tm)') + ' ' + row['size'] + ' ' + row['size_unit'].replace(chr(181), 'u'))).replace('<lt/>', '<').replace('<gt/>', '>')"
+    },
+    {
+      "header": "EU CLP (EUR)",
+      "source": "master",
+      "expression": "(lookup(row['sku'], 'cst_dkfz_bmecat_fields.csv', 'eu_future_list_price' if customer.get('price_period') == 'future' else 'eu_list_price') if discount == 0 else '') or price_for_rounded(row, 'list_price_eur', customer, discount)"
+    }
+  ]
+}

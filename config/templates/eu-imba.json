@@ -1,0 +1,203 @@
+{
+  "template_name": "eu-imba",
+  "source_sample": "EU - Institut f\u00fcr Molekulare Biotechnologie GmbH (IMBA) Current/Future Price.xlsx",
+  "description": "EU IMBA (Vienna) catalog (xlsx, 38 columns) in EUR. Price is discounted list rounded half-up as text with a decimal comma (decimal_comma); scaled-price tiers stay blank. E-CLASS from master lookup. Customers exclude the SKUs in coupa_marketplace_excluded_de.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Item ID (item number)",
+  "price_columns": [
+    "Price"
+  ],
+  "columns": [
+    {
+      "header": "NEW",
+      "source": "constant",
+      "expression": "'new'"
+    },
+    {
+      "header": "Level",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item ID (item number)",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Item description short",
+      "source": "master",
+      "expression": "row['long_description'].replace('<lt/>', '<').replace('<gt/>', '>')"
+    },
+    {
+      "header": "Item description long",
+      "source": "master",
+      "expression": "row['long_description'].replace('<lt/>', '<').replace('<gt/>', '>') + ((' (' + lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') + ')') if lookup(row['sku'], 'cst_marketing_name_details.csv', 'test_count_uni_abbrev') else '')"
+    },
+    {
+      "header": "Item number EAN",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item number of purchasing company",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item number of manufacturer",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Manufacturer's name",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "Delivery time",
+      "source": "constant",
+      "expression": "'3'"
+    },
+    {
+      "header": "Specialty treatment class type",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Special treatment class",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Search word (key words)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Remarks",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Preference",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Blacklist",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "ERP commodity group",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "eclass_ver_10_1",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'eclass_81')"
+    },
+    {
+      "header": "Order unit",
+      "source": "constant",
+      "expression": "'PCE'"
+    },
+    {
+      "header": "Content unit of order unit",
+      "source": "master",
+      "expression": "row['size_unit']"
+    },
+    {
+      "header": "Number of content units in order unit",
+      "source": "master",
+      "expression": "row['size']"
+    },
+    {
+      "header": "Quantity matching the price",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Minimum order amount",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Interval of order quantity",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Net",
+      "source": "constant",
+      "expression": "'netto'"
+    },
+    {
+      "header": "Price",
+      "source": "master",
+      "expression": "price_for_rounded_half_up(row, 'list_price_eur', customer, discount).replace('.', ',')"
+    },
+    {
+      "header": "Price-Quantity 2 (scaled pricing)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price 2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price-Quantity 3 (scaled pricing)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price 3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price-Quantity 4 (scaled pricing)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price 4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Price-Currency",
+      "source": "constant",
+      "expression": "'EUR'"
+    },
+    {
+      "header": "Tax rate",
+      "source": "constant",
+      "expression": "'0'"
+    },
+    {
+      "header": "Image/jpeg",
+      "source": "constant",
+      "expression": "'image/jpeg'"
+    },
+    {
+      "header": "Picture of item",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Application/pdf",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "2. Picture of item",
+      "source": "constant",
+      "expression": "''"
+    }
+  ],
+  "decimal_comma": true
+}

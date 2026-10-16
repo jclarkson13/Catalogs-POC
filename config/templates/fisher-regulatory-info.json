@@ -1,0 +1,610 @@
+{
+  "template_name": "fisher-regulatory-info",
+  "source_sample": "US - Fisher Regulatory Info.xlsx",
+  "description": "US Fisher regulatory/compliance attribute file (xlsx, 120 columns), no prices. Nearly all columns are blank; a few are constants ('None', 'No Barcode', 'N/A') and the HTS number comes from cst_eclass_category_keyword.csv.",
+  "file_type": "xlsx",
+  "sku_column": "Supplier Catalog Number",
+  "price_columns": [],
+  "columns": [
+    {
+      "header": "Line Errors",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Supplier Catalog Number",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "US Fisher Catalog Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CA Fisher Catalog number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item Status - US",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Item Status - CA",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Comments",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Medical Device - US",
+      "source": "constant",
+      "expression": "'None'"
+    },
+    {
+      "header": "Medical Device - CA",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Medical Device Insert/Attachment",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Health Canada License #",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Prescription Medical Device",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FDA 510k Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "FDA Product Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Prescription Drug - US",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Prescription Drug - CA",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Over the Counter Drug - US",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Over the Counter Drug - CA",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "National Drug Code",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Device Identifier (DI)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Barcode Type - Standard UOM",
+      "source": "constant",
+      "expression": "'No Barcode'"
+    },
+    {
+      "header": "Barcode Scan - Standard UOM",
+      "source": "constant",
+      "expression": "'N/A'"
+    },
+    {
+      "header": "Barcode Type - Alternate UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Barcode Scan - Alternate UOM",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Storage Zone",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Minimum Temperature for Storage (Degree Celsius)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Maximum Temperature for Storage (Degree Celsius)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazardous Storage Type",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Allowed Time for Minimum Temperature Excursion (In Hours) ",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Allowed Time for Maximum Temperature Excursion (In Hours)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Coolant Needed for Shipment",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Packaging Type",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Transportation Days Needed",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Does The Product Require Protection From Freezing?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "pH",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Stability Data Available To Support Excursion Limits",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Hazardous for Transportation",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Safety Data Sheet",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Attach SDS",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Prop 65 Product Labeling (Y/N)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Proposition 65 Detail",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Proposition 65 Label Not Required Reason",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Carcinogen Chemical Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Reproductive Chemical Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TSCA 6h PBT",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TSCA 12b",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "TSCA 12b Chemical Name",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Sequence1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Number1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Percentage1",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Sequence2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Number2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Percentage2",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Sequence3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Number3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Percentage3",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Sequence4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Number4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Percentage4",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CAS Sequence5",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Number5",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Chemical Abstracts Percentage5",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "DEA List I",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Scheduled I-V Drug",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Mercury",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Milligrams Of Mercury",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Asbestos",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Iodine",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Iodine %",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Benzene",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Benzene %",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Ethyl Alcohol",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Animal or Human Origin",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Animal or Human Origin Types",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Biocide or Pesticide",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "EPA Registration Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CA Dept. of Pesticides Regulation Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Marine Pollutant",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Subject to The Chemical Weapons Convention?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "WHMIS Regulated",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "MDL Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UN Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Packing Group",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Flash Point C\u00b0",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Battery",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Number of Batteries",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Type of Battery",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lithium Cell Nb",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lithium Button Nb",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Lithium Metal (G)",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Back-Up Battery Included?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Watt Hour Rating",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "UN CD DS Sequence",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Radioactive Materials",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Ozone Depleting Substance",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Liquid Gas or Contain Liquid Gas",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Refrigerant or Contain Refrigerants",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Frequency (Hz) (1))",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Volts",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Canadian Electrical Certification",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Phase",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Type of Power Supply",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Country of Origin",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Is Product Subject to the ITAR?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Please Provide an ITAR Category",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "USMCA/CUSMA Certificate",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Country of Export",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "US ECCN Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Can the  Product Be Exported From The U.S.?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Provide Schedule B Number",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Harmonized Tariff Schedule Number (HTS#)",
+      "source": "master",
+      "expression": "lookup(row['sku'], 'cst_eclass_category_keyword.csv', 'hts_code_intrastat', '')"
+    },
+    {
+      "header": "Product Subject to Antidumping Duties?",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "OGA Import Permit",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "OGA Import Permit - Agency",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "REACH Compliant",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "RoHS Compliant",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "CSA Certification",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Sterile",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Natural Rubber Latex Indicator",
+      "source": "constant",
+      "expression": "''"
+    },
+    {
+      "header": "Technical Name",
+      "source": "constant",
+      "expression": "''"
+    }
+  ]
+}

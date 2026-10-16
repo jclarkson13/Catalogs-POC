@@ -1,0 +1,54 @@
+{
+  "template_name": "joslin",
+  "source_sample": "US - Joslin Current/Future Price.xlsx",
+  "description": "US Joslin Diabetes Center file (xlsx, 8 columns) with one discounted price column (JOSLIN PRICE, 2dp text USD) and no list price. The header 'MANUF NAME' appears twice, as in the real file.",
+  "file_type": "xlsx",
+  "sku_column": "SKU",
+  "price_columns": [
+    "JOSLIN PRICE"
+  ],
+  "columns": [
+    {
+      "header": "VENDOR NAME",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "SKU",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "DESCRIPTION FULL",
+      "source": "master",
+      "expression": "ariba_name_with_size(row)"
+    },
+    {
+      "header": "UOM",
+      "source": "master",
+      "expression": "row['uom'].upper()"
+    },
+    {
+      "header": "MANUF NAME",
+      "source": "master",
+      "expression": "row['manufacturer'].replace(', Inc.', '')"
+    },
+    {
+      "header": "MANUF NAME",
+      "key": "MANUF NAME (part number)",
+      "source": "master",
+      "expression": "row['sku']",
+      "_note": "Real file repeats the 'MANUF NAME' header; this second column holds the SKU (manufacturer part number) in 100% of rows, both periods."
+    },
+    {
+      "header": "JOSLIN PRICE",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "WEB ADDRESS",
+      "source": "master",
+      "expression": "row['product_url']"
+    }
+  ]
+}

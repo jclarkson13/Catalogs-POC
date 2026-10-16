@@ -1,0 +1,81 @@
+{
+  "template_name": "intervet-merck-msd-cif",
+  "source_sample": "NEB/Intervet_Merck_MSD_Ariba_Catalog.xlsx, sheet 'Merck MSD'",
+  "description": "CIF_I_V3.0 catalog for Intervet/Merck MSD's Ariba network (file_type cif, delivered as xlsx) covering CST and NEB rows, EUR at 0%. Prices are 2dp text; the CIF metadata header comes from cif_metadata.",
+  "file_type": "cif",
+  "sku_column": "Supplier Part ID",
+  "price_columns": [
+    "Unit Price",
+    "Market Price"
+  ],
+  "cif_metadata": [
+    [
+      "CIF_I_V3.0",
+      ""
+    ],
+    [
+      "CHARSET",
+      "UTF-8"
+    ],
+    [
+      "LOADMODE",
+      "F"
+    ],
+    [
+      "CODEFORMAT",
+      "UNSPSC_v13.5"
+    ],
+    [
+      "CURRENCY",
+      "EUR"
+    ],
+    [
+      "SUPPLIERID_DOMAIN",
+      "Network ID"
+    ],
+    [
+      "ITEM_COUNT",
+      "__ITEM_COUNT__"
+    ],
+    [
+      "TIMESTAMP",
+      "__TIMESTAMP__:%d/%m/%Y"
+    ],
+    [
+      "UNUOM",
+      ""
+    ],
+    [
+      "COMMENTS",
+      ""
+    ]
+  ],
+  "master_source": [
+    "products.csv",
+    "products_neb.csv"
+  ],
+  "columns": [
+    {"header": "Supplier ID", "source": "constant", "expression": "'AN01013913097'"},
+    {"header": "Supplier Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Manufacturer Part ID", "source": "master", "expression": "row['sku']"},
+    {"header": "Item Description", "source": "master", "expression": "cst_name_with_suffix(row, 'qty_test_count', 'keep', raw=True)"},
+    {"header": "SPSC Code", "source": "master", "expression": "'41103800' if row['manufacturer'] == 'New England Biolabs' else '12352203'"},
+    {"header": "Unit Price", "source": "master", "expression": "price_text(row['list_price_eur'], discount)"},
+    {"header": "Unit of Measure", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Lead Time", "source": "master", "expression": "'2' if row['manufacturer'] == 'New England Biolabs' else '1'"},
+    {"header": "Manufacturer Name", "source": "master", "expression": "row['manufacturer'].replace(', Inc.', '')"},
+    {"header": "Supplier URL", "source": "master", "expression": "(lambda u: '=HYPERLINK(\"' + u + '\", \"' + u + '\")' if u else '')(row['product_url'].replace('.html', '').lower() if row['manufacturer'] == 'New England Biolabs' else row['product_url'].replace('.html', ''))"},
+    {"header": "Manufacturer URL", "source": "constant", "expression": "''"},
+    {"header": "Market Price", "source": "master", "expression": "price_text(row['list_price_eur'])"},
+    {"header": "Supplier Part Auxiliary ID", "source": "constant", "expression": "''"},
+    {"header": "Language", "source": "constant", "expression": "'en_US'"},
+    {"header": "Currency", "source": "constant", "expression": "'EUR'"},
+    {"header": "Short Name", "source": "master", "expression": "cst_name_with_suffix(row, 'qty_test_count', 'delete', raw=True)[:49].rstrip()"},
+    {"header": "Image", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Thumbnail", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Price Unit Quantity", "source": "constant", "expression": "'1'"},
+    {"header": "Price Unit", "source": "constant", "expression": "'UNPCE'"},
+    {"header": "Unit Conversion", "source": "constant", "expression": "''", "allow_blank_description": true},
+    {"header": "Price Unit Quantity Description", "source": "constant", "expression": "''", "allow_blank_description": true}
+  ]
+}

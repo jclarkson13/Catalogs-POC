@@ -1,0 +1,15 @@
+{
+  "template_name": "hospital-minimal",
+  "source_sample": "US - Albany Medical Center Current Price-2026-06-13_04.09.31 (1).xlsx",
+  "description": "US Albany Medical Center minimal hospital file (xlsx, 5 columns): part number, description, UOM, Price (2dp text USD for the price period) and product URL. Description uses clean_gladstone_description.",
+  "file_type": "xlsx",
+  "sku_column": "Part Number",
+  "price_columns": ["Price"],
+  "columns": [
+    {"header": "Part Number", "source": "master", "expression": "row['sku']"},
+    {"header": "Product Description", "source": "master", "expression": "clean_gladstone_description(row['long_description']) + ' ' + row['size'] + ' ' + row['size_unit']"},
+    {"header": "Packaging UOM", "source": "master", "expression": "row['uom'].upper()"},
+    {"header": "Price", "source": "master", "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"},
+    {"header": "Product URL", "source": "master", "expression": "'=HYPERLINK(\"https://www.cellsignal.com/products/' + sku_leading_digits(row['sku']) + '\", \"https://www.cellsignal.com/products/' + sku_leading_digits(row['sku']) + '\")'"}
+  ]
+}

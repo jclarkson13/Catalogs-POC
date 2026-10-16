@@ -1,0 +1,128 @@
+{
+  "template_name": "gss",
+  "source_sample": "US - GSS Current/Future Price.xlsx",
+  "description": "US GSS marketplace catalog (xlsx, 23 columns). '2022 ListPrice' is the current-period USD list and 'GSS Price' the discounted price, both 2dp text; the '2022' header is literal.",
+  "file_type": "xlsx",
+  "sku_column": "ManufacturerPartID",
+  "price_columns": [
+    "2022 ListPrice",
+    "GSS Price"
+  ],
+  "columns": [
+    {
+      "header": "ManufacturerName",
+      "source": "master",
+      "expression": "row['manufacturer']"
+    },
+    {
+      "header": "ManufacturerPartID",
+      "source": "master",
+      "expression": "row['sku']"
+    },
+    {
+      "header": "Product Name",
+      "source": "master",
+      "expression": "row['long_description']"
+    },
+    {
+      "header": "ShortDescription (100 Characters)",
+      "source": "master",
+      "expression": "row['long_description'][:100]"
+    },
+    {
+      "header": "LongDescription (Text, HTML, or Unicode-8 Coding is Acceptable)",
+      "source": "master",
+      "expression": "row['long_description'][:93] + ' ' + row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "Base UOM",
+      "source": "constant",
+      "expression": "'each'"
+    },
+    {
+      "header": "Qty",
+      "source": "constant",
+      "expression": "'1 each'"
+    },
+    {
+      "header": "Product Size",
+      "source": "master",
+      "expression": "row['size'] + ' ' + row['size_unit']"
+    },
+    {
+      "header": "UNSPSC",
+      "source": "master",
+      "expression": "row['unspsc']"
+    },
+    {
+      "header": "Lead Time",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "Hazardous",
+      "source": "constant",
+      "expression": "'N'"
+    },
+    {
+      "header": "CountryOfOrigin",
+      "source": "constant",
+      "expression": "'US'"
+    },
+    {
+      "header": "2022 ListPrice",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, 0)"
+    },
+    {
+      "header": "GSS Price",
+      "source": "master",
+      "expression": "price_for_rounded(row, 'list_price_usd', customer, discount)"
+    },
+    {
+      "header": "EffectiveDate",
+      "source": "customer",
+      "expression": "str(int(customer['price_valid_from'][5:7])) + '/' + str(int(customer['price_valid_from'][8:10])) + '/' + customer['price_valid_from'][2:4]"
+    },
+    {
+      "header": "ExpireDate",
+      "source": "customer",
+      "expression": "str(int(customer['price_valid_until'][5:7])) + '/' + str(int(customer['price_valid_until'][8:10])) + '/' + customer['price_valid_until'][2:4]"
+    },
+    {
+      "header": "MinOrderQty",
+      "source": "constant",
+      "expression": "'1'"
+    },
+    {
+      "header": "HighResImageURL",
+      "source": "master",
+      "expression": "row['image_url']"
+    },
+    {
+      "header": "Temperature",
+      "source": "master",
+      "expression": "row['storage_temperature']"
+    },
+    {
+      "header": "Shipping Method",
+      "source": "constant",
+      "expression": "'Overnight'"
+    },
+    {
+      "header": "MSDS URL",
+      "source": "master",
+      "expression": "msds_url_or_blank(row)"
+    },
+    {
+      "header": "More Information URL",
+      "source": "master",
+      "expression": "row['product_url']"
+    },
+    {
+      "header": "Synonyms",
+      "source": "master",
+      "expression": "row['product_classification']"
+    }
+  ]
+}
